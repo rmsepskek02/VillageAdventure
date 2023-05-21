@@ -24,6 +24,7 @@ namespace VillageAdventure
 
         public void GeneratorCharactor()
         {
+            //TEST
             //Debug.Log(GameManager.SD.sdMonsters.Where(_ => _.index == 2000).SingleOrDefault().index);
             //var sdMonster = GameManager.SD.sdMonsters.Where(_ => _.nickname == "SlimeNormal").SingleOrDefault();
             //var sdMonster = GameManager.SD.sdMonsters.Where(_ => _.index == 0).SingleOrDefault();
