@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 984bbb881f315d949af3a07737d8fea9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player: {instanceID: 0}
+  - UISingletone: {instanceID: 0}
+  - BuildObject: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
