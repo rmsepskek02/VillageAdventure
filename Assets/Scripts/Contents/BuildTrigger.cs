@@ -8,6 +8,7 @@ using VillageAdventure.Enum;
 
 namespace VillageAdventure.Object
 {
+    //
     class BuildTrigger : TriggerController
     {
         private TriggerController trigger;
