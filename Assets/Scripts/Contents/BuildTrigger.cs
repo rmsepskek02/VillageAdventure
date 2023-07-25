@@ -10,6 +10,7 @@ namespace VillageAdventure.Object
 {
     class BuildTrigger : TriggerController
     {
+        //123123
         private TriggerController trigger;
         private SpriteRenderer sprite;
         private SceneType currentScene;
