@@ -63,6 +63,7 @@ namespace VillageAdventure.Object
                     break;
                 case SceneType.Field:
                     if (InGameManager.Instance.sdTypeIndex == 1 ||
+                        InGameManager.Instance.sdTypeIndex == 2 ||
                         InGameManager.Instance.sdTypeIndex == 3)
                         sprite.material.color = Color.green;
                     else

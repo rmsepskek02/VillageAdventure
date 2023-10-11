@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp:VillageAdventure.StaticData:SDPlayer/SDCharactor
   index: 1000
-  moveSpeed: 2
+  moveSpeed: 5
   resourcePath: Prefabs/Actor/Player
   nickname: 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using VillageAdventure.DB;
@@ -10,7 +8,7 @@ namespace VillageAdventure.Object
     public class Player : Actor
     {
         //public State State { get; private set; }
-        
+
         public BoPlayer boPlayer;
         private FrictionJoint2D joint;
         private TriggerController trigger;
@@ -49,15 +47,21 @@ namespace VillageAdventure.Object
             void OnStayObj(Collider2D collision)
             {
                 if (collision.CompareTag("Mine"))
+                {
                     /// Resource 사라질때까지 키입력을 제거????
                     if (Input.GetKey(KeyCode.G))
                         collision.transform.GetChild(0).gameObject.SetActive(true);
+                }
                 else if (collision.CompareTag("Tree"))
+                {
                     if (Input.GetKey(KeyCode.G))
                         collision.transform.GetChild(0).gameObject.SetActive(true);
+                }
                 else if (collision.CompareTag("Food"))
+                {
                     if (Input.GetKey(KeyCode.G))
                         collision.transform.GetChild(0).gameObject.SetActive(true);
+                }
                 else if (collision.CompareTag("Fishing"))
                 {
                     time += Time.deltaTime;
@@ -113,7 +117,7 @@ namespace VillageAdventure.Object
 
         private void BuildObject()
         {
-            if (transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().material.color == Color.red 
+            if (transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().material.color == Color.red
                 || transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite == null)
                 return;
 
@@ -159,7 +163,7 @@ namespace VillageAdventure.Object
                 }
                 else if (InGameManager.Instance.sdTypeIndex == 2)
                 {
-                    var sdObject = GameManager.SD.sdETCHomeObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
+                    var sdObject = GameManager.SD.sdCommonObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
                     if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
                         InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
@@ -175,7 +179,7 @@ namespace VillageAdventure.Object
                 }
                 else if (InGameManager.Instance.sdTypeIndex == 3)
                 {
-                    var sdObject = GameManager.SD.sdETCFieldObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
+                    var sdObject = GameManager.SD.sdResourceObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
                     if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
                         InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))

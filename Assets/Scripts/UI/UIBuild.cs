@@ -29,12 +29,12 @@ namespace VillageAdventure.UI
         public GameObject[] fieldObjs;
 
         // ETC.Home Tpye Button & Objs
-        public Button[] etcHomeButtons;
-        public GameObject[] etcHomeObjs;
+        public Button[] commonButtons;
+        public GameObject[] commonObjs;
 
         // ETC.FieldTpye Button & Objs
-        public Button[] etcFieldButtons;
-        public GameObject[] etcFieldObjs;
+        public Button[] resourceButtons;
+        public GameObject[] resourceObjs;
         #endregion
 
         private SpriteRenderer sprite;
@@ -48,11 +48,11 @@ namespace VillageAdventure.UI
             sprite = GetComponent<SpriteRenderer>();
             image = GetComponent<Image>();
 
-            ConnectUIEvent(typeOfBuildUI, typeOfBuildObj, true);
-            ConnectUIEvent(homeButtons, homeObjs);
-            ConnectUIEvent(fieldButtons, fieldObjs);
-            ConnectUIEvent(etcHomeButtons, etcHomeObjs);
-            ConnectUIEvent(etcFieldButtons, etcFieldObjs);
+            ConnectUIEvent(typeOfBuildUI, typeOfBuildObj, 0, true);
+            ConnectUIEvent(homeButtons, homeObjs, 3000);
+            ConnectUIEvent(fieldButtons, fieldObjs, 4000);
+            ConnectUIEvent(commonButtons, commonObjs, 5000);
+            ConnectUIEvent(resourceButtons, resourceObjs, 6000);
         }
 
         private void Update()
@@ -61,11 +61,12 @@ namespace VillageAdventure.UI
         }
 
         #region Buttons <=> Objs 이벤트 연결
-        private void ConnectUIEvent(Button[] buttons, GameObject[] objs, bool typeUI = false)
+        private void ConnectUIEvent(Button[] buttons, GameObject[] objs, int objType, bool typeUI = false)
         {
             for (int i = 0; i < buttons.Length; ++i)
             {
                 int index = i;
+                int objIndex = i + objType;
                 buttons[i].onClick.AddListener(() =>
                 {
                     if (index == (buttons.Length - 1))
@@ -75,7 +76,7 @@ namespace VillageAdventure.UI
                         if(typeUI == true)
                             OnClickBuildObjectUI(objs[index], index);
                         else
-                            OnClickBuildObject(objs[index], index);
+                            OnClickBuildObject(objs[index], objIndex);
                     }
                 });
             }
@@ -108,10 +109,10 @@ namespace VillageAdventure.UI
                 if (Input.GetKeyUp(KeyCode.F))
                     OnClickBuildObjectUI(typeOfBuildObj[1], 1);
                 // ETC Home Button
-                if (Input.GetKeyUp(KeyCode.T))
+                if (Input.GetKeyUp(KeyCode.C))
                     OnClickBuildObjectUI(typeOfBuildObj[2], 2);
                 // ETC Field Button
-                if (Input.GetKeyUp(KeyCode.Y))
+                if (Input.GetKeyUp(KeyCode.S))
                     OnClickBuildObjectUI(typeOfBuildObj[3], 3);
             }
             // Back Button
@@ -128,9 +129,9 @@ namespace VillageAdventure.UI
                 if (_selectedUI == 1)
                     _selectedObj = fieldObjs;
                 if (_selectedUI == 2)
-                    _selectedObj = etcHomeObjs;
+                    _selectedObj = commonObjs;
                 if (_selectedUI == 3)
-                    _selectedObj = etcFieldObjs;
+                    _selectedObj = resourceObjs;
                 SelectScoreObject(_selectedObj, _selectedUI);
             }
         }
@@ -167,7 +168,7 @@ namespace VillageAdventure.UI
             {
                 if (buildObj[index].GetComponent<Image>() != null)
                 {
-                    InGameManager.Instance.sdIndex = index;
+                    InGameManager.Instance.sdIndex = index + (_selectedUI+3)*1000;
                     InGameManager.Instance.UIBuildActivated = true;
                     InGameManager.Instance.BuildObject.GetComponent<SpriteRenderer>().sprite = buildObj[index].GetComponent<Image>().sprite;
                 }

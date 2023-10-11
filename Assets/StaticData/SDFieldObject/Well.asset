@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56cece2de7034e4d85a0bbdeaf55a24, type: 3}
   m_Name: Well
   m_EditorClassIdentifier: 
-  index: 0
+  index: 4000
   nickname: Well
   resourcePath: Prefabs/ScoreObject/Well
   consumeMine: -2

@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace VillageAdventure.StaticData
 {
-    [CreateAssetMenu(menuName = "VillageAdventure/ETCFieldObjectData")]
-    public class SDETCFieldObject : SDObject
+    [CreateAssetMenu(menuName = "VillageAdventure/ResourceObjectData")]
+    public class SDResourceObject : SDObject
     {
 
     }

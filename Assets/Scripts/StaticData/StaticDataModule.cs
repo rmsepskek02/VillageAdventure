@@ -12,7 +12,7 @@ namespace VillageAdventure.StaticData
         public List<SDMonster> sdMonsters;
         public List<SDHomeObject> sdHomeObjects;
         public List<SDFieldObject> sdFieldObjects;
-        public List<SDETCHomeObject> sdETCHomeObjects;
-        public List<SDETCFieldObject> sdETCFieldObjects;
+        public List<SDCommonObject> sdCommonObjects;
+        public List<SDResourceObject> sdResourceObjects;
     }
 }

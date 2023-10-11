@@ -49,7 +49,9 @@ namespace VillageAdventure
         {
             ActiveUI();
             CalculateTime();
-            ChangePlayerHP(Time.deltaTime * 2f);
+            ChangePlayerHP(Time.deltaTime * 0.2f);
+            Debug.Log($"sdIndex=={sdIndex}");
+            Debug.Log($"sdTypeIndex=={sdTypeIndex}");
         }
 
         private void FixedUpdate()

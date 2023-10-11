@@ -1061,14 +1061,16 @@ MonoBehaviour:
   sd:
     sdPlayers:
     - {fileID: 11400000, guid: f757a89b1e4cee14eafcb827aa5e257a, type: 2}
-    sdMonsters: []
+    sdMonsters:
+    - {fileID: 11400000, guid: 64f238de312614e4395cdcbf87e58bc0, type: 2}
     sdHomeObjects:
     - {fileID: 11400000, guid: 527c7be0823eb0840a5fb22224813970, type: 2}
     sdFieldObjects:
     - {fileID: 11400000, guid: 4ebdfdfbf036f7d43bb5ce4802933bf0, type: 2}
-    sdETCHomeObjects:
+    - {fileID: 11400000, guid: 6a3aa16143529b342bba2a32edad2991, type: 2}
+    sdCommonObjects:
     - {fileID: 11400000, guid: 653c0cdc3e347b145913a1ab70fc8d0d, type: 2}
-    sdETCFieldObjects:
+    sdResourceObjects:
     - {fileID: 11400000, guid: 23122a4534f577440b913f6cefd03ba6, type: 2}
 --- !u!4 &372022846
 Transform:
@@ -1749,7 +1751,7 @@ GameObject:
   - component: {fileID: 542013817}
   - component: {fileID: 542013816}
   m_Layer: 5
-  m_Name: ETC.HButton
+  m_Name: CommonButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1771,8 +1773,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 550, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 350, y: -50}
+  m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &542013816
 MonoBehaviour:
@@ -1822,7 +1824,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: ETC.H
+  m_Text: Common
 --- !u!222 &542013818
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1913,7 +1915,7 @@ GameObject:
   - component: {fileID: 581096455}
   - component: {fileID: 581096456}
   m_Layer: 5
-  m_Name: ETC.FObject
+  m_Name: Resource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2013,7 +2015,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -50}
+  m_AnchoredPosition: {x: 200, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &586079451
@@ -2234,22 +2236,22 @@ MonoBehaviour:
   - {fileID: 1399298742}
   - {fileID: 1981462622}
   - {fileID: 725864209}
-  etcHomeButtons:
+  commonButtons:
   - {fileID: 2005811292}
   - {fileID: 104481811}
   - {fileID: 1299250042}
   - {fileID: 2047813135}
-  etcHomeObjs:
+  commonObjs:
   - {fileID: 2005811287}
   - {fileID: 104481806}
   - {fileID: 1299250037}
   - {fileID: 2047813130}
-  etcFieldButtons:
+  resourceButtons:
   - {fileID: 449030679}
   - {fileID: 221880445}
   - {fileID: 1914324683}
   - {fileID: 1609657282}
-  etcFieldObjs:
+  resourceObjs:
   - {fileID: 449030674}
   - {fileID: 221880440}
   - {fileID: 1914324678}
@@ -2807,7 +2809,7 @@ GameObject:
   - component: {fileID: 868387449}
   - component: {fileID: 868387450}
   m_Layer: 5
-  m_Name: ETC.HObject
+  m_Name: Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4041,8 +4043,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1050, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 750, y: -50}
+  m_SizeDelta: {x: 50, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258877251
 MonoBehaviour:
@@ -4596,10 +4598,10 @@ GameObject:
   - component: {fileID: 1399298748}
   - component: {fileID: 1399298747}
   - component: {fileID: 1399298746}
-  - component: {fileID: 1399298745}
   - component: {fileID: 1399298744}
+  - component: {fileID: 1399298745}
   m_Layer: 5
-  m_Name: Field2
+  m_Name: Warehouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4648,7 +4650,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1399298742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -4659,20 +4661,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: d4043de40a0d98640bc4645fbbc3c9f7, type: 3}
-    m_FontSize: 50
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 3
-    m_MaxSize: 50
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: 2
+  m_Sprite: {fileID: 4213697593180751991, guid: c4bbd55844020054e87760ae0b230766, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1399298746
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4721,10 +4719,22 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1399298745}
+  m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1399298742}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1399298748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5056,7 +5066,7 @@ GameObject:
   - component: {fileID: 1558122079}
   - component: {fileID: 1558122078}
   m_Layer: 5
-  m_Name: ETC.FButton
+  m_Name: ResourceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5078,8 +5088,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 550, y: -50}
+  m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1558122078
 MonoBehaviour:
@@ -5129,7 +5139,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: ETC.F
+  m_Text: Resource
 --- !u!222 &1558122080
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6435,7 +6445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4704123861600838659, guid: 85435f3fe1a15d54eb019f0a3cc61098, type: 3}
+  m_Sprite: {fileID: 4978077637069170428, guid: facf03a61394c0c4e8aeb4149ce1cdb1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

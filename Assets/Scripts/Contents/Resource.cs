@@ -91,5 +91,9 @@ namespace VillageAdventure.Object
                 foodTime = 0;
             }
         }
+        private void Fishing()
+        {
+
+        }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2634a50bdf56c4b82b2cf7ee2bc7d8, type: 3}
   m_Name: SilmeNormal
   m_EditorClassIdentifier: 
-  index: 2000
+  index: 2001
   moveSpeed: 1
   resourcePath: Prefabs/Actor/Monster/Slime_Normal
   nickname: Slime_Normal
