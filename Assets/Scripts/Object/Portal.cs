@@ -30,6 +30,8 @@ namespace VillageAdventure.Object
             {
                 if (!collision.CompareTag("Player"))
                     return;
+                else
+                    collision.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
                 var gameManager = GameManager.Instance;
                 var inGameManager = InGameManager.Instance;
@@ -49,6 +51,41 @@ namespace VillageAdventure.Object
                     var bindPortal = inGameManager.portals.Where(_ => _.bindStage == prevStage).SingleOrDefault();
                     // 해당 포탈로 캐릭터를 배치시킴
                     collision.transform.position = bindPortal.transform.GetChild(0).position;
+
+                    GameObject buildObj = GameObject.Find("BuildObject");
+                    GameObject homeObj = buildObj.transform.Find("HomeObject").gameObject;
+                    GameObject fieldObj= buildObj.transform.Find("FieldObject").gameObject;
+                    GameObject holder = GameObject.Find("Holder");
+                    GameObject mineHolder = holder.transform.Find("MineHolder").gameObject;
+                    GameObject treeHolder = holder.transform.Find("TreeHolder").gameObject;
+                    if (gameManager.currentScene == SceneType.Mine)
+                    {
+                        homeObj.SetActive(false);
+                        fieldObj.SetActive(false);
+                        mineHolder.SetActive(true);
+                        treeHolder.SetActive(false);
+                    }
+                    else if (gameManager.currentScene == SceneType.Forest)
+                    {
+                        homeObj.SetActive(false);
+                        fieldObj.SetActive(false);
+                        mineHolder.SetActive(false);
+                        treeHolder.SetActive(true);
+                    }
+                    else if (gameManager.currentScene == SceneType.Field)
+                    {
+                        homeObj.SetActive(false);
+                        fieldObj.SetActive(true);
+                        mineHolder.SetActive(false);
+                        treeHolder.SetActive(false);
+                    }
+                    else if (gameManager.currentScene == SceneType.House)
+                    {
+                        homeObj.SetActive(true);
+                        fieldObj.SetActive(false);
+                        mineHolder.SetActive(false);
+                        treeHolder.SetActive(false);
+                    }
                 }
             }
         }

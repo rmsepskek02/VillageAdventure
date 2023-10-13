@@ -22,14 +22,14 @@ namespace VillageAdventure
         {
             currentScene = type;
             SceneManager.LoadScene((int)type);
-        
+            //SceneManager.LoadScene((int)type, LoadSceneMode.Additive);
+            
             // 씬 변경 시작 후 1초 후에 실행시킬 기능이 있다면 실행
             StartCoroutine(WaitForComplete());
         
             IEnumerator WaitForComplete()
             {
                 yield return new WaitForSeconds(0.05f);
-        
                 complete?.Invoke();
             }
             /// 씬이 완벽하게 로드되고 씬변경이 가능하게끔???

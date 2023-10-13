@@ -125,6 +125,10 @@ namespace VillageAdventure.Object
             {
                 /// 오브젝트 생성
                 // 오브젝트의 Index값을 받아옴 (Home, Field, ECT.H, ECT.F 중 어느 UI 버튼을 눌렀는가)
+                GameObject buildObj = GameObject.Find("BuildObject");
+                Transform homeObj = buildObj.transform.Find("HomeObject").gameObject.transform;
+                Transform fieldObj= buildObj.transform.Find("FieldObject").gameObject.transform;
+
                 if (InGameManager.Instance.sdTypeIndex == 0)
                 {
                     var sdObject = GameManager.SD.sdHomeObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
@@ -138,6 +142,7 @@ namespace VillageAdventure.Object
                     // 생성위치
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
+                    sdObjectClone.transform.SetParent(homeObj);
 
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
@@ -155,6 +160,7 @@ namespace VillageAdventure.Object
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
+                    sdObjectClone.transform.SetParent(fieldObj);
 
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
@@ -171,6 +177,14 @@ namespace VillageAdventure.Object
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
+                    if(GameManager.Instance.currentScene == Enum.SceneType.House)
+                    {
+                        sdObjectClone.transform.SetParent(homeObj);
+                    }
+                    else if (GameManager.Instance.currentScene == Enum.SceneType.House)
+                    {
+                        sdObjectClone.transform.SetParent(fieldObj);
+                    }
 
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
@@ -187,6 +201,7 @@ namespace VillageAdventure.Object
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
+                    sdObjectClone.transform.SetParent(fieldObj);
 
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;

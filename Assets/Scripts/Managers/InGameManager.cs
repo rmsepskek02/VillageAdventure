@@ -43,6 +43,10 @@ namespace VillageAdventure
             GeneratorCharactor();
             player = charactors[0].gameObject;
             BuildObject = player.transform.GetChild(1).gameObject;
+            GameObject holder = GameObject.Find("Holder");
+            GameObject buildObj= GameObject.Find("BuildObject");
+            DontDestroyOnLoad(holder);
+            DontDestroyOnLoad(buildObj);
         }
 
         private void Update()
@@ -50,8 +54,6 @@ namespace VillageAdventure
             ActiveUI();
             CalculateTime();
             ChangePlayerHP(Time.deltaTime * 0.2f);
-            Debug.Log($"sdIndex=={sdIndex}");
-            Debug.Log($"sdTypeIndex=={sdTypeIndex}");
         }
 
         private void FixedUpdate()

@@ -28,7 +28,7 @@ namespace VillageAdventure.Object
         }
         private void Update()
         {
-            RandomSetActive(-0.5f, 9.5f);
+            RandomSetActive(-0.5f, 14.5f);
             FoodObject();
         }
         // ·£´ý »ý¼º
