@@ -37,34 +37,33 @@ namespace VillageAdventure.Object
                 ChildNumber();
             }
             // 이 오브젝트가 Food 라면
-            else if (gameObject.transform.root.CompareTag("Food"))
+            else if (gameObject.transform.parent.transform.parent.CompareTag("Food"))
             {
                 // 음식 재화 획득
                 InGameManager.Instance.food++;
                 // 음식 상호작용 결과
                 InGameManager.Instance.playerHP += 5f;
                 // 음식의 상태 변경
-                gameObject.transform.root.gameObject.tag = "NotFood";
-                Debug.Log(gameObject.transform.root.gameObject.name);
+                gameObject.transform.parent.transform.parent.gameObject.tag = "NotFood";
                 // 음식의 애니메이션 상태 변경
-                anim.SetBool("isComplete", false);
+                gameObject.transform.parent.transform.parent.GetComponent<Animator>().SetBool("isComplete", false);
                 // Bar 비활성화
                 transform.parent.gameObject.SetActive(false);
             }
             // 화덕에 불이 꺼진 경우, 이 오브젝트가 UnFire 라면
-            else if(gameObject.transform.root.CompareTag("UnFire"))
+            else if(gameObject.transform.parent.transform.parent.CompareTag("UnFire"))
             {
                 // 화덕 애니메이션 ON
-                gameObject.transform.root.GetComponent<Animator>().SetBool("isFire", true);
+                gameObject.transform.parent.transform.parent.GetComponent<Animator>().SetBool("isFire", true);
                 // 화덕 상태를 Fire로 변경
-                gameObject.transform.root.gameObject.tag = "Fire";
+                gameObject.transform.parent.transform.parent.gameObject.tag = "Fire";
                 // 목재 사용
                 InGameManager.Instance.tree--;
                 // Bar 비활성화
                 transform.parent.gameObject.SetActive(false);
             }
             // 화덕에 불이 켜진 경우, 이 오브젝트가 Fire 라면
-            else if (gameObject.transform.root.CompareTag("Fire"))
+            else if (gameObject.transform.parent.transform.parent.CompareTag("Fire"))
             {
                 // 재화 사용
                 InGameManager.Instance.fish--;

@@ -45,8 +45,10 @@ namespace VillageAdventure
             BuildObject = player.transform.GetChild(1).gameObject;
             GameObject holder = GameObject.Find("Holder");
             GameObject buildObj= GameObject.Find("BuildObject");
+            GameObject spawn= GameObject.Find("Spawn");
             DontDestroyOnLoad(holder);
             DontDestroyOnLoad(buildObj);
+            DontDestroyOnLoad(spawn);
         }
 
         private void Update()

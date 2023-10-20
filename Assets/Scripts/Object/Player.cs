@@ -181,7 +181,7 @@ namespace VillageAdventure.Object
                     {
                         sdObjectClone.transform.SetParent(homeObj);
                     }
-                    else if (GameManager.Instance.currentScene == Enum.SceneType.House)
+                    else if (GameManager.Instance.currentScene == Enum.SceneType.Field)
                     {
                         sdObjectClone.transform.SetParent(fieldObj);
                     }

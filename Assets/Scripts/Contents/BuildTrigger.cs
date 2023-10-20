@@ -10,11 +10,10 @@ namespace VillageAdventure.Object
 {
     class BuildTrigger : TriggerController
     {
-        //123123
         private TriggerController trigger;
         private SpriteRenderer sprite;
         private SceneType currentScene;
-        private bool isCollision;
+        public bool isCollision;
         private void Start()
         {
             sprite = GetComponent<SpriteRenderer>();
@@ -46,28 +45,31 @@ namespace VillageAdventure.Object
         // Scene으로 Build 가능 여부 구분
         private void ControlOfScene()
         {
-            if (isCollision)
-            {
-                sprite.material.color = Color.red;
-                return;
-            }
             currentScene = GameManager.Instance.currentScene;
             switch (currentScene)
             {
                 case SceneType.House:
                     if (InGameManager.Instance.sdTypeIndex == 0 ||
                         InGameManager.Instance.sdTypeIndex == 2)
+                    {
                         sprite.material.color = Color.green;
+                    }
                     else
+                    {
                         sprite.material.color = Color.red;
+                    }
                     break;
                 case SceneType.Field:
                     if (InGameManager.Instance.sdTypeIndex == 1 ||
                         InGameManager.Instance.sdTypeIndex == 2 ||
                         InGameManager.Instance.sdTypeIndex == 3)
+                    {
                         sprite.material.color = Color.green;
+                    }
                     else
+                    {
                         sprite.material.color = Color.red;
+                    }
                     break;
                 case SceneType.Mine:
                     sprite.material.color = Color.red;
@@ -78,6 +80,10 @@ namespace VillageAdventure.Object
                 case SceneType.FishingZone:
                     sprite.material.color = Color.red;
                     break;
+            }
+            if (isCollision)
+            {
+                sprite.material.color = Color.red;
             }
         }
     }
