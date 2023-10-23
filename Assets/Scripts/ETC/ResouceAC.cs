@@ -87,13 +87,13 @@ namespace VillageAdventure.Object
         // 이 오브젝트가 최상위 부모의 N번째 오브젝트인지 검사 후 리스트에서 N을 제거
         void ChildNumber()
         {
-            var resourceList = gameObject.transform.root.GetComponent<Resource>().resourceList;
+            var resourceList = gameObject.transform.root.GetChild(0).GetComponent<Resource>().resourceList;
 
             // 이 오브젝트가 최상위 부모의 N번째 오브젝트인지 검사
             for (int childNumber = 0; childNumber < resourceList.Count; childNumber++)
             {
                 // 이 오브젝트가 N번째 오브젝트인지 검사 
-                if (gameObject.transform.parent.transform.parent == gameObject.transform.root.GetChild(childNumber))
+                if (gameObject.transform.parent.transform.parent == gameObject.transform.root.GetChild(0).GetChild(childNumber))
                 {
                     // 리스트에서 N을 제거 후 멈춤
                     resourceList.Remove(childNumber);

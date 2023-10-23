@@ -63,6 +63,8 @@ namespace VillageAdventure.Object
                     GameObject treeHolder = holder.transform.Find("TreeHolder").gameObject;
                     GameObject spawn = GameObject.Find("Spawn");
                     GameObject spawningPool = spawn.transform.Find("SpawningPool").gameObject;
+                    GameObject monster = GameObject.Find("Monster");
+                    GameObject normalSlime = monster.transform.Find("SlimeNormal").gameObject;
                     if (gameManager.currentScene == SceneType.Mine)
                     {
                         homeObj.SetActive(false);
@@ -70,6 +72,7 @@ namespace VillageAdventure.Object
                         mineHolder.SetActive(true);
                         treeHolder.SetActive(false);
                         spawningPool.SetActive(false);
+                        normalSlime.SetActive(false);
                     }
                     else if (gameManager.currentScene == SceneType.Forest)
                     {
@@ -78,6 +81,7 @@ namespace VillageAdventure.Object
                         mineHolder.SetActive(false);
                         treeHolder.SetActive(true);
                         spawningPool.SetActive(false);
+                        normalSlime.SetActive(false);
                     }
                     else if (gameManager.currentScene == SceneType.Field)
                     {
@@ -86,6 +90,7 @@ namespace VillageAdventure.Object
                         mineHolder.SetActive(false);
                         treeHolder.SetActive(false);
                         spawningPool.SetActive(true);
+                        normalSlime.SetActive(true);
                     }
                     else if (gameManager.currentScene == SceneType.House)
                     {
@@ -94,6 +99,7 @@ namespace VillageAdventure.Object
                         mineHolder.SetActive(false);
                         treeHolder.SetActive(false);
                         spawningPool.SetActive(false);
+                        normalSlime.SetActive(false);
                     }
                     else if (gameManager.currentScene == SceneType.FishingZone)
                     {
@@ -102,6 +108,7 @@ namespace VillageAdventure.Object
                         mineHolder.SetActive(false);
                         treeHolder.SetActive(false);
                         spawningPool.SetActive(false);
+                        normalSlime.SetActive(false);
                     }
                 }
             }

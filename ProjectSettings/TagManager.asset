@@ -16,11 +16,12 @@ TagManager:
   - Test
   - Well
   - UIBack
+  - Monster
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Monster
   - Water
   - UI
   - Tilemap
