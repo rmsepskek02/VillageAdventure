@@ -147,6 +147,11 @@ MonoBehaviour:
     moveSpeed: 1
     moveDirection: {x: 0, y: 0}
     sdActor: {fileID: 0}
+  boMonster:
+    moveSpeed: 0
+    moveDirection: {x: 0, y: 0}
+    sdActor: {fileID: 0}
+    sdMonster: {fileID: 0}
 --- !u!50 &8061583492961055649
 Rigidbody2D:
   serializedVersion: 4
@@ -164,7 +169,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
