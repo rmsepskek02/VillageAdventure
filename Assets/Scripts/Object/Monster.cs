@@ -12,11 +12,11 @@ namespace VillageAdventure.Object
         public BoMonster boMonster;
 
         private float time = 0;
-        private float _boMoveSpeed = 0;
         private float lastMonsterMoveTime = 0f;
         private float monsterMoveInterval = 2f;
-        private bool isMoving = true;
-        Vector2 _boMoveDir = Vector2.zero;
+        public bool isMoving = true;
+        public bool isAttack = false;
+        private TriggerController trigger;
 
         public override void Initialize(BoActor boMonster)
         {
@@ -28,39 +28,49 @@ namespace VillageAdventure.Object
         {
             _objName = gameObject.name;
             objTagName = _objName.Replace("(Clone)", "");
-            _boMoveDir = new Vector2(boMonster.moveDirection.x, boMonster.moveDirection.y);
-            _boMoveSpeed = boActor.moveSpeed;
+            trigger = transform.GetComponentInChildren<TriggerController>();
+            CheckTrigger();
         }
 
         void Update()
         {
-            Debug.Log($"===== {isMoving}");
-            if (isMoving)
+            if (!isAttack)
+                SetMoveDir();
+            if(isMoving)
                 MoveMonster();
         }
         public override void OnMove()
         {
             base.OnMove();
         }
-        // 슬라임 애니메이션 조작
-        private void SetState(Vector2 moveDir)
+
+        private void SetState(Collider2D collision = null)
         {
-            if (Input.GetKeyUp(KeyCode.A))
+            if(isMoving)
+            {
                 State = ActorState.State.Move;
-            if (Input.GetKeyUp(KeyCode.S))
-                State = ActorState.State.Attack;
-            if (Input.GetKeyUp(KeyCode.D))
-                State = ActorState.State.Dead;
-            if (moveDir == Vector2.zero)
+                SetFlipX();
+            }
+            if(!isMoving && !isAttack)
             {
                 State = ActorState.State.Idle;
             }
-            if (Input.GetKeyUp(KeyCode.X))
-                State = ActorState.State.Hurt;
-            if (moveDir != Vector2.zero)
+            if(collision != null)
             {
-                State = ActorState.State.Move;
-                if (moveDir.x < 0)
+                if(collision.name.Replace("(Clone)", "") == "Well")
+                {
+                    isAttack = true;
+                    State = ActorState.State.Attack;
+                }
+            }
+        }
+
+        private void SetFlipX()
+        {
+            if (boMonster.moveDirection != Vector2.zero)
+            {
+                
+                if (boMonster.moveDirection.x < 0)
                 {
                     sr.flipX = true;
                 }
@@ -70,7 +80,39 @@ namespace VillageAdventure.Object
                 }
             }
         }
+
         private void MoveMonster()
+        {
+            transform.position = Vector2.Lerp(transform.position, (Vector2)transform.position +
+                    boMonster.moveDirection.normalized * Time.deltaTime * boActor.moveSpeed, 1.0f);
+        }
+
+        private void CheckTrigger()
+        {
+            trigger.Initialize(OnEnter, OnExit, OnStay);
+            void OnEnter(Collider2D collision)
+            {
+                // 무언가 들어왔다
+                isMoving = false;
+                SetState(collision);
+            }
+            void OnExit(Collider2D collision)
+            {
+                // 무언가 없어졌다
+                isMoving = true;
+                isAttack = false;
+                State = ActorState.State.Move;
+            }
+            void OnStay(Collider2D collision)
+            {
+                // 무언가 계속있다
+                isMoving = false;
+                SetState(collision);
+            }
+        }
+
+        // 무작위 이동 Direction 설정 함수
+        void SetMoveDir()
         {
             time += Time.deltaTime;
 
@@ -80,50 +122,16 @@ namespace VillageAdventure.Object
                 int randomY = Random.Range(-1, 2);
                 Vector2 ranDir = new Vector2(randomX, randomY);
                 boMonster.moveDirection = ranDir;
-                _boMoveDir = new Vector2(boMonster.moveDirection.x, boMonster.moveDirection.y);
                 lastMonsterMoveTime = time;
-                SetState(_boMoveDir);
-            }
-            // 이동 방향이 유효한지 확인하고, 충돌 시 다시 설정
-            if (IsPositionValid(_boMoveDir) != null)
-            {
-                if (IsPositionValid(_boMoveDir).name.Replace("(Clone)", "") == "Well")
+                gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x + 
+                    boMonster.moveDirection.x/4, gameObject.transform.position.y + boMonster.moveDirection.y/4 - 0.3f);
+                if (State == ActorState.State.Move && ranDir == Vector2.zero)
                 {
-                    Debug.Log("WELL COLLISION");
-                    State = ActorState.State.Attack;
-                    isMoving = false;
-                    return;
+                    State = ActorState.State.Idle;
                 }
-                else
-                {
-                    Vector2 zeroDirection = Vector2.zero;
-                    _boMoveDir = (zeroDirection - (Vector2)gameObject.transform.position);
-                }
+                if (State == ActorState.State.Idle || State == ActorState.State.Move)
+                    SetState();
             }
-            else if(IsPositionValid(_boMoveDir) == null)
-            {
-                // 이동 가능한 위치로 이동
-                transform.position = Vector2.Lerp(transform.position, (Vector2)transform.position + _boMoveDir.normalized * Time.deltaTime * _boMoveSpeed, 1.0f);
-            }
-        }
-
-        Collider2D IsPositionValid(Vector2 position)
-        {
-            int layerMask = ~LayerMask.GetMask("Monster");
-            // 이동 위치에서 Raycast로 Collider 충돌을 확인
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + Vector2.down * 0.2f, position, 1f, layerMask);
-            // 필요에 따라 다른 검사를 추가할 수 있음
-            Debug.DrawRay((Vector2)transform.position + Vector2.down * 0.2f, position.normalized * 1f, Color.red);
-            Debug.Log(hit.collider);
-
-            return hit.collider; // Collider가 없으면 이동 가능한 위치
-        }
-
-        public void testFunc()
-        {
-            Debug.Log("TEST");
-            isMoving = true;
-            State = ActorState.State.Idle;
         }
     }
 }
