@@ -8,9 +8,8 @@ namespace VillageAdventure.Object
 {
     public class Monster : Actor
     {
-        string _objName;
+        string objName;
         public BoMonster boMonster;
-
         private float time = 0;
         private float lastMonsterMoveTime = 0f;
         private float monsterMoveInterval = 2f;
@@ -26,42 +25,77 @@ namespace VillageAdventure.Object
 
         public override void Init()
         {
-            _objName = gameObject.name;
-            objTagName = _objName.Replace("(Clone)", "");
+            objName = gameObject.name;
+            objTagName = objName.Replace("(Clone)", "");
             trigger = transform.GetComponentInChildren<TriggerController>();
             CheckTrigger();
         }
 
-        void Update()
+        private void Update()
         {
-            if (!isAttack)
-                SetMoveDir();
-            if(isMoving)
-                MoveMonster();
+            time += Time.deltaTime;
+
+            if (time - lastMonsterMoveTime >= monsterMoveInterval)
+            {
+                if (!isAttack && isMoving)
+                    SetMoveDir();
+                lastMonsterMoveTime = time;
+            }
         }
         public override void OnMove()
         {
             base.OnMove();
         }
+        public override void OnMoveAnim() { }
 
         private void SetState(Collider2D collision = null)
         {
-            if(isMoving)
+            if (isMoving)
             {
-                State = ActorState.State.Move;
-                SetFlipX();
+                State = MonsterState.State.Move;
             }
             if(!isMoving && !isAttack)
             {
-                State = ActorState.State.Idle;
+                State = MonsterState.State.Idle;
             }
             if(collision != null)
             {
-                if(collision.name.Replace("(Clone)", "") == "Well")
+                if(collision.gameObject.layer == LayerMask.NameToLayer("Default"))
                 {
-                    isAttack = true;
-                    State = ActorState.State.Attack;
+                    Debug.Log("DF");
+                    return;
                 }
+                if(isAttack && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    Debug.Log("AP");
+                    return;
+                }
+                if(isAttack && collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                {
+                    Debug.Log("AM");
+                    return;
+                }
+                if(collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                {
+                    Debug.Log("BB");
+                    isAttack = true;
+                    isMoving = false;
+                    State = MonsterState.State.Alert;
+                    boMonster.moveDirection = Vector2.zero;
+                    rigid.velocity = new Vector2(0f, 0f);
+                }
+                else
+                {
+                    Debug.Log("OO");
+                    isAttack = false;
+                    isMoving = false;
+                    SetMoveDir();
+                }
+            }
+            else
+            {
+                isMoving = true;
+                isAttack = false;
             }
         }
 
@@ -81,12 +115,6 @@ namespace VillageAdventure.Object
             }
         }
 
-        private void MoveMonster()
-        {
-            transform.position = Vector2.Lerp(transform.position, (Vector2)transform.position +
-                    boMonster.moveDirection.normalized * Time.deltaTime * boActor.moveSpeed, 1.0f);
-        }
-
         private void CheckTrigger()
         {
             trigger.Initialize(OnEnter, OnExit, OnStay);
@@ -100,38 +128,35 @@ namespace VillageAdventure.Object
             {
                 // 무언가 없어졌다
                 isMoving = true;
-                isAttack = false;
-                State = ActorState.State.Move;
+                if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                    isAttack = false;
+                State = MonsterState.State.Move;
             }
             void OnStay(Collider2D collision)
             {
                 // 무언가 계속있다
-                isMoving = false;
-                SetState(collision);
             }
         }
 
         // 무작위 이동 Direction 설정 함수
         void SetMoveDir()
         {
-            time += Time.deltaTime;
+            Vector2 preRandom = boMonster.moveDirection;
+            int randomX = Random.Range(-1, 2);
+            int randomY = Random.Range(-1, 2);
+            Vector2 ranDir = new Vector2(randomX, randomY);
+            boMonster.moveDirection = ranDir;
 
-            if (time - lastMonsterMoveTime >= monsterMoveInterval)
-            {
-                int randomX = Random.Range(-1, 2);
-                int randomY = Random.Range(-1, 2);
-                Vector2 ranDir = new Vector2(randomX, randomY);
-                boMonster.moveDirection = ranDir;
-                lastMonsterMoveTime = time;
-                gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x + 
-                    boMonster.moveDirection.x/4, gameObject.transform.position.y + boMonster.moveDirection.y/4 - 0.3f);
-                if (State == ActorState.State.Move && ranDir == Vector2.zero)
-                {
-                    State = ActorState.State.Idle;
-                }
-                if (State == ActorState.State.Idle || State == ActorState.State.Move)
-                    SetState();
-            }
+            if (preRandom == boMonster.moveDirection)
+                SetMoveDir();
+
+            SetFlipX();
+            gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x + 
+                boMonster.moveDirection.x/4, gameObject.transform.position.y + boMonster.moveDirection.y/4 - 0.3f);
+            if (State == MonsterState.State.Move && ranDir == Vector2.zero)
+                State = MonsterState.State.Idle;
+            if (State == MonsterState.State.Idle || State == MonsterState.State.Move)
+                SetState();
         }
     }
 }

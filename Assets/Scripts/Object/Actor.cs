@@ -11,7 +11,7 @@ namespace VillageAdventure.Object
     {
         public BoActor boActor;
         public string objTagName { get; set; }
-        protected ActorState.State _state = ActorState.State.Idle;
+        protected MonsterState.State _state = MonsterState.State.Idle;
 
         protected SpriteRenderer sr;
         protected Collider2D coll;
@@ -47,7 +47,7 @@ namespace VillageAdventure.Object
             boActor.moveSpeed = boActor.sdActor.moveSpeed;
         }
         
-        public virtual ActorState.State State
+        public virtual MonsterState.State State
         {
             get { return _state; }
             set
@@ -55,61 +55,32 @@ namespace VillageAdventure.Object
                 _state = value;
                 switch (_state)
                 {
-                    case ActorState.State.Idle:
+                    case MonsterState.State.Idle:
                         anim.CrossFade($"{objTagName}_Idle", 0.5f);
                         break;
-                    case ActorState.State.Move:
+                    case MonsterState.State.Move:
                         anim.CrossFade($"{objTagName}_Move", 0.5f);
                         break;
-                    case ActorState.State.Hit:
+                    case MonsterState.State.Hit:
                         break;
-                    case ActorState.State.Dead:
+                    case MonsterState.State.Dead:
                         anim.CrossFade($"{objTagName}_Dead", 0.5f);
                         break;
-                    case ActorState.State.Attack:
+                    case MonsterState.State.Attack:
                         anim.CrossFade($"{objTagName}_Attack", 0.5f);
                         break;
-                    case ActorState.State.Hurt:
+                    case MonsterState.State.Hurt:
                         anim.CrossFade($"{objTagName}_Hurt", 0.5f);
                         break;
-                    case ActorState.State.Alert:
+                    case MonsterState.State.Alert:
                         anim.CrossFade($"{objTagName}_Alert", 0.5f);
                         break;
                 }
             }
         }
-        //public virtual void SetState(State state)
-        //{
-        //    State = state;
-        //
-        //    switch (state)
-        //    {
-        //        case State.Idle:
-        //            anim.CrossFade($"{objTagName}_Idle", 0.5f);
-        //            break;
-        //        case State.Move:
-        //            anim.CrossFade($"{objTagName}_Move", 0.5f);
-        //            break;
-        //        case State.Hit:
-        //            break;
-        //        case State.Dead:
-        //            anim.CrossFade($"{objTagName}_Dead", 0.5f);
-        //            break;
-        //        case State.Attack:
-        //            anim.CrossFade($"{objTagName}_Attack", 0.5f);
-        //            break;
-        //        case State.Hurt:
-        //            anim.CrossFade($"{objTagName}_Hurt", 0.5f);
-        //            break;
-        //        case State.Alert:
-        //            anim.CrossFade($"{objTagName}_Alert", 0.5f);
-        //            break;
-        //    }
-        //}
         public virtual void OnMove()
         {
             //transform.Translate(boActor.moveSpeed * boActor.moveDirection, Space.World);
-            
             var newVelocity = boActor.moveDirection * boActor.moveSpeed;
             rigid.velocity = newVelocity;
         }
@@ -124,7 +95,7 @@ namespace VillageAdventure.Object
                 }
                 else if (boActor.moveDirection.x < 0)
                 {
-                    anim.SetInteger("moveState",3);
+                    anim.SetInteger("moveState", 3);
                 }
             }
             // Actor의 Y 속력이 있다면

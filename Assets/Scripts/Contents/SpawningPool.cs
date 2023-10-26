@@ -10,12 +10,13 @@ namespace VillageAdventure
     public class SpawningPool : MonoBehaviour
     {
 
-        [SerializeField]
-        Vector2 _spawnPos;
+        public Vector2 monsterSpawnPos;
+        public Vector2 warriorSpawnPos;
 
         private InGameManager inGameManager;
         private float lastMonsterSpawnTime = 0f;
         private float monsterSpawnInterval = 10f;
+        private int warriors = 0;
 
         void Start()
         {
@@ -25,25 +26,38 @@ namespace VillageAdventure
         // Update is called once per frame
         void Update()
         {
-            GeneratorCharactor();
+            GeneratorMonster();
+            GeneratorWarrior();
         }
 
-        public void GeneratorCharactor()
+        public void GeneratorMonster()
         {
             if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
             {
                 GameObject monster = GameObject.Find("Monster");
                 Transform normalSlime = monster.transform.Find("SlimeNormal").gameObject.transform;
                 var sdMonster = GameManager.SD.sdMonsters.Where(_ => _.index == 2001).SingleOrDefault();
-                var sdObject = GameManager.SD.sdHomeObjects.Where(_ => _.index == 0).SingleOrDefault();
                 var testMonster = Instantiate(Resources.Load<GameObject>(sdMonster.resourcePath)).GetComponent<Monster>();
                 testMonster.Initialize(new BoMonster(sdMonster));
-                //Vector2 randPos;
-                //Vector2 randDir = Random.insideUnitCircle * Random.Range(0, 10);
-                //randPos = _spawnPos + randDir;
+                inGameManager.monsters.Add(testMonster);
                 testMonster.transform.SetParent(normalSlime);
-                testMonster.gameObject.transform.position = _spawnPos;
+                testMonster.gameObject.transform.position = monsterSpawnPos;
                 lastMonsterSpawnTime = inGameManager.time;
+            }
+        }
+        private void GeneratorWarrior()
+        {
+            if(warriors == 0)
+            {
+                var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
+                var warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
+                warrior.Initialize(new BoWarrior(sdWarrior));
+                warrior.transform.position = Vector2.zero;
+                GameObject nonePlayer = GameObject.Find("NonePlayer");
+                Transform _warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
+                warrior.transform.SetParent(_warrior);
+                inGameManager.charactors.Add(warrior);
+                warriors++;
             }
         }
     }

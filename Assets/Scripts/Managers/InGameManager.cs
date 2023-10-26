@@ -47,10 +47,12 @@ namespace VillageAdventure
             GameObject buildObj= GameObject.Find("BuildObject");
             GameObject spawn= GameObject.Find("Spawn");
             GameObject monster = GameObject.Find("Monster");
+            GameObject nonePlayer = GameObject.Find("NonePlayer");
             DontDestroyOnLoad(holder);
             DontDestroyOnLoad(buildObj);
             DontDestroyOnLoad(spawn);
             DontDestroyOnLoad(monster);
+            DontDestroyOnLoad(nonePlayer);
         }
 
         private void Update()
@@ -71,12 +73,12 @@ namespace VillageAdventure
             // 씬에 플레이어 컨트롤러 객체를 찾음
             var playerController = FindObjectOfType<PlayerController>();
             var sdPlayer = GameManager.SD.sdPlayers.Where(_ => _.index == 1000).SingleOrDefault();
-            var testCharactor = Instantiate(Resources.Load<GameObject>(sdPlayer.resourcePath)).GetComponent<Player>();
-            testCharactor.Initialize(new BoPlayer(sdPlayer));
-            playerController.Initialize(testCharactor);
+            var player = Instantiate(Resources.Load<GameObject>(sdPlayer.resourcePath)).GetComponent<Player>();
+            player.Initialize(new BoPlayer(sdPlayer));
+            playerController.Initialize(player);
             playerController.transform.position = startPoint.transform.position;
             // 생성한 캐릭터가 업데이트 될 수 있도록 전체 캐릭터 목록에 넣어줌
-            charactors.Add(testCharactor);
+            charactors.Add(player);
         }
 
         public void InitPortals()

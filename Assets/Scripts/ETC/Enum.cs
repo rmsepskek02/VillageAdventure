@@ -8,7 +8,7 @@ namespace VillageAdventure.Enum
     {
         Title, House, Field, Mine, FishingZone, Forest
     }
-    public class ActorState
+    public class MonsterState
     {
         public enum State { Idle, Move, Attack, Hit, Dead, Hurt, Alert }
     }

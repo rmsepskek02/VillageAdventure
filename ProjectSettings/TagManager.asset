@@ -26,9 +26,9 @@ TagManager:
   - Water
   - UI
   - Tilemap
-  - 
-  - 
-  - 
+  - BuildObject
+  - Player
+  - Warrior
   - 
   - 
   - 

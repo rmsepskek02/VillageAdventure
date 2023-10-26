@@ -9,6 +9,7 @@ namespace VillageAdventure.StaticData
     public class StaticDataModule
     {
         public List<SDPlayer> sdPlayers;
+        public List<SDNonePlayer> sdNonePlayer;
         public List<SDMonster> sdMonsters;
         public List<SDHomeObject> sdHomeObjects;
         public List<SDFieldObject> sdFieldObjects;
