@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 3357946556312028999}
   - component: {fileID: 5483752942985225265}
   - component: {fileID: 4237360574587870044}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: MoveDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}

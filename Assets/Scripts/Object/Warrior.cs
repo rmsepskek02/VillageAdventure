@@ -104,7 +104,7 @@ public class Warrior : Actor
             {
                 return;
             }
-            if(collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
             {
                 isAttack = true;
                 isMoving = false;
@@ -113,8 +113,8 @@ public class Warrior : Actor
             {
                 isAttack = false;
                 isMoving = false;
+                SetMoveDir();
             }
-            SetMoveDir();
         }
         else
         {

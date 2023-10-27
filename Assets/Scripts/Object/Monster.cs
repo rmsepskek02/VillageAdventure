@@ -11,6 +11,7 @@ namespace VillageAdventure.Object
         string objName;
         public BoMonster boMonster;
         private float time = 0;
+        public float stayTime = 0;
         private float lastMonsterMoveTime = 0f;
         private float monsterMoveInterval = 2f;
         public bool isMoving = true;
@@ -50,68 +51,58 @@ namespace VillageAdventure.Object
 
         private void SetState(Collider2D collision = null)
         {
-            if (isMoving)
-            {
+            if(isMoving)
                 State = MonsterState.State.Move;
-            }
             if(!isMoving && !isAttack)
-            {
                 State = MonsterState.State.Idle;
-            }
-            if(collision != null)
+            // 충돌체가 있는 경우
+            if (collision != null)
             {
-                if(collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+                // 공격하고 있지 않은 경우
+                if (!isAttack)
                 {
-                    Debug.Log("DF");
-                    return;
+                    // 공격해야할 대상인 경우
+                    if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                    {
+                        isAttack = true;
+                        isMoving = false;
+                        State = MonsterState.State.Alert;
+                        boMonster.moveDirection = Vector2.zero;
+                        rigid.velocity = new Vector2(0f, 0f);
+                    }
+                    // 공격할 대상이 아닌 경우
+                    else
+                    {
+                        // 맵인 경우
+                        if (collision.gameObject.layer == LayerMask.NameToLayer("Tilemap"))
+                        {
+                            isMoving = true;
+                            SetMoveDir();
+                        }
+                        // 맵이 아닌 경우
+                        else
+                        {
+                            isMoving = false;
+                            boMonster.moveDirection = Vector2.zero;
+                            rigid.velocity = new Vector2(0f, 0f);
+                        }
+                    }
                 }
-                if(isAttack && collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-                {
-                    Debug.Log("AP");
-                    return;
-                }
-                if(isAttack && collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
-                {
-                    Debug.Log("AM");
-                    return;
-                }
-                if(collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
-                {
-                    Debug.Log("BB");
-                    isAttack = true;
-                    isMoving = false;
-                    State = MonsterState.State.Alert;
-                    boMonster.moveDirection = Vector2.zero;
-                    rigid.velocity = new Vector2(0f, 0f);
-                }
-                else
-                {
-                    Debug.Log("OO");
-                    isAttack = false;
-                    isMoving = false;
-                    SetMoveDir();
-                }
+                // 공격하고 있는 경우
+                else if (isAttack){ }
             }
-            else
-            {
-                isMoving = true;
-                isAttack = false;
-            }
+            // 충돌체가 없는 경우
+            else if (collision == null) { }
         }
 
         private void SetFlipX()
         {
             if (boMonster.moveDirection != Vector2.zero)
             {
-                
                 if (boMonster.moveDirection.x < 0)
-                {
                     sr.flipX = true;
-                }
                 else
-                {
                     sr.flipX = false;
-                }
             }
         }
 
@@ -121,23 +112,59 @@ namespace VillageAdventure.Object
             void OnEnter(Collider2D collision)
             {
                 // 무언가 들어왔다
-                isMoving = false;
-                SetState(collision);
+                if (collision.gameObject.layer != LayerMask.NameToLayer("Trigger"))
+                {
+                    isMoving = false;
+                    SetState(collision);
+                }
             }
             void OnExit(Collider2D collision)
             {
                 // 무언가 없어졌다
-                isMoving = true;
-                if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
-                    isAttack = false;
-                State = MonsterState.State.Move;
+                // 공격하고 있지 않은 경우
+                if (!isAttack)
+                {
+                    State = MonsterState.State.Move;
+                    isMoving = true;
+                }
+                // 공격하고 있는 경우
+                else if (isAttack)
+                {
+                    if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                    {
+                        isAttack = false;
+                        State = MonsterState.State.Idle;
+                        isMoving = true;
+                        stayTime = 0;
+                    }
+                    else if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                    {
+                        
+                    }
+                }
             }
+            
             void OnStay(Collider2D collision)
             {
                 // 무언가 계속있다
+                stayTime += Time.deltaTime;
+                if (stayTime >= 0.1f)
+                {
+                    if (!isAttack)
+                    {
+                        if (collision.gameObject.layer == LayerMask.NameToLayer("Tilemap")
+                            || collision.gameObject.layer == LayerMask.NameToLayer("Player")
+                            || collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                        {
+                            isMoving = true;
+                            SetMoveDir();
+                            stayTime = 0;
+                        }
+                    }
+                }
             }
         }
-
+        
         // 무작위 이동 Direction 설정 함수
         void SetMoveDir()
         {
@@ -149,14 +176,14 @@ namespace VillageAdventure.Object
 
             if (preRandom == boMonster.moveDirection)
                 SetMoveDir();
-
             SetFlipX();
             gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x + 
                 boMonster.moveDirection.x/4, gameObject.transform.position.y + boMonster.moveDirection.y/4 - 0.3f);
+
             if (State == MonsterState.State.Move && ranDir == Vector2.zero)
                 State = MonsterState.State.Idle;
-            if (State == MonsterState.State.Idle || State == MonsterState.State.Move)
-                SetState();
+            //if (State == MonsterState.State.Idle || State == MonsterState.State.Move)
+            SetState();
         }
     }
 }

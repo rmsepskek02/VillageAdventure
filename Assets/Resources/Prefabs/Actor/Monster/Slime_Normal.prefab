@@ -153,6 +153,9 @@ MonoBehaviour:
     moveDirection: {x: 0, y: 0}
     sdActor: {fileID: 0}
     sdMonster: {fileID: 0}
+  stayTime: 0
+  isMoving: 1
+  isAttack: 0
 --- !u!50 &8061583492961055649
 Rigidbody2D:
   serializedVersion: 4
@@ -185,7 +188,7 @@ GameObject:
   - component: {fileID: 1925953654390313430}
   - component: {fileID: 1527021564670999156}
   - component: {fileID: 6478122775416792970}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: MoveDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
