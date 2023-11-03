@@ -42,6 +42,10 @@ namespace VillageAdventure.Object
                     SetMoveDir();
                 lastMonsterMoveTime = time;
             }
+            if (boMonster.hp < 0)
+            {
+                Debug.Log("MONSETER DIEEEEEE");
+            }
         }
         public override void OnMove()
         {

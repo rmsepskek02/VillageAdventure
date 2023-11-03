@@ -45,6 +45,8 @@ namespace VillageAdventure.Object
         public virtual void SetStats()
         {
             boActor.moveSpeed = boActor.sdActor.moveSpeed;
+            boActor.hp = boActor.sdActor.hp;
+            boActor.power = boActor.sdActor.power;
         }
         
         public virtual MonsterState.State State

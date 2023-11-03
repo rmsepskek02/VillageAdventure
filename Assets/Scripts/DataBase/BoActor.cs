@@ -10,9 +10,12 @@ namespace VillageAdventure.DB
     public class BoActor 
     {
         /// 인게임 데이터
-        public float moveSpeed; // 인게임 스피드
+        public float moveSpeed; 
         public Vector2 moveDirection;
-        public SDActor sdActor; // 원래 스피드
+        public int hp;
+        public int power;
+        /// SD 데이터
+        public SDActor sdActor; 
 
         public BoActor(SDActor sdActor)
         {

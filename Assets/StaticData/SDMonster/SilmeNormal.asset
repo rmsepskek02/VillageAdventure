@@ -16,3 +16,5 @@ MonoBehaviour:
   moveSpeed: 1
   resourcePath: Prefabs/Actor/Monster/Slime_Normal
   nickname: Slime_Normal
+  hp: 100
+  power: 5

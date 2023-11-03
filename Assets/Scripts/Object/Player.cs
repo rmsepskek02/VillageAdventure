@@ -53,22 +53,16 @@ namespace VillageAdventure.Object
 
             void OnStayObj(Collider2D collision)
             {
-                if (collision.CompareTag("Mine"))
-                {
-                    /// Resource 사라질때까지 키입력을 제거????
-                    if (Input.GetKey(KeyCode.G))
-                        collision.transform.GetChild(0).gameObject.SetActive(true);
-                }
-                else if (collision.CompareTag("Tree"))
+                void ActiveObj()
                 {
                     if (Input.GetKey(KeyCode.G))
                         collision.transform.GetChild(0).gameObject.SetActive(true);
                 }
-                else if (collision.CompareTag("Food"))
-                {
-                    if (Input.GetKey(KeyCode.G))
-                        collision.transform.GetChild(0).gameObject.SetActive(true);
-                }
+
+                if (collision.CompareTag("Mine") 
+                    || collision.CompareTag("Tree") 
+                    || collision.CompareTag("Food"))
+                    ActiveObj();
                 else if (collision.CompareTag("Fishing"))
                 {
                     time += Time.deltaTime;
@@ -88,16 +82,14 @@ namespace VillageAdventure.Object
                     // 목재가 없으면 리턴
                     if (InGameManager.Instance.tree <= 0)
                         return;
-                    if (Input.GetKey(KeyCode.G))
-                        collision.transform.GetChild(0).gameObject.SetActive(true);
+                    ActiveObj();
                 }
                 else if (collision.CompareTag("Fire"))
                 {
                     // fish가 없으면 리턴
                     if (InGameManager.Instance.fish <= 0)
                         return;
-                    if (Input.GetKey(KeyCode.G))
-                        collision.transform.GetChild(0).gameObject.SetActive(true);
+                    ActiveObj();
                 }
             }
         }

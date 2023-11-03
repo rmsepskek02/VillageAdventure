@@ -8,5 +8,7 @@ namespace VillageAdventure.StaticData
     {
         public float moveSpeed;
         public string resourcePath;
+        public int hp;
+        public int power;
     }
 }

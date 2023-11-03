@@ -12,13 +12,14 @@ public class Warrior : Actor
     private float timeAi = 0f;
     private float lastMonsterMoveTime = 0f;
     private float monsterMoveInterval = 2f;
+    private List<GameObject> monsterList = new List<GameObject>();
     public bool isMoving = true;
     public bool isAttack = false;
     public bool isEnterObj= false;
     public bool hasMonster = false;
     public bool isArrive = false;
     private TriggerController moveTrigger;
-    private TriggerController monsterTrigger;
+    private TriggerController hitBox;
     Vector2[] path;
     int targetIndex;
     private Transform target;
@@ -54,7 +55,9 @@ public class Warrior : Actor
         objName = gameObject.name;
         objTagName = objName.Replace("(Clone)", "");
         moveTrigger = transform.GetChild(0).GetComponent<TriggerController>();
+        hitBox = transform.GetChild(1).GetComponent<TriggerController>();
         CheckTrigger();
+        HitBoxTrigger();
     }
     public override void OnMove()
     {
@@ -77,7 +80,12 @@ public class Warrior : Actor
             }
             lastMonsterMoveTime = time;
         }
+        if (boWarrior.sdWarrior.hp < 0)
+        {
+            Debug.Log("WARRIOR DIEEEEEE");
+        }
     }
+    // 이동방향 및 Object 감지 Trigger
     private void CheckTrigger()
     {
         moveTrigger.Initialize(OnEnter, OnExit, OnStay);
@@ -121,7 +129,39 @@ public class Warrior : Actor
             // 무언가 계속있다
         }
     }
-
+    // Monster Hit Box Trigger
+    private void HitBoxTrigger()
+    {
+        hitBox.Initialize(OnEnter, OnExit, OnStay);
+        void OnEnter(Collider2D collision)
+        {
+            if (collision.CompareTag("Monster"))
+            {
+                monsterList.Add(collision.gameObject);
+            }
+        }
+        void OnExit(Collider2D collision)
+        {
+            if (collision.CompareTag("Monster"))
+            {
+                monsterList.Remove(collision.gameObject);
+            }
+        }
+        void OnStay(Collider2D collision)
+        {
+            if (collision.CompareTag("Monster"))
+            {
+                
+            }
+        }
+    }
+    private void HitMonster()
+    {
+        for (int i = 0; i < monsterList.Count; i++)
+        {
+            monsterList[i].GetComponent<Monster>().boMonster.hp -= boWarrior.power;
+        }
+    }
 
     // 무작위 이동 Direction 설정 함수
     private void SetMoveDir()
@@ -140,10 +180,27 @@ public class Warrior : Actor
 
         if (preRandom == boWarrior.moveDirection)
             SetMoveDir();
+        ChangeChildOjbPosition();
+    }
 
+    // child Object postion 변경
+    private void ChangeChildOjbPosition()
+    {
+        // moveTrigger position 변경
         gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x +
                 boWarrior.moveDirection.x / 2, gameObject.transform.position.y + boWarrior.moveDirection.y / 2);
+
+        // hitBox position 변경
+        if (boWarrior.moveDirection.x == 1)
+            gameObject.transform.GetChild(1).rotation = Quaternion.Euler(0, 0, 270f);
+        else if (boWarrior.moveDirection.x == -1)
+            gameObject.transform.GetChild(1).rotation = Quaternion.Euler(0, 0, 90f);
+        else if (boWarrior.moveDirection.y == 1)
+            gameObject.transform.GetChild(1).rotation = Quaternion.Euler(0, 0, 0f);
+        else if (boWarrior.moveDirection.y == -1)
+            gameObject.transform.GetChild(1).rotation = Quaternion.Euler(0, 0, 180f);
     }
+
     private void MoveToMonster()
     {
         target = GameObject.FindGameObjectWithTag("Monster").transform;
@@ -178,26 +235,8 @@ public class Warrior : Actor
             boWarrior.moveDirection = Vector2.zero;
         }
     }
-    public void OnDrawGizmos()
-    {
-        if (path != null)
-        {
-            for (int i = targetIndex; i < path.Length; i++)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(path[i], Vector2.one);
 
-                if (i == targetIndex)
-                {
-                    Gizmos.DrawLine(transform.position, path[i]);
-                }
-                else
-                {
-                    Gizmos.DrawLine(path[i - 1], path[i]);
-                }
-            }
-        }
-    }
+    #region PathFinding
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful, bool hasMonster)
     {
         if (pathSuccessful && hasMonster)
@@ -220,12 +259,6 @@ public class Warrior : Actor
         {
             if (isArrive)
             {
-                Debug.Log($"isArrive = {isArrive}");
-                //targetIndex++;
-                //if (targetIndex >= path.Length)
-                //{
-                //}
-                //currentWaypoint = path[targetIndex];
                 //yield break;
             }
             Vector2 moveDirAi = new Vector2((target.transform.position.x - transform.position.x), 
@@ -272,8 +305,7 @@ public class Warrior : Actor
                             boWarrior.moveDirection.y = -1;
                     }
                 }
-                gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x +
-                    boWarrior.moveDirection.x / 3, gameObject.transform.position.y + boWarrior.moveDirection.y / 3);
+                ChangeChildOjbPosition();
                 timeAi = 0f;
                 //transform.position = Vector2.MoveTowards((Vector2)transform.position, currentWaypoint, Time.deltaTime);
             }
@@ -282,4 +314,26 @@ public class Warrior : Actor
 
         }
     }
+
+    public void OnDrawGizmos()
+    {
+        if (path != null)
+        {
+            for (int i = targetIndex; i < path.Length; i++)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(path[i], Vector2.one);
+
+                if (i == targetIndex)
+                {
+                    Gizmos.DrawLine(transform.position, path[i]);
+                }
+                else
+                {
+                    Gizmos.DrawLine(path[i - 1], path[i]);
+                }
+            }
+        }
+    }
+    #endregion
 }
