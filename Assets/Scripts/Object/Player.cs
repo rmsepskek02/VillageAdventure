@@ -24,8 +24,15 @@ namespace VillageAdventure.Object
         {
             base.Execute();
             BuildObject();
+            TestSpace();
         }
-
+        private void TestSpace()
+        {
+            if (Input.GetKey(KeyCode.Space)){
+                Debug.Log("SPACE");
+                InGameManager.Instance.GetComponent<Grid>().CreateGrid();
+            }
+        }
         public override void Init()
         {
             base.Init();

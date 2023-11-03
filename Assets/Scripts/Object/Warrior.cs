@@ -8,12 +8,20 @@ public class Warrior : Actor
 {
     string objName;
     public BoWarrior boWarrior;
-    private float time = 0;
+    private float time = 0f;
+    private float timeAi = 0f;
     private float lastMonsterMoveTime = 0f;
     private float monsterMoveInterval = 2f;
     public bool isMoving = true;
     public bool isAttack = false;
-    private TriggerController trigger;
+    public bool isEnterObj= false;
+    public bool hasMonster = false;
+    public bool isArrive = false;
+    private TriggerController moveTrigger;
+    private TriggerController monsterTrigger;
+    Vector2[] path;
+    int targetIndex;
+    private Transform target;
 
     public override void Initialize(BoActor boWarrior)
     {
@@ -28,6 +36,16 @@ public class Warrior : Actor
     public override void OnMoveAnim()
     {
         base.OnMoveAnim();
+        if(isAttack)
+            anim.SetBool("isAttack", isAttack);
+        if(transform.GetChild(0).position.x > transform.position.x)
+            anim.SetInteger("attackState", 2);
+        else if(transform.GetChild(0).position.x < transform.position.x)
+            anim.SetInteger("attackState", 3);
+        else if (transform.GetChild(0).position.y > transform.position.y)
+            anim.SetInteger("attackState", 1);
+        else if (transform.GetChild(0).position.y < transform.position.y)
+            anim.SetInteger("attackState", 0);
     }
 
     public override void Init()
@@ -35,7 +53,7 @@ public class Warrior : Actor
         base.Init();
         objName = gameObject.name;
         objTagName = objName.Replace("(Clone)", "");
-        trigger = transform.GetComponentInChildren<TriggerController>();
+        moveTrigger = transform.GetChild(0).GetComponent<TriggerController>();
         CheckTrigger();
     }
     public override void OnMove()
@@ -44,34 +62,66 @@ public class Warrior : Actor
     }
     private void Update()
     {
+        hasMonster = GameObject.FindGameObjectWithTag("Monster");
         time += Time.deltaTime;
-
         if (time - lastMonsterMoveTime >= monsterMoveInterval)
         {
             if (!isAttack && isMoving)
-                SetMoveDir();
+            {
+                if (!hasMonster)
+                    SetMoveDir();
+                else
+                {
+                    MoveToMonster();
+                }
+            }
             lastMonsterMoveTime = time;
         }
     }
     private void CheckTrigger()
     {
-        trigger.Initialize(OnEnter, OnExit, OnStay);
+        moveTrigger.Initialize(OnEnter, OnExit, OnStay);
         void OnEnter(Collider2D collision)
         {
             // 무언가 들어왔다
-            SetState(collision);
+            if(hasMonster)
+            {
+                if (!collision.CompareTag("Monster"))
+                {
+                    //SetState(collision);
+                    isEnterObj = true;
+                }
+                if (collision.CompareTag("Monster"))
+                {
+                    isArrive = true;
+                    isAttack = true;
+                    isMoving = false;
+                    boWarrior.moveDirection.x = 0;
+                    boWarrior.moveDirection.y = 0;
+                    //OnMoveAnim();
+                    StopCoroutine("FollowPath");
+                }
+            }
+            else
+            {
+                isEnterObj = true;
+                SetState(collision);
+            }
         }
         void OnExit(Collider2D collision)
         {
             // 무언가 없어졌다
             isMoving = true;
             isAttack = false;
+            isEnterObj = false;
+            isArrive = false;
         }
         void OnStay(Collider2D collision)
         {
             // 무언가 계속있다
         }
     }
+
 
     // 무작위 이동 Direction 설정 함수
     private void SetMoveDir()
@@ -92,7 +142,12 @@ public class Warrior : Actor
             SetMoveDir();
 
         gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x +
-                boWarrior.moveDirection.x / 3, gameObject.transform.position.y + boWarrior.moveDirection.y / 3);
+                boWarrior.moveDirection.x / 2, gameObject.transform.position.y + boWarrior.moveDirection.y / 2);
+    }
+    private void MoveToMonster()
+    {
+        target = GameObject.FindGameObjectWithTag("Monster").transform;
+        PathRequestManager.RequestPath(transform.position, (Vector2)target.transform.position, OnPathFound);
     }
 
     private void SetState(Collider2D collision = null)
@@ -121,6 +176,110 @@ public class Warrior : Actor
             isMoving = true;
             isAttack = false;
             boWarrior.moveDirection = Vector2.zero;
+        }
+    }
+    public void OnDrawGizmos()
+    {
+        if (path != null)
+        {
+            for (int i = targetIndex; i < path.Length; i++)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawCube(path[i], Vector2.one);
+
+                if (i == targetIndex)
+                {
+                    Gizmos.DrawLine(transform.position, path[i]);
+                }
+                else
+                {
+                    Gizmos.DrawLine(path[i - 1], path[i]);
+                }
+            }
+        }
+    }
+    public void OnPathFound(Vector2[] newPath, bool pathSuccessful, bool hasMonster)
+    {
+        if (pathSuccessful && hasMonster)
+        {
+            path = newPath;
+            targetIndex = 0;
+            StopCoroutine("FollowPath");
+            StartCoroutine("FollowPath");
+        }
+    }
+    
+    IEnumerator FollowPath()
+    {
+        if (!hasMonster)
+        {
+            yield return null;
+        }
+        Vector2 currentWaypoint = path[0];
+        while (hasMonster)
+        {
+            if (isArrive)
+            {
+                Debug.Log($"isArrive = {isArrive}");
+                //targetIndex++;
+                //if (targetIndex >= path.Length)
+                //{
+                //}
+                //currentWaypoint = path[targetIndex];
+                //yield break;
+            }
+            Vector2 moveDirAi = new Vector2((target.transform.position.x - transform.position.x), 
+                (target.transform.position.y - transform.position.y)).normalized;
+
+            timeAi += Time.deltaTime;
+            if(timeAi >= 1.0f)
+            {
+                if (isEnterObj)
+                {
+                    if (boWarrior.moveDirection.x != 0)
+                    {
+                        boWarrior.moveDirection.x = 0;
+                        if (moveDirAi.y > 0)
+                            boWarrior.moveDirection.y = 1;
+                        else if (moveDirAi.y < 0)
+                            boWarrior.moveDirection.y = -1;
+                    }
+                    else if (boWarrior.moveDirection.y != 0)
+                    {
+                        boWarrior.moveDirection.y = 0;
+                        if (moveDirAi.x > 0)
+                            boWarrior.moveDirection.x = 1;
+                        else if (moveDirAi.x < 0)
+                            boWarrior.moveDirection.x = -1;
+                    }
+                }
+                else
+                {
+                    if (Mathf.Abs(moveDirAi.x) >= Mathf.Abs(moveDirAi.y))
+                    {
+                        boWarrior.moveDirection.y = 0;
+                        if (moveDirAi.x > 0)
+                            boWarrior.moveDirection.x = 1;
+                        else if (moveDirAi.x < 0)
+                            boWarrior.moveDirection.x = -1;
+                    }
+                    else if (Mathf.Abs(moveDirAi.x) < Mathf.Abs(moveDirAi.y))
+                    {
+                        boWarrior.moveDirection.x = 0;
+                        if (moveDirAi.y > 0)
+                            boWarrior.moveDirection.y = 1;
+                        else if (moveDirAi.y < 0)
+                            boWarrior.moveDirection.y = -1;
+                    }
+                }
+                gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x +
+                    boWarrior.moveDirection.x / 3, gameObject.transform.position.y + boWarrior.moveDirection.y / 3);
+                timeAi = 0f;
+                //transform.position = Vector2.MoveTowards((Vector2)transform.position, currentWaypoint, Time.deltaTime);
+            }
+
+            yield return null;
+
         }
     }
 }

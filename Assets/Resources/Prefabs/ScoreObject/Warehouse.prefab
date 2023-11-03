@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5617863960532880326}
   - component: {fileID: -4471751062403015762}
-  - component: {fileID: 4450627402221161228}
+  - component: {fileID: -1315490869720639199}
   m_Layer: 7
   m_Name: Warehouse
   m_TagString: Untagged
@@ -83,8 +83,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &4450627402221161228
-PolygonCollider2D:
+--- !u!61 &-1315490869720639199
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -106,16 +106,6 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.16772667, y: 0.5251477}
-      - {x: -0.5132373, y: 0.25088835}
-      - {x: -0.52477247, y: -0.5205418}
-      - {x: -0.3593552, y: -0.5285506}
-      - {x: -0.1978443, y: -0.5261262}
-      - {x: 0.4626921, y: -0.52272916}
-      - {x: 0.50059605, y: -0.40281668}
-      - {x: 0.5296023, y: 0.50841105}
-      - {x: 0.49703628, y: -0.40315783}
-      - {x: 0.5267602, y: 0.5143818}
-      - {x: 0.532149, y: 0.51446223}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

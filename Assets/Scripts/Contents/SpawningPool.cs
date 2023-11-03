@@ -33,10 +33,10 @@ namespace VillageAdventure
 
         public void GeneratorMonster()
         {
-            //if (i >= 2)
-            //{
-            //    return;
-            //}
+            if (i >= 1)
+            {
+                return;
+            }
             if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
             {
                 GameObject monster = GameObject.Find("Monster");
@@ -48,12 +48,12 @@ namespace VillageAdventure
                 testMonster.transform.SetParent(normalSlime);
                 testMonster.gameObject.transform.position = monsterSpawnPos;
                 lastMonsterSpawnTime = inGameManager.time;
-                //i++;
+                i++;
             }
         }
         private void GeneratorWarrior()
         {
-            if(warriors == 1)
+            if(warriors == 0)
             {
                 var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
                 var warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
