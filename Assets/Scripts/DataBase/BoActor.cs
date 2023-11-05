@@ -12,8 +12,8 @@ namespace VillageAdventure.DB
         /// 인게임 데이터
         public float moveSpeed; 
         public Vector2 moveDirection;
-        public int hp;
-        public int power;
+        public float hp;
+        public float power;
         /// SD 데이터
         public SDActor sdActor; 
 

@@ -54,16 +54,17 @@ namespace VillageAdventure.Object
             get { return _state; }
             set
             {
-                _state = value;
-                switch (_state)
+                if (_state != value) // 현재 상태와 변경하려는 상태가 다를 때만 실행
                 {
-                    case MonsterState.State.Idle:
+                    _state = value;
+
+                    switch (_state)
+                    {
+                        case MonsterState.State.Idle:
                         anim.CrossFade($"{objTagName}_Idle", 0.5f);
                         break;
                     case MonsterState.State.Move:
                         anim.CrossFade($"{objTagName}_Move", 0.5f);
-                        break;
-                    case MonsterState.State.Hit:
                         break;
                     case MonsterState.State.Dead:
                         anim.CrossFade($"{objTagName}_Dead", 0.5f);
@@ -77,9 +78,11 @@ namespace VillageAdventure.Object
                     case MonsterState.State.Alert:
                         anim.CrossFade($"{objTagName}_Alert", 0.5f);
                         break;
+                    }
                 }
             }
         }
+
         public virtual void OnMove()
         {
             //transform.Translate(boActor.moveSpeed * boActor.moveDirection, Space.World);

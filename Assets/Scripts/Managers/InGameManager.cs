@@ -20,6 +20,12 @@ namespace VillageAdventure
         public GameObject UI_inGame;
         public GameObject BuildObject;
         public GameObject startPoint;
+        public GameObject holder;
+        public GameObject buildObj;
+        public GameObject spawn;
+        public GameObject monster;
+        public GameObject nonePlayer;
+        public GameObject warrior;
         public int sdIndex;
         public int sdTypeIndex;
 
@@ -43,11 +49,12 @@ namespace VillageAdventure
             GeneratorCharactor();
             player = charactors[0].gameObject;
             BuildObject = player.transform.GetChild(1).gameObject;
-            GameObject holder = GameObject.Find("Holder");
-            GameObject buildObj= GameObject.Find("BuildObject");
-            GameObject spawn= GameObject.Find("Spawn");
-            GameObject monster = GameObject.Find("Monster");
-            GameObject nonePlayer = GameObject.Find("NonePlayer");
+            holder = GameObject.Find("Holder");
+            buildObj= GameObject.Find("BuildObject");
+            spawn= GameObject.Find("Spawn");
+            monster = GameObject.Find("Monster");
+            nonePlayer = GameObject.Find("NonePlayer");
+            warrior = nonePlayer.transform.GetChild(0).gameObject;
             DontDestroyOnLoad(holder);
             DontDestroyOnLoad(buildObj);
             DontDestroyOnLoad(spawn);
@@ -60,6 +67,7 @@ namespace VillageAdventure
             ActiveUI();
             CalculateTime();
             ChangePlayerHP(Time.deltaTime * 0.2f);
+            CheckWarrior();
         }
 
         private void FixedUpdate()
@@ -120,6 +128,35 @@ namespace VillageAdventure
                 UI_inGame.gameObject.SetActive(false);
             else
                 UI_inGame.gameObject.SetActive(true);
+        }
+        
+        public void CheckWarrior()
+        {
+            int warriorCount = warrior.transform.childCount;
+            if (warriorCount == 0)
+            {
+                UI_inGame.transform.GetChild(0).gameObject.SetActive(false);
+                UI_inGame.transform.GetChild(1).gameObject.SetActive(false);
+                UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+            }
+            else if(warriorCount == 1)
+            {
+                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
+                UI_inGame.transform.GetChild(1).gameObject.SetActive(false);
+                UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+            }
+            else if (warriorCount == 2)
+            {
+                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
+                UI_inGame.transform.GetChild(1).gameObject.SetActive(true);
+                UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+            }
+            else if (warriorCount == 3)
+            {
+                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
+                UI_inGame.transform.GetChild(1).gameObject.SetActive(true);
+                UI_inGame.transform.GetChild(2).gameObject.SetActive(true);
+            }
         }
     }
 }

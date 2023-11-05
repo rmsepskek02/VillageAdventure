@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VillageAdventure.DB;
 using VillageAdventure.Object;
+using UnityEngine.UI;
 
 public class Warrior : Actor
 {
@@ -12,12 +13,14 @@ public class Warrior : Actor
     private float timeAi = 0f;
     private float lastMonsterMoveTime = 0f;
     private float monsterMoveInterval = 2f;
-    private List<GameObject> monsterList = new List<GameObject>();
+    public List<GameObject> monsterList = new List<GameObject>();
     public bool isMoving = true;
     public bool isAttack = false;
     public bool isEnterObj= false;
     public bool hasMonster = false;
     public bool isArrive = false;
+    private GameObject UI_inGame;
+    public Image HpBar;
     private TriggerController moveTrigger;
     private TriggerController hitBox;
     Vector2[] path;
@@ -37,9 +40,11 @@ public class Warrior : Actor
     public override void OnMoveAnim()
     {
         base.OnMoveAnim();
-        if(isAttack)
-            anim.SetBool("isAttack", isAttack);
-        if(transform.GetChild(0).position.x > transform.position.x)
+        if (isAttack == true)
+            anim.SetBool("isAttack", true);
+        else 
+            anim.SetBool("isAttack", false);
+        if (transform.GetChild(0).position.x > transform.position.x)
             anim.SetInteger("attackState", 2);
         else if(transform.GetChild(0).position.x < transform.position.x)
             anim.SetInteger("attackState", 3);
@@ -58,6 +63,8 @@ public class Warrior : Actor
         hitBox = transform.GetChild(1).GetComponent<TriggerController>();
         CheckTrigger();
         HitBoxTrigger();
+        UI_inGame = GameObject.Find("UI_inGame");
+        HpBar = UI_inGame.transform.GetChild(gameObject.transform.GetSiblingIndex()).transform.GetChild(1).GetComponent<Image>();
     }
     public override void OnMove()
     {
@@ -65,6 +72,7 @@ public class Warrior : Actor
     }
     private void Update()
     {
+        Debug.Log($"index = {gameObject.transform.GetSiblingIndex()}");
         hasMonster = GameObject.FindGameObjectWithTag("Monster");
         time += Time.deltaTime;
         if (time - lastMonsterMoveTime >= monsterMoveInterval)
@@ -80,10 +88,7 @@ public class Warrior : Actor
             }
             lastMonsterMoveTime = time;
         }
-        if (boWarrior.sdWarrior.hp < 0)
-        {
-            Debug.Log("WARRIOR DIEEEEEE");
-        }
+        SetHp();
     }
     // 이동방향 및 Object 감지 Trigger
     private void CheckTrigger()
@@ -139,12 +144,21 @@ public class Warrior : Actor
             {
                 monsterList.Add(collision.gameObject);
             }
+            else
+            {
+                isMoving = true;
+            }
         }
         void OnExit(Collider2D collision)
         {
             if (collision.CompareTag("Monster"))
             {
+                Debug.Log("EXIT Mosnter");
                 monsterList.Remove(collision.gameObject);
+                if(monsterList.Count == 0)
+                {
+                    isMoving = true;
+                }
             }
         }
         void OnStay(Collider2D collision)
@@ -159,10 +173,20 @@ public class Warrior : Actor
     {
         for (int i = 0; i < monsterList.Count; i++)
         {
-            monsterList[i].GetComponent<Monster>().boMonster.hp -= boWarrior.power;
+            //monsterList[i].GetComponent<Monster>().boMonster.hp -= boWarrior.power;
         }
     }
-
+    // Warrior Hp 관련 
+    private void SetHp()
+    {
+        HpBar.fillAmount = Mathf.Clamp01((boWarrior.hp / boActor.sdActor.hp));
+        if (boWarrior.hp <= 0)
+        {
+            HpBar.gameObject.transform.parent.gameObject.SetActive(false);
+            Destroy(gameObject);
+            Debug.Log("WARRIOR DIEEEEEE");
+        }
+    }
     // 무작위 이동 Direction 설정 함수
     private void SetMoveDir()
     {

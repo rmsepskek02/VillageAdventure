@@ -14,9 +14,11 @@ namespace VillageAdventure.Object
         public float stayTime = 0;
         private float lastMonsterMoveTime = 0f;
         private float monsterMoveInterval = 2f;
+        public List<GameObject> enemyList = new List<GameObject>();
         public bool isMoving = true;
         public bool isAttack = false;
         private TriggerController trigger;
+        private TriggerController hitBox;
 
         public override void Initialize(BoActor boMonster)
         {
@@ -28,8 +30,10 @@ namespace VillageAdventure.Object
         {
             objName = gameObject.name;
             objTagName = objName.Replace("(Clone)", "");
-            trigger = transform.GetComponentInChildren<TriggerController>();
+            trigger = transform.GetChild(0).GetComponent<TriggerController>();
+            hitBox = transform.GetChild(1).GetComponent<TriggerController>();
             CheckTrigger();
+            HitBoxTrigger();
         }
 
         private void Update()
@@ -45,6 +49,7 @@ namespace VillageAdventure.Object
             if (boMonster.hp < 0)
             {
                 Debug.Log("MONSETER DIEEEEEE");
+                State = MonsterState.State.Dead;
             }
         }
         public override void OnMove()
@@ -52,6 +57,12 @@ namespace VillageAdventure.Object
             base.OnMove();
         }
         public override void OnMoveAnim() { }
+
+        public void DeadMonster()
+        {
+            Debug.Log("ANIM DEAD");
+            Destroy(gameObject);
+        }
 
         private void SetState(Collider2D collision = null)
         {
@@ -66,7 +77,8 @@ namespace VillageAdventure.Object
                 if (!isAttack)
                 {
                     // 공격해야할 대상인 경우
-                    if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                    if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject")
+                        || collision.gameObject.layer == LayerMask.NameToLayer("Warrior"))
                     {
                         isAttack = true;
                         isMoving = false;
@@ -168,7 +180,49 @@ namespace VillageAdventure.Object
                 }
             }
         }
-        
+
+        private void HitBoxTrigger()
+        {
+            hitBox.Initialize(OnEnter, OnExit, OnStay);
+            void OnEnter(Collider2D collision)
+            {
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Warrior")
+                    || collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                {
+                    enemyList.Add(collision.gameObject);
+                }
+                SetState(collision);
+            }
+            void OnExit(Collider2D collision)
+            {
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Warrior")
+                    || collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                {
+                    Debug.Log("EXIT Warrior");
+                    enemyList.Remove(collision.gameObject);
+                    if (enemyList.Count == 0)
+                    {
+                        isMoving = true;
+                    }
+                }
+            }
+            void OnStay(Collider2D collision)
+            {
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Warrior"))
+                {
+
+                }
+            }
+        }
+        private void HitObject()
+        {
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                if(enemyList[i].gameObject.layer == LayerMask.NameToLayer("Warrior"))
+                    enemyList[i].GetComponent<Warrior>().boWarrior.hp -= boMonster.power;
+            }
+        }
+
         // 무작위 이동 Direction 설정 함수
         void SetMoveDir()
         {

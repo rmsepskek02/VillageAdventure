@@ -53,17 +53,21 @@ namespace VillageAdventure
         }
         private void GeneratorWarrior()
         {
-            if(warriors == 0)
+            if(warriors <= 2)
             {
-                var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
-                var warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
-                warrior.Initialize(new BoWarrior(sdWarrior));
-                warrior.transform.position = Vector2.zero;
-                GameObject nonePlayer = GameObject.Find("NonePlayer");
-                Transform _warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
-                warrior.transform.SetParent(_warrior);
-                inGameManager.charactors.Add(warrior);
-                warriors++;
+                if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
+                {
+                    var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
+                    var warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
+                    warrior.Initialize(new BoWarrior(sdWarrior));
+                    warrior.transform.position = Vector2.zero;
+                    GameObject nonePlayer = GameObject.Find("NonePlayer");
+                    Transform _warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
+                    warrior.transform.SetParent(_warrior);
+                    inGameManager.charactors.Add(warrior);
+                    lastMonsterSpawnTime = inGameManager.time;
+                    warriors++;
+                }
             }
         }
     }
