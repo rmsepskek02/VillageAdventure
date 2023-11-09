@@ -85,12 +85,14 @@ namespace VillageAdventure.Object
                         State = MonsterState.State.Alert;
                         boMonster.moveDirection = Vector2.zero;
                         rigid.velocity = new Vector2(0f, 0f);
+                        
                     }
                     // 공격할 대상이 아닌 경우
                     else
                     {
-                        // 맵인 경우
-                        if (collision.gameObject.layer == LayerMask.NameToLayer("Tilemap"))
+                        // 맵이거나 Trigger obj 인 경우
+                        if (collision.gameObject.layer == LayerMask.NameToLayer("Tilemap")
+                            || collision.gameObject.layer == LayerMask.NameToLayer("Trigger"))
                         {
                             isMoving = true;
                             SetMoveDir();
@@ -101,6 +103,7 @@ namespace VillageAdventure.Object
                             isMoving = false;
                             boMonster.moveDirection = Vector2.zero;
                             rigid.velocity = new Vector2(0f, 0f);
+                            State = MonsterState.State.Idle;
                         }
                     }
                 }
@@ -121,7 +124,6 @@ namespace VillageAdventure.Object
                     sr.flipX = false;
             }
         }
-
         private void CheckTrigger()
         {
             trigger.Initialize(OnEnter, OnExit, OnStay);
@@ -146,7 +148,8 @@ namespace VillageAdventure.Object
                 // 공격하고 있는 경우
                 else if (isAttack)
                 {
-                    if (collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                    if (collision.gameObject.layer == LayerMask.NameToLayer("Warrior")
+                        || collision.gameObject.layer == LayerMask.NameToLayer("BuildObject"))
                     {
                         isAttack = false;
                         State = MonsterState.State.Idle;
@@ -170,7 +173,8 @@ namespace VillageAdventure.Object
                     {
                         if (collision.gameObject.layer == LayerMask.NameToLayer("Tilemap")
                             || collision.gameObject.layer == LayerMask.NameToLayer("Player")
-                            || collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+                            || collision.gameObject.layer == LayerMask.NameToLayer("Monster")
+                            || collision.gameObject.layer == LayerMask.NameToLayer("Trigger"))
                         {
                             isMoving = true;
                             SetMoveDir();
@@ -202,7 +206,10 @@ namespace VillageAdventure.Object
                     enemyList.Remove(collision.gameObject);
                     if (enemyList.Count == 0)
                     {
+                        isAttack = false;
+                        State = MonsterState.State.Idle;
                         isMoving = true;
+                        stayTime = 0;
                     }
                 }
             }
@@ -214,12 +221,15 @@ namespace VillageAdventure.Object
                 }
             }
         }
+        // Monster's Hit Damage
         private void HitObject()
         {
             for (int i = 0; i < enemyList.Count; i++)
             {
                 if(enemyList[i].gameObject.layer == LayerMask.NameToLayer("Warrior"))
                     enemyList[i].GetComponent<Warrior>().boWarrior.hp -= boMonster.power;
+                else if (enemyList[i].gameObject.layer == LayerMask.NameToLayer("BuildObject"))
+                    enemyList[i].GetComponent<ScoreObject>().boScoreObject.hp -= boMonster.power;
             }
         }
 
@@ -236,7 +246,7 @@ namespace VillageAdventure.Object
                 SetMoveDir();
             SetFlipX();
             gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x + 
-                boMonster.moveDirection.x/4, gameObject.transform.position.y + boMonster.moveDirection.y/4 - 0.3f);
+                boMonster.moveDirection.x/5, gameObject.transform.position.y + boMonster.moveDirection.y/5 - 0.3f);
 
             if (State == MonsterState.State.Move && ranDir == Vector2.zero)
                 State = MonsterState.State.Idle;

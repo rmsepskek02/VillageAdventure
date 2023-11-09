@@ -13,6 +13,7 @@ namespace VillageAdventure.StaticData
         public int consumeMine;
         public int consumeTree;
         public int consumeFood;
-        public int addScore;
+        public int score;
+        public int hp;
     }
 }

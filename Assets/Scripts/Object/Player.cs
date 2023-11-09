@@ -137,7 +137,8 @@ namespace VillageAdventure.Object
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
                         return;
                     // Index값에 해당하는 오브젝트를 생성
-                    var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
+                    var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath)).GetComponent<ScoreObject>();
+                    sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     // 생성위치
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
@@ -146,7 +147,7 @@ namespace VillageAdventure.Object
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
                     InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.addScore;
+                    InGameManager.Instance.score += sdObject.score;
                 }
                 else if (InGameManager.Instance.sdTypeIndex == 1)
                 {
@@ -156,7 +157,8 @@ namespace VillageAdventure.Object
                         InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
                         return;
-                    var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
+                    var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath)).GetComponent<ScoreObject>();
+                    sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     sdObjectClone.transform.SetParent(fieldObj);
@@ -164,7 +166,7 @@ namespace VillageAdventure.Object
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
                     InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.addScore;
+                    InGameManager.Instance.score += sdObject.score;
                 }
                 else if (InGameManager.Instance.sdTypeIndex == 2)
                 {
@@ -174,6 +176,7 @@ namespace VillageAdventure.Object
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
                         return;
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
+                    //sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     if(GameManager.Instance.currentScene == Enum.SceneType.House)
@@ -188,7 +191,7 @@ namespace VillageAdventure.Object
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
                     InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.addScore;
+                    InGameManager.Instance.score += sdObject.score;
                 }
                 else if (InGameManager.Instance.sdTypeIndex == 3)
                 {
@@ -198,6 +201,7 @@ namespace VillageAdventure.Object
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
                         return;
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
+                    //sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     sdObjectClone.transform.SetParent(fieldObj);
@@ -205,7 +209,7 @@ namespace VillageAdventure.Object
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
                     InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.addScore;
+                    InGameManager.Instance.score += sdObject.score;
                 }
 
                 InGameManager.Instance.UIBuildActivated = false;

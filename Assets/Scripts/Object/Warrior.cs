@@ -24,7 +24,6 @@ public class Warrior : Actor
     private TriggerController moveTrigger;
     private TriggerController hitBox;
     Vector2[] path;
-    int targetIndex;
     private Transform target;
 
     public override void Initialize(BoActor boWarrior)
@@ -72,7 +71,6 @@ public class Warrior : Actor
     }
     private void Update()
     {
-        Debug.Log($"index = {gameObject.transform.GetSiblingIndex()}");
         hasMonster = GameObject.FindGameObjectWithTag("Monster");
         time += Time.deltaTime;
         if (time - lastMonsterMoveTime >= monsterMoveInterval)
@@ -153,7 +151,6 @@ public class Warrior : Actor
         {
             if (collision.CompareTag("Monster"))
             {
-                Debug.Log("EXIT Mosnter");
                 monsterList.Remove(collision.gameObject);
                 if(monsterList.Count == 0)
                 {
@@ -169,11 +166,12 @@ public class Warrior : Actor
             }
         }
     }
+    // Warrior's  Hit Damage
     private void HitMonster()
     {
         for (int i = 0; i < monsterList.Count; i++)
         {
-            //monsterList[i].GetComponent<Monster>().boMonster.hp -= boWarrior.power;
+            monsterList[i].GetComponent<Monster>().boMonster.hp -= boWarrior.power;
         }
     }
     // Warrior Hp 관련 
@@ -204,15 +202,15 @@ public class Warrior : Actor
 
         if (preRandom == boWarrior.moveDirection)
             SetMoveDir();
-        ChangeChildOjbPosition();
+        ChangeHitBoxPosition();
     }
 
     // child Object postion 변경
-    private void ChangeChildOjbPosition()
+    private void ChangeHitBoxPosition()
     {
         // moveTrigger position 변경
         gameObject.transform.GetChild(0).transform.position = new Vector2(gameObject.transform.position.x +
-                boWarrior.moveDirection.x / 2, gameObject.transform.position.y + boWarrior.moveDirection.y / 2);
+                boWarrior.moveDirection.x / 3, gameObject.transform.position.y + boWarrior.moveDirection.y / 3);
 
         // hitBox position 변경
         if (boWarrior.moveDirection.x == 1)
@@ -266,7 +264,6 @@ public class Warrior : Actor
         if (pathSuccessful && hasMonster)
         {
             path = newPath;
-            targetIndex = 0;
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
@@ -329,7 +326,7 @@ public class Warrior : Actor
                             boWarrior.moveDirection.y = -1;
                     }
                 }
-                ChangeChildOjbPosition();
+                ChangeHitBoxPosition();
                 timeAi = 0f;
                 //transform.position = Vector2.MoveTowards((Vector2)transform.position, currentWaypoint, Time.deltaTime);
             }
@@ -339,25 +336,25 @@ public class Warrior : Actor
         }
     }
 
-    public void OnDrawGizmos()
-    {
-        if (path != null)
-        {
-            for (int i = targetIndex; i < path.Length; i++)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(path[i], Vector2.one);
-
-                if (i == targetIndex)
-                {
-                    Gizmos.DrawLine(transform.position, path[i]);
-                }
-                else
-                {
-                    Gizmos.DrawLine(path[i - 1], path[i]);
-                }
-            }
-        }
-    }
+    //public void OnDrawGizmos()
+    //{
+    //    if (path != null)
+    //    {
+    //        for (int i = targetIndex; i < path.Length; i++)
+    //        {
+    //            Gizmos.color = Color.black;
+    //            Gizmos.DrawCube(path[i], Vector2.one);
+    //
+    //            if (i == targetIndex)
+    //            {
+    //                Gizmos.DrawLine(transform.position, path[i]);
+    //            }
+    //            else
+    //            {
+    //                Gizmos.DrawLine(path[i - 1], path[i]);
+    //            }
+    //        }
+    //    }
+    //}
     #endregion
 }

@@ -33,7 +33,7 @@ namespace VillageAdventure
 
         public void GeneratorMonster()
         {
-            if (i >= 1)
+            if (i >= 3)
             {
                 return;
             }
@@ -53,10 +53,10 @@ namespace VillageAdventure
         }
         private void GeneratorWarrior()
         {
-            if(warriors <= 2)
+            if(warriors <= -1)
             {
-                if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
-                {
+                //if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
+                //{
                     var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
                     var warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
                     warrior.Initialize(new BoWarrior(sdWarrior));
@@ -67,7 +67,7 @@ namespace VillageAdventure
                     inGameManager.charactors.Add(warrior);
                     lastMonsterSpawnTime = inGameManager.time;
                     warriors++;
-                }
+                //}
             }
         }
     }

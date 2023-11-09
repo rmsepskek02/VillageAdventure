@@ -122,17 +122,23 @@ MonoBehaviour:
   boActor:
     moveSpeed: 0
     moveDirection: {x: 0, y: 0}
+    hp: 0
+    power: 0
     sdActor: {fileID: 0}
   boWarrior:
     moveSpeed: 0
     moveDirection: {x: 0, y: 0}
+    hp: 0
+    power: 0
     sdActor: {fileID: 0}
     sdWarrior: {fileID: 0}
+  monsterList: []
   isMoving: 1
   isAttack: 0
   isEnterObj: 0
   hasMonster: 0
   isArrive: 0
+  HpBar: {fileID: 0}
 --- !u!50 &2240902341546219750
 Rigidbody2D:
   serializedVersion: 4
@@ -191,7 +197,7 @@ GameObject:
   - component: {fileID: 5010115346452088210}
   - component: {fileID: 4524994034989452151}
   - component: {fileID: 7390580146486633716}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +242,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 0.8}
+  m_Size: {x: 1, y: 0.7}
   m_EdgeRadius: 0
 --- !u!114 &7390580146486633716
 MonoBehaviour:

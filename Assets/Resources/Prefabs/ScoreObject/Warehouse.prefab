@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5617863960532880326}
   - component: {fileID: -4471751062403015762}
   - component: {fileID: -1315490869720639199}
+  - component: {fileID: 2165483547914549044}
   m_Layer: 7
   m_Name: Warehouse
   m_TagString: Untagged
@@ -109,3 +110,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2165483547914549044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646733756793538236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331785a4541799f44adbfcfcc72048fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boScoreObject:
+    hp: 0
+    sdObject: {fileID: 0}

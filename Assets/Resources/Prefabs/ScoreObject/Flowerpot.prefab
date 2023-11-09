@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1935873529291520786}
   - component: {fileID: 1935873529291520789}
   - component: {fileID: 8448898215234493960}
+  - component: {fileID: 5718608348400115378}
   m_Layer: 7
   m_Name: Flowerpot
   m_TagString: Well
@@ -121,3 +122,18 @@ PolygonCollider2D:
       - {x: 0.23304272, y: 0.03593421}
       - {x: 0.23187786, y: 0.13561572}
       - {x: 0.17110765, y: 0.15919706}
+--- !u!114 &5718608348400115378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935873529291520791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331785a4541799f44adbfcfcc72048fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boScoreObject:
+    hp: 0
+    sdObject: {fileID: 0}

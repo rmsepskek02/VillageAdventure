@@ -18,4 +18,5 @@ MonoBehaviour:
   consumeMine: -2
   consumeTree: -4
   consumeFood: 0
-  addScore: 2
+  score: 5
+  hp: 50

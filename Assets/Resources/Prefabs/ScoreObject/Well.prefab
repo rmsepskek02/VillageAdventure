@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8042618174681343268}
   - component: {fileID: 8042618174681343267}
   - component: {fileID: 8042618174681343266}
+  - component: {fileID: 8942668552794127543}
   m_Layer: 7
   m_Name: Well
   m_TagString: Well
@@ -119,3 +120,18 @@ PolygonCollider2D:
       - {x: 0.32250762, y: -0.25}
       - {x: 0.32729888, y: 0.18313354}
       - {x: 0.1154173, y: 0.38979894}
+--- !u!114 &8942668552794127543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8042618174681343265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331785a4541799f44adbfcfcc72048fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boScoreObject:
+    hp: 0
+    sdObject: {fileID: 0}
