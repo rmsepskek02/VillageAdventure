@@ -4,6 +4,7 @@ using UnityEngine;
 using VillageAdventure.DB;
 using VillageAdventure.Object;
 using UnityEngine.UI;
+using VillageAdventure;
 
 public class Warrior : Actor
 {
@@ -23,6 +24,7 @@ public class Warrior : Actor
     public Image HpBar;
     private TriggerController moveTrigger;
     private TriggerController hitBox;
+    private InGameManager inGameManager;
     Vector2[] path;
     private Transform target;
 
@@ -56,6 +58,7 @@ public class Warrior : Actor
     public override void Init()
     {
         base.Init();
+        inGameManager = InGameManager.Instance;
         objName = gameObject.name;
         objTagName = objName.Replace("(Clone)", "");
         moveTrigger = transform.GetChild(0).GetComponent<TriggerController>();
@@ -180,7 +183,10 @@ public class Warrior : Actor
         HpBar.fillAmount = Mathf.Clamp01((boWarrior.hp / boActor.sdActor.hp));
         if (boWarrior.hp <= 0)
         {
-            HpBar.gameObject.transform.parent.gameObject.SetActive(false);
+            inGameManager.warriorCount--;
+            GameObject emptyObject = new GameObject($"EmptyObject{gameObject.transform.GetSiblingIndex()}");
+            emptyObject.transform.SetParent(gameObject.transform.parent.gameObject.transform);
+            emptyObject.transform.SetSiblingIndex(gameObject.transform.GetSiblingIndex());
             Destroy(gameObject);
             Debug.Log("WARRIOR DIEEEEEE");
         }

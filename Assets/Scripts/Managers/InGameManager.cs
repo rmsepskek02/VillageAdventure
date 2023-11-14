@@ -28,6 +28,9 @@ namespace VillageAdventure
         public GameObject warrior;
         public int sdIndex;
         public int sdTypeIndex;
+        public int warriorCountInLayer;
+        public int warriorCount;
+        public List<int> warriorIndexInLayer;
 
         #region UI_inGame
         public float playerHP { get; set; } = 100f;
@@ -68,6 +71,8 @@ namespace VillageAdventure
             CalculateTime();
             ChangePlayerHP(Time.deltaTime * 0.2f);
             CheckWarrior();
+            IndexWarriorWithLayer(warrior.transform, "Warrior");
+            warriorCountInLayer = CountWarriorWithLayer(warrior.transform, "Warrior");
         }
 
         private void FixedUpdate()
@@ -129,33 +134,49 @@ namespace VillageAdventure
             else
                 UI_inGame.gameObject.SetActive(true);
         }
-        
+
         public void CheckWarrior()
         {
-            int warriorCount = warrior.transform.childCount;
-            if (warriorCount == 0)
+            UI_inGame.transform.GetChild(0).gameObject.SetActive(false);
+            UI_inGame.transform.GetChild(1).gameObject.SetActive(false);
+            UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+            for (int i = 0; i < warriorIndexInLayer.Count; i++)
             {
-                UI_inGame.transform.GetChild(0).gameObject.SetActive(false);
-                UI_inGame.transform.GetChild(1).gameObject.SetActive(false);
-                UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+                UI_inGame.transform.GetChild(warriorIndexInLayer[i]).gameObject.SetActive(true);
             }
-            else if(warriorCount == 1)
+        }
+
+        int CountWarriorWithLayer(Transform tr, string layerName)
+        {
+            int count = 0;
+            for (int i = 0; i < tr.childCount; i++)
             {
-                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
-                UI_inGame.transform.GetChild(1).gameObject.SetActive(false);
-                UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+                Transform child = tr.GetChild(i);
+                if (child.gameObject.layer == LayerMask.NameToLayer(layerName))
+                {
+                    count++;
+                }
+                //count += CountWarriorWithLayer(child, layerName);
             }
-            else if (warriorCount == 2)
+            return count;
+        }
+
+        void IndexWarriorWithLayer(Transform tr, string layerName)
+        {
+            gameObject.transform.GetSiblingIndex();
+            for (int i = 0; i < tr.childCount; i++)
             {
-                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
-                UI_inGame.transform.GetChild(1).gameObject.SetActive(true);
-                UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
-            }
-            else if (warriorCount == 3)
-            {
-                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
-                UI_inGame.transform.GetChild(1).gameObject.SetActive(true);
-                UI_inGame.transform.GetChild(2).gameObject.SetActive(true);
+                Transform child = tr.GetChild(i);
+                if (child.gameObject.layer == LayerMask.NameToLayer(layerName))
+                {
+                    if (!warriorIndexInLayer.Contains(child.GetSiblingIndex()))
+                        warriorIndexInLayer.Add(child.GetSiblingIndex());
+                }
+                else
+                {
+                    if (warriorIndexInLayer.Contains(child.GetSiblingIndex()))
+                        warriorIndexInLayer.Remove(child.GetSiblingIndex());
+                }
             }
         }
     }

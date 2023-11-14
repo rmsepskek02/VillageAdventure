@@ -15,25 +15,42 @@ namespace VillageAdventure
 
         private InGameManager inGameManager;
         private float lastMonsterSpawnTime = 0f;
-        private float monsterSpawnInterval = 10f;
-        private int warriors = 0;
+        private float monsterSpawnInterval = 3f;
+        public List<int> warriorIndexInLayer;
+        GameObject nonePlayer;
+        Transform warrior;
         int i = 0;
 
         void Start()
         {
             inGameManager = InGameManager.Instance;
+            nonePlayer = GameObject.Find("NonePlayer");
+            warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
         }
 
         // Update is called once per frame
         void Update()
         {
             GeneratorMonster();
-            GeneratorWarrior();
+            IndexWarriorWithLayer(warrior, "Warrior");
+            Debug.Log($"warriorCount = {inGameManager.warriorCount}");
+            test();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+            }
+                GeneratorWarrior(warriorIndexInLayer);
+        }
+        void test()
+        {
+            foreach (int index in warriorIndexInLayer)
+            {
+                Debug.Log($"warriorIndexInLayer = {index}");
+            }
         }
 
         public void GeneratorMonster()
         {
-            if (i >= 3)
+            if (i >= 1)
             {
                 return;
             }
@@ -51,24 +68,42 @@ namespace VillageAdventure
                 i++;
             }
         }
-        private void GeneratorWarrior()
+        private void GeneratorWarrior(List<int> warriorList)
         {
-            if(warriors <= -1)
+            if (inGameManager.warriorCount <= 2)
             {
-                //if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
-                //{
+                if (inGameManager.time - lastMonsterSpawnTime >= 30f)
+                {
                     var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
-                    var warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
-                    warrior.Initialize(new BoWarrior(sdWarrior));
-                    warrior.transform.position = Vector2.zero;
-                    GameObject nonePlayer = GameObject.Find("NonePlayer");
-                    Transform _warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
-                    warrior.transform.SetParent(_warrior);
-                    inGameManager.charactors.Add(warrior);
+                    var _warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
+                    _warrior.Initialize(new BoWarrior(sdWarrior));
+                    _warrior.transform.position = Vector2.zero;
+                    _warrior.transform.SetParent(warrior);
+                    Destroy(warrior.GetChild(warriorList[0]).gameObject);
+                    _warrior.transform.SetSiblingIndex(warriorList[0]);
+                    inGameManager.charactors.Add(_warrior);
                     lastMonsterSpawnTime = inGameManager.time;
-                    warriors++;
-                //}
+                    inGameManager.warriorCount++;
+                }
             }
+        }
+        void IndexWarriorWithLayer(Transform tr, string layerName)
+        {
+            for (int i = 0; i < tr.childCount; i++)
+            {
+                Transform child = tr.GetChild(i);
+                if (child.gameObject.layer != LayerMask.NameToLayer(layerName))
+                {
+                    if (!warriorIndexInLayer.Contains(child.GetSiblingIndex()))
+                        warriorIndexInLayer.Add(child.GetSiblingIndex());
+                }
+                else
+                {
+                    if (warriorIndexInLayer.Contains(child.GetSiblingIndex()))
+                        warriorIndexInLayer.Remove(child.GetSiblingIndex());
+                }
+            }
+            warriorIndexInLayer.Sort();
         }
     }
 
