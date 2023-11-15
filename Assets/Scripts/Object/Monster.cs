@@ -19,6 +19,7 @@ namespace VillageAdventure.Object
         public bool isAttack = false;
         private TriggerController trigger;
         private TriggerController hitBox;
+        private AudioClip clip;
 
         public override void Initialize(BoActor boMonster)
         {
@@ -34,6 +35,7 @@ namespace VillageAdventure.Object
             hitBox = transform.GetChild(1).GetComponent<TriggerController>();
             CheckTrigger();
             HitBoxTrigger();
+            AddAudioClip();
         }
 
         private void Update()
@@ -63,7 +65,20 @@ namespace VillageAdventure.Object
             Debug.Log("ANIM DEAD");
             Destroy(gameObject);
         }
+        private void AddAudioClip()
+        {
+            audioClip.Add(Resources.Load<AudioClip>("Sound/Effect/MP_슬라임 공격"));
+            audioClip.Add(Resources.Load<AudioClip>("Sound/Effect/MP_슬라임 죽음"));
+        }
+        private void PlayAudioEffect()
+        {
+            if (isAttack)
+                clip = audioClip[0];
+            if (boMonster.hp <= 0)
+                clip = audioClip[1];
 
+            AudioSource.PlayClipAtPoint(clip, transform.position);
+        }
         private void SetState(Collider2D collision = null)
         {
             if(isMoving)

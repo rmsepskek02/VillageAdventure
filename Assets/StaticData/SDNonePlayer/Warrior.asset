@@ -16,5 +16,5 @@ MonoBehaviour:
   moveSpeed: 2
   resourcePath: Prefabs/Actor/Warrior
   hp: 300
-  power: 0
+  power: 100
   nickname: Warrior

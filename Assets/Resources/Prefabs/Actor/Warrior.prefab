@@ -125,6 +125,7 @@ MonoBehaviour:
     hp: 0
     power: 0
     sdActor: {fileID: 0}
+  audioClip: []
   boWarrior:
     moveSpeed: 0
     moveDirection: {x: 0, y: 0}

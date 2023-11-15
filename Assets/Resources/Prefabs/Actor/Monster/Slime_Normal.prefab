@@ -151,6 +151,7 @@ MonoBehaviour:
     hp: 0
     power: 0
     sdActor: {fileID: 0}
+  audioClip: []
   boMonster:
     moveSpeed: 0
     moveDirection: {x: 0, y: 0}
@@ -239,7 +240,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.7}
+  m_Size: {x: 2.2, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &8925526590158345273
 MonoBehaviour:

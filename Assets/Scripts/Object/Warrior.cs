@@ -22,6 +22,7 @@ public class Warrior : Actor
     public bool isArrive = false;
     private GameObject UI_inGame;
     public Image HpBar;
+    private AudioClip clip;
     private TriggerController moveTrigger;
     private TriggerController hitBox;
     private InGameManager inGameManager;
@@ -61,12 +62,13 @@ public class Warrior : Actor
         inGameManager = InGameManager.Instance;
         objName = gameObject.name;
         objTagName = objName.Replace("(Clone)", "");
+        UI_inGame = GameObject.Find("UI_inGame");
+        HpBar = UI_inGame.transform.GetChild(0).transform.GetChild(gameObject.transform.GetSiblingIndex()).transform.GetChild(1).GetComponent<Image>();
         moveTrigger = transform.GetChild(0).GetComponent<TriggerController>();
         hitBox = transform.GetChild(1).GetComponent<TriggerController>();
         CheckTrigger();
         HitBoxTrigger();
-        UI_inGame = GameObject.Find("UI_inGame");
-        HpBar = UI_inGame.transform.GetChild(gameObject.transform.GetSiblingIndex()).transform.GetChild(1).GetComponent<Image>();
+        AddAudioClip();
     }
     public override void OnMove()
     {
@@ -90,6 +92,21 @@ public class Warrior : Actor
             lastMonsterMoveTime = time;
         }
         SetHp();
+    }
+    private void AddAudioClip()
+    {
+        audioClip.Add(Resources.Load<AudioClip>("Sound/Effect/MP_칼 휘두르는 소리 1"));
+        audioClip.Add(Resources.Load<AudioClip>("Sound/Effect/MP_남자가 윽 하고 내는 신음"));
+    }
+        
+    private void PlayAudioEffect()
+    {
+        if (isAttack)
+            clip = audioClip[0];
+        if (boWarrior.hp <= 0)
+            clip = audioClip[1];
+
+        AudioSource.PlayClipAtPoint(clip, transform.position);
     }
     // 이동방향 및 Object 감지 Trigger
     private void CheckTrigger()

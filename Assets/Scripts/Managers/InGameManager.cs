@@ -69,8 +69,8 @@ namespace VillageAdventure
         {
             ActiveUI();
             CalculateTime();
-            ChangePlayerHP(Time.deltaTime * 0.2f);
-            CheckWarrior();
+            ChangePlayerHP(Time.deltaTime * 10.2f);
+            CheckWarriorUI();
             IndexWarriorWithLayer(warrior.transform, "Warrior");
             warriorCountInLayer = CountWarriorWithLayer(warrior.transform, "Warrior");
         }
@@ -133,16 +133,34 @@ namespace VillageAdventure
                 UI_inGame.gameObject.SetActive(false);
             else
                 UI_inGame.gameObject.SetActive(true);
+            if (isDead)
+            {
+                // 현재신의 오디오를 찾아서 클립 바꾸기
+                // UI 띄우기
+                UI_inGame.transform.GetChild(4).gameObject.SetActive(true);
+            }
+            else
+            {
+                UI_inGame.transform.GetChild(4).gameObject.SetActive(false);
+            }
         }
 
-        public void CheckWarrior()
+        public void CheckWarriorUI()
         {
-            UI_inGame.transform.GetChild(0).gameObject.SetActive(false);
-            UI_inGame.transform.GetChild(1).gameObject.SetActive(false);
-            UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
+            UI_inGame.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+            UI_inGame.transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+            UI_inGame.transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(false);
             for (int i = 0; i < warriorIndexInLayer.Count; i++)
             {
-                UI_inGame.transform.GetChild(warriorIndexInLayer[i]).gameObject.SetActive(true);
+                UI_inGame.transform.GetChild(0).transform.GetChild(warriorIndexInLayer[i]).gameObject.SetActive(true);
+            }
+            if (GameManager.Instance.currentScene != Enum.SceneType.Field)
+            {
+                UI_inGame.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            else
+            {
+                UI_inGame.transform.GetChild(0).gameObject.SetActive(true);
             }
         }
 

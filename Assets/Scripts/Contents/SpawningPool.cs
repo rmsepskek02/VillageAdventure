@@ -33,24 +33,12 @@ namespace VillageAdventure
         {
             GeneratorMonster();
             IndexWarriorWithLayer(warrior, "Warrior");
-            Debug.Log($"warriorCount = {inGameManager.warriorCount}");
-            test();
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-            }
-                GeneratorWarrior(warriorIndexInLayer);
-        }
-        void test()
-        {
-            foreach (int index in warriorIndexInLayer)
-            {
-                Debug.Log($"warriorIndexInLayer = {index}");
-            }
+            GeneratorWarrior(warriorIndexInLayer);
         }
 
         public void GeneratorMonster()
         {
-            if (i >= 1)
+            if (i >= 5)
             {
                 return;
             }
@@ -72,7 +60,7 @@ namespace VillageAdventure
         {
             if (inGameManager.warriorCount <= 2)
             {
-                if (inGameManager.time - lastMonsterSpawnTime >= 30f)
+                if (inGameManager.time - lastMonsterSpawnTime >= 3f)
                 {
                     var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
                     var _warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();

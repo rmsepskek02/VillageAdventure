@@ -17,6 +17,7 @@ namespace VillageAdventure.Object
         protected Collider2D coll;
         protected Rigidbody2D rigid;
         protected Animator anim;
+        public List<AudioClip> audioClip;
 
         protected virtual void Awake()
         {
