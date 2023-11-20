@@ -14,7 +14,7 @@ namespace VillageAdventure.UI
         public Text placeholderText;
         public Text inputText;
         public GameObject buttonHolder;
-        public GameObject iuttonHolder;
+        public GameObject inputHolder;
 
         void Start()
         {
@@ -35,7 +35,7 @@ namespace VillageAdventure.UI
         }
         private void OnClickMenu()
         {
-            GameManager.Instance.ReStart();
+            GameManager.Instance.ReStartGame();
             InGameManager.Instance.ResetGame();
             GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
         }

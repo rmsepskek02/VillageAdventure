@@ -128,7 +128,7 @@ namespace VillageAdventure
             {
                 isDead = true;
                 if(Time.timeScale != 0f)
-                    GameManager.Instance.Pause();
+                    GameManager.Instance.PauseGame();
             }
         }
 
@@ -158,6 +158,16 @@ namespace VillageAdventure
             else
             {
                 UI_inGame.transform.GetChild(4).gameObject.SetActive(false);
+            }
+            if (GameManager.Instance.isPause == true)
+            {
+                GameManager.Instance.PauseGame();
+                UI_inGame.transform.GetChild(5).gameObject.SetActive(true);
+            }
+            else
+            {
+                GameManager.Instance.ReStartGame();
+                UI_inGame.transform.GetChild(5).gameObject.SetActive(false);
             }
         }
 

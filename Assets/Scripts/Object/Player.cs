@@ -27,6 +27,11 @@ namespace VillageAdventure.Object
             base.Execute();
             BuildObject();
             TestSpace();
+            //Pause();
+        }
+        public void Update()
+        {
+            Pause();
         }
         private void TestSpace()
         {
@@ -115,6 +120,12 @@ namespace VillageAdventure.Object
                 else if (boActor.moveDirection.y < 0)
                     transform.GetChild(1).transform.position = this.gameObject.transform.position + new Vector3(0, -1.2f, 0);
             }
+        }
+
+        private void Pause()
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+                GameManager.Instance.TogglePause();
         }
 
         private void BuildObject()

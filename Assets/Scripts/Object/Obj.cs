@@ -14,6 +14,7 @@ namespace VillageAdventure.Object
         {
             Init();
         }
+
         public abstract void Init();
     }
 }

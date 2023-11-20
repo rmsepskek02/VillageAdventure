@@ -14,6 +14,8 @@ namespace VillageAdventure
         public SceneType prevStage;
         public SceneType currentScene;
 
+        public bool isPause;
+
         [SerializeField]
         private StaticDataModule sd = new StaticDataModule();
         public static StaticDataModule SD { get { return Instance.sd; } }
@@ -35,17 +37,33 @@ namespace VillageAdventure
             }
             /// 씬이 완벽하게 로드되고 씬변경이 가능하게끔???
         }
+        // Game Pause & Restart
+        public void TogglePause()
+        {
+            if (!isPause)
+            {
+                isPause = true;
+                PauseGame();
+            }
+            else
+            {
+                isPause = false;
+                ReStartGame();
+            }
+        }
 
         // Game Pause
-        public void Pause()
+        public void PauseGame()
         {
             Time.timeScale = 0f;
+            Debug.Log($"TIME PAUSE ");
         }
 
         // Game Restart
-        public void ReStart()
+        public void ReStartGame()
         {
             Time.timeScale = 1f;
+            Debug.Log($"TIME RESTART ");
         }
     }
 }

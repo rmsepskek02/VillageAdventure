@@ -8,11 +8,12 @@ public class Memo
     /* 
       
     플레이어 V 키 입력시 재화부족한경우 적사진으로 나오도록 수정필요 
+    적사진말고 UI 띄우는거 고려
 
     메뉴작업
     Load - 데이터 로드
     option - 볼륨 해상도
-    help - 게임 가이드
+    help - 조작법
     exit - 게임 종료
 
     DeadUI
@@ -20,13 +21,7 @@ public class Memo
 
     esc
     종료 UI
-    yes - 데이터저장 UI
-    no - 되돌아가기
-
-    데이터저장 UI
-    save - 로컬에 데이터저장
-    menu - 메뉴가기
-    exit - 그냥종료
+    save - 로컬에 데이터저장 
 
     각 씬별 노래 재생
     데드씬 - 뜻대로 되지 않는
