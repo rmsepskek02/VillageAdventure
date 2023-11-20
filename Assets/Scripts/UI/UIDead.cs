@@ -30,10 +30,13 @@ namespace VillageAdventure.UI
                 text.text = "Enter Nickname !!";
                 return;
             }
+            InGameManager.Instance.ResetGame();
             GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
         }
         private void OnClickMenu()
         {
+            GameManager.Instance.ReStart();
+            InGameManager.Instance.ResetGame();
             GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
         }
 

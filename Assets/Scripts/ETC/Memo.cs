@@ -4,19 +4,40 @@ using UnityEngine;
 
 public class Memo
 {
-    // 슬라임 생성하기 
-    // sdMonster List에 추가가 안되어있음 왜?
+    #region TODO
+    /* 
+      
+    플레이어 V 키 입력시 재화부족한경우 적사진으로 나오도록 수정필요 
 
-    // 스포닝 풀로 옮기기
-    //		var sdMonsters = GameManager.SD.sdMonsters.Where(_ => _.index == 3000).SingleOrDefault();
-    //		var testMonster= Instantiate(Resources.Load<GameObject>(sdMonsters.resourcePath));
-    //		int index = testMonster.name.IndexOf("(Clone)");
-    //		if(index > 0)
-    //			testMonster.name = testMonster.name.Substring(0, index);
+    메뉴작업
+    Load - 데이터 로드
+    option - 볼륨 해상도
+    help - 게임 가이드
+    exit - 게임 종료
 
-    /// 몰?루
-    // foreach (var input in inputcontroller.inputAxes) 에러 뜸 PlayerController 43
-    // SceneManager에서 씬관리?? GM에 있는거 날리고 인스턴스만 만드는애로
+    DeadUI
+    save - AWS에 Rank 저장
+
+    esc
+    종료 UI
+    yes - 데이터저장 UI
+    no - 되돌아가기
+
+    데이터저장 UI
+    save - 로컬에 데이터저장
+    menu - 메뉴가기
+    exit - 그냥종료
+
+    각 씬별 노래 재생
+    데드씬 - 뜻대로 되지 않는
+    몬스터씬 - 
+    상점씬 - 마을 상점
+
+    타켓포지션에 도착했을때 에러뜨는 부분 확인
+
+    그리드 그려지는 시기 수정 */
+    #endregion
+
 
     /// 플레이어
     /*    /// 플레이어 체력

@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using VillageAdventure.DB;
+using VillageAdventure.StaticData;
 
 namespace VillageAdventure.Object
 {
@@ -12,6 +13,7 @@ namespace VillageAdventure.Object
         public BoPlayer boPlayer;
         private FrictionJoint2D joint;
         private TriggerController trigger;
+        private BuildTrigger buildTrigger;
         private float time = 0;
 
         public override void Initialize(BoActor boPlayer)
@@ -38,6 +40,7 @@ namespace VillageAdventure.Object
             base.Init();
             joint = GetComponent<FrictionJoint2D>();
             trigger = transform.GetComponentInChildren<TriggerController>();
+            buildTrigger = transform.GetComponentInChildren<BuildTrigger>();
             ActiveByPlayer();
         }
         public override void OnMove()
@@ -130,12 +133,13 @@ namespace VillageAdventure.Object
 
                 if (InGameManager.Instance.sdTypeIndex == 0)
                 {
-                    var sdObject = GameManager.SD.sdHomeObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
+                    SDObject sdObject = GameManager.SD.sdHomeObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
 
                     if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
                         InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
                         InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
-                        return;
+                        return; 
+                    //CheckResource(sdObject);
                     // Index값에 해당하는 오브젝트를 생성
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath)).GetComponent<ScoreObject>();
                     sdObjectClone.Initialize(new BoScoreObject(sdObject));
@@ -143,7 +147,6 @@ namespace VillageAdventure.Object
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     sdObjectClone.transform.SetParent(homeObj);
-
                     InGameManager.Instance.tree += sdObject.consumeTree;
                     InGameManager.Instance.mine += sdObject.consumeMine;
                     InGameManager.Instance.food += sdObject.consumeFood;
@@ -215,6 +218,23 @@ namespace VillageAdventure.Object
                 InGameManager.Instance.UIBuildActivated = false;
                 // 청사진의 sprite는 다시 비우기
                 transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
+            }
+        }
+        void CheckResource(SDObject sdObject)
+        {
+            Debug.Log("CHECK");
+            if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
+                InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
+                InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
+            {
+                Debug.Log($"test === 0");
+                buildTrigger.isEnoughResource = false;
+                return;
+            }
+            else
+            {
+                Debug.Log($"test === 1");
+                buildTrigger.isEnoughResource = true;
             }
         }
     }

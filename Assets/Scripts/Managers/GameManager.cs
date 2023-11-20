@@ -18,6 +18,7 @@ namespace VillageAdventure
         private StaticDataModule sd = new StaticDataModule();
         public static StaticDataModule SD { get { return Instance.sd; } }
 
+        // Scene Load
         public void LoadScene(SceneType type, Action complete = null)
         {
             currentScene = type;
@@ -33,6 +34,18 @@ namespace VillageAdventure
                 complete?.Invoke();
             }
             /// 씬이 완벽하게 로드되고 씬변경이 가능하게끔???
+        }
+
+        // Game Pause
+        public void Pause()
+        {
+            Time.timeScale = 0f;
+        }
+
+        // Game Restart
+        public void ReStart()
+        {
+            Time.timeScale = 1f;
         }
     }
 }

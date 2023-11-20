@@ -21,9 +21,15 @@ namespace VillageAdventure
         public GameObject BuildObject;
         public GameObject startPoint;
         public GameObject holder;
+        public GameObject mineHolder;
+        public GameObject treeHolder;
         public GameObject buildObj;
+        public GameObject homeObj;
+        public GameObject fieldObj;
         public GameObject spawn;
+        public GameObject spawningPool;
         public GameObject monster;
+        public GameObject normalSlime;
         public GameObject nonePlayer;
         public GameObject warrior;
         public int sdIndex;
@@ -34,7 +40,7 @@ namespace VillageAdventure
 
         #region UI_inGame
         public float playerHP { get; set; } = 100f;
-        private bool isDead = false;
+        public bool isDead = false;
         public float hour = 0;
         public float min = 0;
         public float time = 0;
@@ -53,9 +59,15 @@ namespace VillageAdventure
             player = charactors[0].gameObject;
             BuildObject = player.transform.GetChild(1).gameObject;
             holder = GameObject.Find("Holder");
-            buildObj= GameObject.Find("BuildObject");
-            spawn= GameObject.Find("Spawn");
+            mineHolder = holder.transform.Find("MineHolder").gameObject;
+            treeHolder = holder.transform.Find("TreeHolder").gameObject;
+            buildObj = GameObject.Find("BuildObject");
+            homeObj = buildObj.transform.Find("HomeObject").gameObject;
+            fieldObj = buildObj.transform.Find("FieldObject").gameObject;
+            spawn = GameObject.Find("Spawn");
+            spawningPool = spawn.transform.Find("SpawningPool").gameObject;
             monster = GameObject.Find("Monster");
+            normalSlime = monster.transform.Find("SlimeNormal").gameObject;
             nonePlayer = GameObject.Find("NonePlayer");
             warrior = nonePlayer.transform.GetChild(0).gameObject;
             DontDestroyOnLoad(holder);
@@ -113,7 +125,11 @@ namespace VillageAdventure
 
             // 사망 체크
             if (playerHP <= 0)
+            {
                 isDead = true;
+                if(Time.timeScale != 0f)
+                    GameManager.Instance.Pause();
+            }
         }
 
         public void CalculateTime()
@@ -195,6 +211,84 @@ namespace VillageAdventure
                     if (warriorIndexInLayer.Contains(child.GetSiblingIndex()))
                         warriorIndexInLayer.Remove(child.GetSiblingIndex());
                 }
+            }
+        }
+
+        // 게임 초기화
+        /// <summary>
+        /// 모든 오브젝트 초기화
+        /// 재화 초기화
+        /// 플레이어 청사진 관련 초기화
+        /// 게임시간 초기화
+        /// 젠 관련 초기화
+        /// 플레이어 위치 처음으로 되돌리기
+        /// 죽으면 키입력제거
+        /// </summary>
+        public void ResetGame()
+        {
+            playerHP = 100f;
+            isDead = false;
+            hour = 0;
+            min = 0;
+            time = 0;
+            mine = 10;
+            tree = 10;
+            fish = 10;
+            food = 10;
+            score = 0;
+
+            // 플레이어 초기화
+            /// 청사진, 위치
+            player.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
+            player.transform.position = new Vector3(0, 0, 0);
+
+            // 젠 관련 초기화
+            spawningPool.GetComponent<SpawningPool>().lastMonsterSpawnTime = 0;
+
+            // mine 초기화
+            mineHolder.SetActive(false);
+            for (int i = 0; i < mineHolder.transform.childCount; i++)
+            {
+                GameObject childObject = mineHolder.transform.GetChild(i).gameObject;
+                childObject.SetActive(false); // 자식 오브젝트 비활성화
+            }
+            // forest 초기화
+            treeHolder.SetActive(false);
+            for (int i = 0; i < treeHolder.transform.childCount; i++)
+            {
+                GameObject childObject = treeHolder.transform.GetChild(i).gameObject;
+                childObject.SetActive(false); // 자식 오브젝트 비활성화
+            }
+            // home object 초기화
+            for (int i = 0; i < homeObj.transform.childCount; i++) 
+            {
+                GameObject childObject = homeObj.transform.GetChild(i).gameObject;
+                Destroy(childObject);
+            }
+            homeObj.SetActive(true);
+            // fielld object 초기화
+            for (int i = 0; i < fieldObj.transform.childCount; i++)
+            {
+                GameObject childObject = fieldObj.transform.GetChild(i).gameObject;
+                Destroy(childObject);
+            }
+            fieldObj.SetActive(true);
+            // normal slime 초기화
+            spawningPool.SetActive(false);
+            normalSlime.SetActive(false);
+            for (int i = 0; i < normalSlime.transform.childCount; i++)
+            {
+                GameObject childObject = normalSlime.transform.GetChild(i).gameObject;
+                Destroy(childObject);
+            }
+            // warrior 초기화
+            warrior.SetActive(false);
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject childObject = warrior.transform.GetChild(i).gameObject;
+                Destroy(childObject);
+                GameObject emptyObject = new GameObject($"EmptyObject{gameObject.transform.GetSiblingIndex()}");
+                emptyObject.transform.SetParent(warrior.transform);
             }
         }
     }

@@ -4766,9 +4766,15 @@ MonoBehaviour:
   BuildObject: {fileID: 0}
   startPoint: {fileID: 0}
   holder: {fileID: 0}
+  mineHolder: {fileID: 0}
+  treeHolder: {fileID: 0}
   buildObj: {fileID: 0}
+  homeObj: {fileID: 0}
+  fieldObj: {fileID: 0}
   spawn: {fileID: 0}
+  spawningPool: {fileID: 0}
   monster: {fileID: 0}
+  normalSlime: {fileID: 0}
   nonePlayer: {fileID: 0}
   warrior: {fileID: 0}
   sdIndex: 0
@@ -13607,8 +13613,8 @@ MonoBehaviour:
 
     - Decorate Your House and Town!
 
-    -
-    Try to achieve a high score!
+    - Try
+    to achieve a high score!
 
     - Monsters may appear!'
 --- !u!222 &2026070456

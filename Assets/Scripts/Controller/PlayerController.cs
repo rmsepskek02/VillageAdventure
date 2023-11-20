@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using VillageAdventure.Controller;
 using VillageAdventure.Object;
+using VillageAdventure.Util;
 
 namespace VillageAdventure
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : Singleton<PlayerController>
     {
         private InputController inputcontroller;
         public Player PlayerCharactor { get; private set; }
@@ -33,7 +34,7 @@ namespace VillageAdventure
         private void FixedUpdate()
         {
             // 플레이어 캐릭터의 데이터가 세팅되기 전에는 입력 불가능 예외처리
-            if (PlayerCharactor.boActor == null)
+            if (PlayerCharactor.boActor == null || InGameManager.Instance.isDead == true)
                 return;
             InputUpdate();
         }

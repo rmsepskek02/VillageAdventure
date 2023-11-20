@@ -14,6 +14,7 @@ namespace VillageAdventure.Object
         private SpriteRenderer sprite;
         private SceneType currentScene;
         public bool isCollision;
+        public bool isEnoughResource;
         private void Start()
         {
             sprite = GetComponent<SpriteRenderer>();
@@ -23,6 +24,7 @@ namespace VillageAdventure.Object
         private void Update()
         {
             ControlOfScene();
+            //Debug.Log($"test === {isEnoughResource}");
         }
 
         // 충돌로 Build 가능 여부 구분
@@ -46,41 +48,48 @@ namespace VillageAdventure.Object
         private void ControlOfScene()
         {
             currentScene = GameManager.Instance.currentScene;
-            switch (currentScene)
-            {
-                case SceneType.House:
-                    if (InGameManager.Instance.sdTypeIndex == 0 ||
-                        InGameManager.Instance.sdTypeIndex == 2)
-                    {
-                        sprite.material.color = Color.green;
-                    }
-                    else
-                    {
+            //if (isEnoughResource)
+            //{
+                switch (currentScene)
+                {
+                    case SceneType.House:
+                        if (InGameManager.Instance.sdTypeIndex == 0 ||
+                            InGameManager.Instance.sdTypeIndex == 2)
+                        {
+                            sprite.material.color = Color.green;
+                        }
+                        else
+                        {
+                            sprite.material.color = Color.red;
+                        }
+                        break;
+                    case SceneType.Field:
+                        if (InGameManager.Instance.sdTypeIndex == 1 ||
+                            InGameManager.Instance.sdTypeIndex == 2 ||
+                            InGameManager.Instance.sdTypeIndex == 3)
+                        {
+                            sprite.material.color = Color.green;
+                        }
+                        else
+                        {
+                            sprite.material.color = Color.red;
+                        }
+                        break;
+                    case SceneType.Mine:
                         sprite.material.color = Color.red;
-                    }
-                    break;
-                case SceneType.Field:
-                    if (InGameManager.Instance.sdTypeIndex == 1 ||
-                        InGameManager.Instance.sdTypeIndex == 2 ||
-                        InGameManager.Instance.sdTypeIndex == 3)
-                    {
-                        sprite.material.color = Color.green;
-                    }
-                    else
-                    {
+                        break;
+                    case SceneType.Forest:
                         sprite.material.color = Color.red;
-                    }
-                    break;
-                case SceneType.Mine:
-                    sprite.material.color = Color.red;
-                    break;
-                case SceneType.Forest:
-                    sprite.material.color = Color.red;
-                    break;
-                case SceneType.FishingZone:
-                    sprite.material.color = Color.red;
-                    break;
+                        break;
+                    case SceneType.FishingZone:
+                        sprite.material.color = Color.red;
+                        break;
+                //}
             }
+//            else
+//            {
+//                sprite.material.color = Color.red;
+//            }
             if (isCollision)
             {
                 sprite.material.color = Color.red;

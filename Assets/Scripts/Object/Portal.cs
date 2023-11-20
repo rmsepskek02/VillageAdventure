@@ -15,10 +15,38 @@ namespace VillageAdventure.Object
         public SceneType bindStage;
 
         private TriggerController portalTrigger;
+        GameObject holder;
+        GameObject mineHolder;
+        GameObject treeHolder;
+        GameObject buildObj;
+        GameObject homeObj;
+        GameObject fieldObj;
+        GameObject spawn;
+        GameObject spawningPool;
+        GameObject monster;
+        GameObject normalSlime;
+        GameObject nonePlayer;
+        GameObject warrior;
+        InGameManager inGameManager;
+        GameManager gameManager;
 
         public override void Init()
         {
             UsingPortal();
+            inGameManager = InGameManager.Instance;
+            gameManager = GameManager.Instance;
+            buildObj = inGameManager.buildObj;
+            homeObj = inGameManager.homeObj;
+            fieldObj = inGameManager.fieldObj;
+            holder = inGameManager.holder;
+            mineHolder = inGameManager.mineHolder;
+            treeHolder = inGameManager.treeHolder;
+            spawn = inGameManager.spawn;
+            spawningPool = inGameManager.spawningPool;
+            monster = inGameManager.monster;
+            normalSlime = inGameManager.normalSlime;
+            nonePlayer = inGameManager.nonePlayer;
+            warrior = inGameManager.warrior;
         }
         private void UsingPortal()
         {
@@ -32,9 +60,6 @@ namespace VillageAdventure.Object
                     return;
                 //else
                     //collision.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
-
-                var gameManager = GameManager.Instance;
-                var inGameManager = InGameManager.Instance;
 
                 // 스테이지를 변경 전에 현재 스테이지에 대한 정보를 이전 스테이지 필드에 담음
                 gameManager.prevStage = gameManager.currentScene;
@@ -55,18 +80,6 @@ namespace VillageAdventure.Object
                     // 해당 포탈로 캐릭터를 배치시킴
                     collision.transform.position = bindPortal.transform.GetChild(0).position;
 
-                    GameObject buildObj = GameObject.Find("BuildObject");
-                    GameObject homeObj = buildObj.transform.Find("HomeObject").gameObject;
-                    GameObject fieldObj= buildObj.transform.Find("FieldObject").gameObject;
-                    GameObject holder = GameObject.Find("Holder");
-                    GameObject mineHolder = holder.transform.Find("MineHolder").gameObject;
-                    GameObject treeHolder = holder.transform.Find("TreeHolder").gameObject;
-                    GameObject spawn = GameObject.Find("Spawn");
-                    GameObject spawningPool = spawn.transform.Find("SpawningPool").gameObject;
-                    GameObject monster = GameObject.Find("Monster");
-                    GameObject normalSlime = monster.transform.Find("SlimeNormal").gameObject;
-                    GameObject nonePlayer = GameObject.Find("NonePlayer");
-                    GameObject warrior = nonePlayer.transform.Find("Warrior").gameObject;
                     if (gameManager.currentScene == SceneType.Mine)
                     {
                         homeObj.SetActive(false);

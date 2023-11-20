@@ -79,7 +79,7 @@ namespace VillageAdventure.UI
         }
         private void OnClickExit()
         {
-
+            Application.Quit();
         }
         private void OnClickLoadCancelButton()
         {

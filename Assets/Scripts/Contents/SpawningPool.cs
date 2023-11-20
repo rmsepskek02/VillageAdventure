@@ -14,7 +14,7 @@ namespace VillageAdventure
         public Vector2 warriorSpawnPos;
 
         private InGameManager inGameManager;
-        private float lastMonsterSpawnTime = 0f;
+        public float lastMonsterSpawnTime = 0f;
         private float monsterSpawnInterval = 3f;
         public List<int> warriorIndexInLayer;
         GameObject nonePlayer;
