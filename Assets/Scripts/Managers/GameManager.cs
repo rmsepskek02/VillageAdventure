@@ -56,14 +56,12 @@ namespace VillageAdventure
         public void PauseGame()
         {
             Time.timeScale = 0f;
-            Debug.Log($"TIME PAUSE ");
         }
 
         // Game Restart
         public void ReStartGame()
         {
             Time.timeScale = 1f;
-            Debug.Log($"TIME RESTART ");
         }
     }
 }

@@ -45,6 +45,7 @@ namespace VillageAdventure.UI
                 return;
             }
             // ตฅภฬลอ save
+            DataManager.Instance.SaveGameData(inputText.text);
             text.text = "Complete Save !!";
         }
         private void OnClickMenu()

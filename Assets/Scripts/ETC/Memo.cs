@@ -6,7 +6,6 @@ public class Memo
 {
     #region TODO
     /* 
-      
     플레이어 V 키 입력시 재화부족한경우 적사진으로 나오도록 수정필요 
     적사진말고 UI 띄우는거 고려
 

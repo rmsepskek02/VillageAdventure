@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace VillageAdventure.UI
@@ -19,6 +21,8 @@ namespace VillageAdventure.UI
         public GameObject rankHolder;
         public GameObject optionHolder;
         public GameObject helpHolder;
+        public GameObject vertical1;
+        public GameObject scrollView;
 
         public Image loadImage;
         public Image loadDataImage;
@@ -43,7 +47,8 @@ namespace VillageAdventure.UI
         public Text helpText;
         public Button helpCancelButton;
         public Text helpX;
-
+        public GameObject buttonPrefab;
+        string[] files;
         private void Start()
         {
             start.onClick.AddListener(OnClickStart);
@@ -56,6 +61,46 @@ namespace VillageAdventure.UI
             rankCancelButton.onClick.AddListener(OnClickRankCancelButton);
             optionCancelButton.onClick.AddListener(OnClickOptionCancelButton);
             helpCancelButton.onClick.AddListener(OnClickHelpCancelButton);
+
+            files = DataManager.Instance.GetSaveFiles();
+            for (var i = 0; i < files.Length; i++)
+            {
+                CreateButton(i);
+            }
+        }
+
+        private void CreateButton(int i)
+        {
+            // 새로운 버튼 오브젝트 생성
+            GameObject newButton = Instantiate(buttonPrefab);
+
+            // 버튼의 부모 설정
+            newButton.transform.SetParent(vertical1.gameObject.transform, false);
+
+            // 버튼의 텍스트 설정
+            Text buttonText = newButton.GetComponentInChildren<Text>();
+            if (buttonText != null)
+                buttonText.text = Path.GetFileName(files[i]).Replace(".json", "");
+
+            // 버튼에 클릭 이벤트 추가
+            Button buttonComponent = newButton.GetComponent<Button>();
+            if (buttonComponent != null)
+                buttonComponent.onClick.AddListener(() => OnClickSaveFiles(buttonText.text));
+
+            RectTransform rectTransform = newButton.GetComponent<RectTransform>();
+
+            // 버튼의 크기를 텍스트에 맞게 조절
+            Vector2 textSize = buttonText.preferredWidth != buttonText.rectTransform.rect.width ?
+                               new Vector2(buttonText.preferredWidth, rectTransform.sizeDelta.y) :
+                               new Vector2(buttonText.rectTransform.rect.width, rectTransform.sizeDelta.y);
+            rectTransform.sizeDelta = textSize;
+        }
+        // 버튼 클릭 시 실행될 메서드
+        void OnClickSaveFiles(string buttonText)
+        {
+            Debug.Log("Button Clicked: " + buttonText);
+            DataManager.Instance.LoadGameData(buttonText);
+            GameManager.Instance.LoadScene(Enum.SceneType.House, null);
         }
         private void OnClickStart()
         {
