@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Well
   m_EditorClassIdentifier: 
   index: 4000
-  nickname: Well
+  nickName: Well
   resourcePath: Prefabs/ScoreObject/Well
   consumeMine: -2
   consumeTree: 0

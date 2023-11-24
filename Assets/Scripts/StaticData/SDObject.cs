@@ -8,7 +8,7 @@ namespace VillageAdventure.StaticData
 {
     public class SDObject : StaticData
     {
-        public string nickname;
+        public string nickName;
         public string resourcePath;
         public int consumeMine;
         public int consumeTree;

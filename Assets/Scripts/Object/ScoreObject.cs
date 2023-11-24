@@ -35,11 +35,9 @@ namespace VillageAdventure.Object
             if (boScoreObject.hp < boScoreObject.sdObject.hp)
             {
                 sr.color = Color.gray;
-                Debug.Log("Object hitttttt");
             }
             if (boScoreObject.hp <= 0)
             {
-                Debug.Log("Object Destroy");
                 InGameManager.Instance.score -= boScoreObject.score;
                 Destroy(gameObject);
             }

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: FirePot
   m_EditorClassIdentifier: 
   index: 5002
-  nickname: FirePot
+  nickName: FirePot
   resourcePath: Prefabs/ResourceObject/FirePot
   consumeMine: -2
   consumeTree: 0
   consumeFood: 0
-  addScore: 0
+  score: 0
+  hp: 0

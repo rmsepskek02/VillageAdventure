@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: 
   index: 6000
-  nickname: Food
+  nickName: Food
   resourcePath: Prefabs/ResourceObject/Food
   consumeMine: 0
   consumeTree: -1
   consumeFood: -1
-  addScore: 0
+  score: 0
+  hp: 0

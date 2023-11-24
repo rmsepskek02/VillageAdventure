@@ -31,9 +31,9 @@ namespace VillageAdventure
         // Update is called once per frame
         void Update()
         {
-            GeneratorMonster();
-            IndexWarriorWithLayer(warrior, "Warrior");
-            GeneratorWarrior(warriorIndexInLayer);
+            //GeneratorMonster();
+            //IndexWarriorWithLayer(warrior, "Warrior");
+            //GeneratorWarrior(warriorIndexInLayer);
         }
 
         public void GeneratorMonster()
@@ -58,7 +58,7 @@ namespace VillageAdventure
         }
         private void GeneratorWarrior(List<int> warriorList)
         {
-            if (inGameManager.warriorCount <= 2)
+            if (inGameManager.warriorCount <= 20)
             {
                 if (inGameManager.time - lastMonsterSpawnTime >= 3f)
                 {

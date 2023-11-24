@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 8340605921830754922}
   - component: {fileID: 8061583492961055649}
   m_Layer: 3
-  m_Name: Slime_Normal
-  m_TagString: Monster
+  m_Name: SlimeNormal
+  m_TagString: SilmeNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

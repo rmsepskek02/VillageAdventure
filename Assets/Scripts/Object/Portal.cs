@@ -15,38 +15,11 @@ namespace VillageAdventure.Object
         public SceneType bindStage;
 
         private TriggerController portalTrigger;
-        GameObject holder;
-        GameObject mineHolder;
-        GameObject treeHolder;
-        GameObject buildObj;
-        GameObject homeObj;
-        GameObject fieldObj;
-        GameObject spawn;
-        GameObject spawningPool;
-        GameObject monster;
-        GameObject normalSlime;
-        GameObject nonePlayer;
-        GameObject warrior;
         InGameManager inGameManager;
-        GameManager gameManager;
 
         public override void Init()
         {
             UsingPortal();
-            inGameManager = InGameManager.Instance;
-            gameManager = GameManager.Instance;
-            buildObj = inGameManager.buildObj;
-            homeObj = inGameManager.homeObj;
-            fieldObj = inGameManager.fieldObj;
-            holder = inGameManager.holder;
-            mineHolder = inGameManager.mineHolder;
-            treeHolder = inGameManager.treeHolder;
-            spawn = inGameManager.spawn;
-            spawningPool = inGameManager.spawningPool;
-            monster = inGameManager.monster;
-            normalSlime = inGameManager.normalSlime;
-            nonePlayer = inGameManager.nonePlayer;
-            warrior = inGameManager.warrior;
         }
         private void UsingPortal()
         {
@@ -59,19 +32,19 @@ namespace VillageAdventure.Object
                 if (!collision.CompareTag("Player"))
                     return;
                 //else
-                    //collision.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
+                //collision.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
                 // 스테이지를 변경 전에 현재 스테이지에 대한 정보를 이전 스테이지 필드에 담음
-                gameManager.prevStage = gameManager.currentScene;
+                GameManager.Instance.prevStage = GameManager.Instance.currentScene;
                 // 정보를 담았으므로 연결된 스테이지로 씬을 변경함
-                gameManager.LoadScene(bindStage, PortalProgress);
+                GameManager.Instance.LoadScene(bindStage, PortalProgress);
 
                 void PortalProgress()
                 {
                     // 씬을 변경하였으므로 포탈들의 정보를 새로 불러옴
                     inGameManager.InitPortals();
                     // 이전 스테이지 정보를 가져옴
-                    var prevStage = gameManager.prevStage;
+                    var prevStage = GameManager.Instance.prevStage;
                     // 씬 변경 완료 후, 담아둔 이전 스테이지의 정보를 이용하여 이전 스테이지와 연결된 포탈 검사
                     var bindPortal = inGameManager.portals.Where(_ => _.bindStage == prevStage).SingleOrDefault();
                     // BuildTrigger 컴포넌트를 찾아 isCollision를 false로 설정
@@ -80,58 +53,10 @@ namespace VillageAdventure.Object
                     // 해당 포탈로 캐릭터를 배치시킴
                     collision.transform.position = bindPortal.transform.GetChild(0).position;
 
-                    if (gameManager.currentScene == SceneType.Mine)
-                    {
-                        homeObj.SetActive(false);
-                        fieldObj.SetActive(false);
-                        mineHolder.SetActive(true);
-                        treeHolder.SetActive(false);
-                        spawningPool.SetActive(false);
-                        normalSlime.SetActive(false);
-                        warrior.SetActive(false);
-                    }
-                    else if (gameManager.currentScene == SceneType.Forest)
-                    {
-                        homeObj.SetActive(false);
-                        fieldObj.SetActive(false);
-                        mineHolder.SetActive(false);
-                        treeHolder.SetActive(true);
-                        spawningPool.SetActive(false);
-                        normalSlime.SetActive(false);
-                        warrior.SetActive(false);
-                    }
-                    else if (gameManager.currentScene == SceneType.Field)
-                    {
-                        homeObj.SetActive(false);
-                        fieldObj.SetActive(true);
-                        mineHolder.SetActive(false);
-                        treeHolder.SetActive(false);
-                        spawningPool.SetActive(true);
-                        normalSlime.SetActive(true);
-                        warrior.SetActive(true);
-                    }
-                    else if (gameManager.currentScene == SceneType.House)
-                    {
-                        homeObj.SetActive(true);
-                        fieldObj.SetActive(false);
-                        mineHolder.SetActive(false);
-                        treeHolder.SetActive(false);
-                        spawningPool.SetActive(false);
-                        normalSlime.SetActive(false);
-                        warrior.SetActive(false);
-                    }
-                    else if (gameManager.currentScene == SceneType.FishingZone)
-                    {
-                        homeObj.SetActive(false);
-                        fieldObj.SetActive(false);
-                        mineHolder.SetActive(false);
-                        treeHolder.SetActive(false);
-                        spawningPool.SetActive(false);
-                        normalSlime.SetActive(false);
-                        warrior.SetActive(false);
-                    }
+                    GameManager.Instance.SetObject();
                 }
             }
         }
+        
     }
 }

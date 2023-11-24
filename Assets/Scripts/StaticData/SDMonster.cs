@@ -7,6 +7,6 @@ namespace VillageAdventure.StaticData
     [CreateAssetMenu(menuName = "VillageAdventure/MonsterData")]
     public class SDMonster : SDActor
     {
-        public string nickname;
+        public string nickName;
     }
 }

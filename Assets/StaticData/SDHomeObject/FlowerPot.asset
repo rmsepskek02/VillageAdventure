@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2bab8154acf7b74e93aa01a40eccf21, type: 3}
-  m_Name: FlowerPot
+  m_Name: Flowerpot
   m_EditorClassIdentifier: 
   index: 3000
-  nickname: FlowerPot
+  nickName: Flowerpot
   resourcePath: Prefabs/ScoreObject/FlowerPot
   consumeMine: -1
   consumeTree: -1

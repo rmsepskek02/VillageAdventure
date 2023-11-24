@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5718608348400115378}
   m_Layer: 7
   m_Name: Flowerpot
-  m_TagString: Well
+  m_TagString: Flowerpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,4 +136,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boScoreObject:
     hp: 0
+    score: 0
     sdObject: {fileID: 0}

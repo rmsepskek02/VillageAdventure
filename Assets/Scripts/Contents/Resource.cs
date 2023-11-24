@@ -34,6 +34,7 @@ namespace VillageAdventure.Object
         // 랜덤 생성
         public void RandomSetActive(float min, float max)
         {
+            ActiveObject();
             if (gameObject.name == "TreeHolder" || gameObject.name == "MineHolder")
             {
                 // 리스트의 개수가 15개면 스탑

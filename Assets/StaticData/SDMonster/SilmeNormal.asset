@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 2001
   moveSpeed: 1
-  resourcePath: Prefabs/Actor/Monster/Slime_Normal
+  resourcePath: Prefabs/Actor/Monster/SlimeNormal
   hp: 100
-  power: 0
-  nickname: Slime_Normal
+  power: 5
+  nickName: SilmeNormal

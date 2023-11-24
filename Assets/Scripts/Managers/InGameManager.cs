@@ -81,7 +81,7 @@ namespace VillageAdventure
         {
             ActiveUI();
             CalculateTime();
-            ChangePlayerHP(Time.deltaTime * 10.2f);
+            ChangePlayerHP(Time.deltaTime * 0.2f);
             CheckWarriorUI();
             IndexWarriorWithLayer(warrior.transform, "Warrior");
             warriorCountInLayer = CountWarriorWithLayer(warrior.transform, "Warrior");

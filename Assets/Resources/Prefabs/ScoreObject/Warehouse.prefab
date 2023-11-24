@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2165483547914549044}
   m_Layer: 7
   m_Name: Warehouse
-  m_TagString: Untagged
+  m_TagString: Warehouse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,4 +124,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boScoreObject:
     hp: 0
+    score: 0
     sdObject: {fileID: 0}

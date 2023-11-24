@@ -100,7 +100,6 @@ namespace VillageAdventure.UI
         {
             Debug.Log("Button Clicked: " + buttonText);
             DataManager.Instance.LoadGameData(buttonText);
-            GameManager.Instance.LoadScene(Enum.SceneType.House, null);
         }
         private void OnClickStart()
         {

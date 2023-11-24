@@ -18,6 +18,10 @@ TagManager:
   - UIBack
   - Monster
   - TileMap
+  - Flowerpot
+  - SilmeNormal
+  - Warrior
+  - Warehouse
   layers:
   - Default
   - TransparentFX

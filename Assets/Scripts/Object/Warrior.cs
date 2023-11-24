@@ -76,7 +76,7 @@ public class Warrior : Actor
     }
     private void Update()
     {
-        hasMonster = GameObject.FindGameObjectWithTag("Monster");
+        hasMonster = GameObject.FindGameObjectWithTag("Monster").transform.GetChild(0).childCount > 0;
         time += Time.deltaTime;
         if (time - lastMonsterMoveTime >= monsterMoveInterval)
         {
@@ -117,12 +117,12 @@ public class Warrior : Actor
             // 무언가 들어왔다
             if(hasMonster)
             {
-                if (!collision.CompareTag("Monster"))
+                if (!(collision.gameObject.layer == LayerMask.NameToLayer("Monster")))
                 {
                     //SetState(collision);
                     isEnterObj = true;
                 }
-                if (collision.CompareTag("Monster"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
                 {
                     isArrive = true;
                     isAttack = true;
@@ -158,7 +158,7 @@ public class Warrior : Actor
         hitBox.Initialize(OnEnter, OnExit, OnStay);
         void OnEnter(Collider2D collision)
         {
-            if (collision.CompareTag("Monster"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
             {
                 monsterList.Add(collision.gameObject);
             }
@@ -169,7 +169,7 @@ public class Warrior : Actor
         }
         void OnExit(Collider2D collision)
         {
-            if (collision.CompareTag("Monster"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
             {
                 monsterList.Remove(collision.gameObject);
                 if(monsterList.Count == 0)
@@ -180,7 +180,7 @@ public class Warrior : Actor
         }
         void OnStay(Collider2D collision)
         {
-            if (collision.CompareTag("Monster"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
             {
                 
             }
@@ -198,7 +198,7 @@ public class Warrior : Actor
     private void SetHp()
     {
         HpBar.fillAmount = Mathf.Clamp01((boWarrior.hp / boActor.sdActor.hp));
-        if (boWarrior.hp <= 0)
+        if (boWarrior.hp <= -10)
         {
             inGameManager.warriorCount--;
             GameObject emptyObject = new GameObject($"EmptyObject{gameObject.transform.GetSiblingIndex()}");
@@ -248,7 +248,7 @@ public class Warrior : Actor
 
     private void MoveToMonster()
     {
-        target = GameObject.FindGameObjectWithTag("Monster").transform;
+        target = GameObject.FindGameObjectWithTag("Monster").transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform;
         PathRequestManager.RequestPath(transform.position, (Vector2)target.transform.position, OnPathFound);
     }
 

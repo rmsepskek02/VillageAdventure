@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Warehouse
   m_EditorClassIdentifier: 
   index: 4001
-  nickname: Warehouse
+  nickName: Warehouse
   resourcePath: Prefabs/ScoreObject/Warehouse
   consumeMine: -2
   consumeTree: -4

@@ -63,5 +63,60 @@ namespace VillageAdventure
         {
             Time.timeScale = 1f;
         }
+
+        // Scene 에 따라 Object 활성화
+        public void SetObject()
+        {
+            if (currentScene == SceneType.Mine)
+            {
+                InGameManager.Instance.homeObj.SetActive(false);
+                InGameManager.Instance.fieldObj.SetActive(false);
+                InGameManager.Instance.mineHolder.SetActive(true);
+                InGameManager.Instance.treeHolder.SetActive(false);
+                InGameManager.Instance.spawningPool.SetActive(false);
+                InGameManager.Instance.normalSlime.SetActive(false);
+                InGameManager.Instance.warrior.SetActive(false);
+            }
+            else if (currentScene == SceneType.Forest)
+            {
+                InGameManager.Instance.homeObj.SetActive(false);
+                InGameManager.Instance.fieldObj.SetActive(false);
+                InGameManager.Instance.mineHolder.SetActive(false);
+                InGameManager.Instance.treeHolder.SetActive(true);
+                InGameManager.Instance.spawningPool.SetActive(false);
+                InGameManager.Instance.normalSlime.SetActive(false);
+                InGameManager.Instance.warrior.SetActive(false);
+            }
+            else if (currentScene == SceneType.Field)
+            {
+                InGameManager.Instance.homeObj.SetActive(false);
+                InGameManager.Instance.fieldObj.SetActive(true);
+                InGameManager.Instance.mineHolder.SetActive(false);
+                InGameManager.Instance.treeHolder.SetActive(false);
+                InGameManager.Instance.spawningPool.SetActive(true);
+                InGameManager.Instance.normalSlime.SetActive(true);
+                InGameManager.Instance.warrior.SetActive(true);
+            }
+            else if (currentScene == SceneType.House)
+            {
+                InGameManager.Instance.homeObj.SetActive(true);
+                InGameManager.Instance.fieldObj.SetActive(false);
+                InGameManager.Instance.mineHolder.SetActive(false);
+                InGameManager.Instance.treeHolder.SetActive(false);
+                InGameManager.Instance.spawningPool.SetActive(false);
+                InGameManager.Instance.normalSlime.SetActive(false);
+                InGameManager.Instance.warrior.SetActive(false);
+            }
+            else if (currentScene == SceneType.FishingZone)
+            {
+                InGameManager.Instance.homeObj.SetActive(false);
+                InGameManager.Instance.fieldObj.SetActive(false);
+                InGameManager.Instance.mineHolder.SetActive(false);
+                InGameManager.Instance.treeHolder.SetActive(false);
+                InGameManager.Instance.spawningPool.SetActive(false);
+                InGameManager.Instance.normalSlime.SetActive(false);
+                InGameManager.Instance.warrior.SetActive(false);
+            }
+        }
     }
 }
