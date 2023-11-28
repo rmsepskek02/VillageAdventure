@@ -10,6 +10,8 @@ namespace VillageAdventure.UI
         public Button save;
         public Button menu;
         public Button exit;
+        public Button back;
+        public Button cancelButton;
         public Image image;
         public Text text;
         public Text placeholderText;
@@ -32,8 +34,10 @@ namespace VillageAdventure.UI
             save.onClick.AddListener(OnClickSave);
             menu.onClick.AddListener(OnClickMenu);
             exit.onClick.AddListener(OnClickExit);
+            back.onClick.AddListener(OnClickBack);
             leaveYes.onClick.AddListener(OnClickYes);
             leaveNo.onClick.AddListener(OnClickNo);
+            cancelButton.onClick.AddListener(OnClickCancel);
         }
 
         private void OnClickSave()
@@ -47,16 +51,27 @@ namespace VillageAdventure.UI
             // µ•¿Ã≈Õ save
             DataManager.Instance.SaveGameData(inputText.text);
             text.text = "Complete Save !!";
+            inputText.text = "";
         }
         private void OnClickMenu()
         {
-            InGameManager.Instance.UI_inGame.transform.GetChild(5).gameObject.transform.GetChild(4).gameObject.SetActive(true);
+            leaveUI.SetActive(true);
             isMenu = true;
         }
         private void OnClickExit()
         {
-            InGameManager.Instance.UI_inGame.transform.GetChild(5).gameObject.transform.GetChild(4).gameObject.SetActive(true);
+            leaveUI.SetActive(true);
             isExit = true;
+        }
+        private void OnClickBack()
+        {
+            GameManager.Instance.TogglePause();
+            Debug.Log($"BACK = {gameObject.name}");
+        }
+        private void OnClickCancel()
+        {
+            Debug.Log($"BACK = {gameObject.name}");
+            GameManager.Instance.TogglePause();
         }
         private void OnClickYes()
         {
@@ -67,8 +82,8 @@ namespace VillageAdventure.UI
                 GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
                 GameManager.Instance.ReStartGame();
                 InGameManager.Instance.ResetGame();
-                InGameManager.Instance.UI_inGame.transform.GetChild(5).gameObject.SetActive(false);
-                InGameManager.Instance.UI_inGame.transform.GetChild(5).gameObject.transform.GetChild(4).gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                leaveUI.SetActive(false);
             }
             else if (isExit)
             {
@@ -80,7 +95,7 @@ namespace VillageAdventure.UI
             isMenu = false;
             isExit = false;
             GameManager.Instance.isPause = false;
-            InGameManager.Instance.UI_inGame.transform.GetChild(5).gameObject.transform.GetChild(4).gameObject.SetActive(false);
+            leaveUI.SetActive(false);
         }
 
         void Update()

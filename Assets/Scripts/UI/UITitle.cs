@@ -29,6 +29,13 @@ namespace VillageAdventure.UI
         public Text loadText;
         public Button loadCancelButton;
         public Text loadX;
+        public GameObject selectUI;
+        public Image selectImage;
+        public Button selectCancelButton;
+        public Text selectText;
+        public GameObject selectButtonHolder;
+        public Button selectLoad;
+        public Button selectDelete;
 
         public Image rankImage;
         public Image rankDataImage;
@@ -49,6 +56,7 @@ namespace VillageAdventure.UI
         public Text helpX;
         public GameObject buttonPrefab;
         string[] files;
+        private string _buttonText;
         private void Start()
         {
             start.onClick.AddListener(OnClickStart);
@@ -58,9 +66,12 @@ namespace VillageAdventure.UI
             help.onClick.AddListener(OnClickHelp);
             exit.onClick.AddListener(OnClickExit);
             loadCancelButton.onClick.AddListener(OnClickLoadCancelButton);
+            selectCancelButton.onClick.AddListener(OnClickSelectCancelButton);
             rankCancelButton.onClick.AddListener(OnClickRankCancelButton);
             optionCancelButton.onClick.AddListener(OnClickOptionCancelButton);
             helpCancelButton.onClick.AddListener(OnClickHelpCancelButton);
+            selectLoad.onClick.AddListener(OnClickLoadSelectLoad);
+            selectDelete.onClick.AddListener(OnClickLoadSelectDelete);
 
             files = DataManager.Instance.GetSaveFiles();
             for (var i = 0; i < files.Length; i++)
@@ -99,7 +110,8 @@ namespace VillageAdventure.UI
         void OnClickSaveFiles(string buttonText)
         {
             Debug.Log("Button Clicked: " + buttonText);
-            DataManager.Instance.LoadGameData(buttonText);
+            _buttonText = buttonText;
+            selectUI.SetActive(true);
         }
         private void OnClickStart()
         {
@@ -128,6 +140,31 @@ namespace VillageAdventure.UI
         private void OnClickLoadCancelButton()
         {
             loadCancelButton.transform.parent.gameObject.SetActive(false);
+        }
+        private void OnClickSelectCancelButton()
+        {
+            selectCancelButton.transform.parent.gameObject.SetActive(false);
+        }
+        private void OnClickLoadSelectLoad()
+        {
+            DataManager.Instance.LoadGameData(_buttonText);
+        }
+        private void OnClickLoadSelectDelete()
+        {
+            DataManager.Instance.DeleteSaveFile(_buttonText);
+            selectCancelButton.transform.parent.gameObject.SetActive(false);
+            ;
+            Transform parentTransform = scrollView.transform.GetChild(0).transform.GetChild(0).transform;
+            foreach (Transform child in parentTransform)
+            {
+                Destroy(child.gameObject);
+            }
+            files = null;
+            files = DataManager.Instance.GetSaveFiles();
+            for (var i = 0; i < files.Length; i++)
+            {
+                CreateButton(i);
+            }
         }
         private void OnClickRankCancelButton()
         {

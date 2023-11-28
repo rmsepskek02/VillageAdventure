@@ -128,7 +128,10 @@ namespace VillageAdventure
             {
                 isDead = true;
                 if(Time.timeScale != 0f)
+                {
+                    UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
                     GameManager.Instance.PauseGame();
+                }
             }
         }
 

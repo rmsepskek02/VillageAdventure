@@ -204,7 +204,31 @@ namespace VillageAdventure
             string path = Application.persistentDataPath;
             string[] files = Directory.GetFiles(path);
 
+            // 파일들의 정보를 가져와서 최신 순서대로 정렬
+            FileInfo[] fileInfos = files.Select(f => new FileInfo(f)).OrderByDescending(f => f.LastWriteTime).ToArray();
+
+            // 정렬된 파일들을 다시 파일 경로 배열에 할당
+            files = fileInfos.Select(f => f.FullName).ToArray();
+
             return files;
+        }
+
+        // Savefile 삭제하기
+        public void DeleteSaveFile(string fileName)
+        {
+            Debug.Log($"filename = {fileName}");
+            string _fileName = fileName + ".json";
+            string path = Path.Combine(Application.persistentDataPath, _fileName);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+                Debug.Log("파일 삭제됨: " + _fileName);
+            }
+            else
+            {
+                Debug.Log("파일을 찾을 수 없음: " + _fileName);
+            }
+            File.Delete(path);
         }
     }
 }

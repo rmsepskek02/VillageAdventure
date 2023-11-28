@@ -33,6 +33,7 @@ namespace VillageAdventure.UI
             DataManager.Instance.SaveGameData(inputText.text);
             InGameManager.Instance.ResetGame();
             GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
+            inputText.text = "";
         }
         private void OnClickMenu()
         {

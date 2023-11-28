@@ -43,11 +43,14 @@ namespace VillageAdventure
             if (!isPause)
             {
                 isPause = true;
+                InGameManager.Instance.UI_inGame.transform.GetChild(5).transform.GetChild(5).gameObject.SetActive(false);
+                InGameManager.Instance.UI_inGame.transform.GetChild(2).gameObject.SetActive(false);
                 PauseGame();
             }
             else
             {
                 isPause = false;
+                InGameManager.Instance.UI_inGame.transform.GetChild(2).gameObject.SetActive(true);
                 ReStartGame();
             }
         }

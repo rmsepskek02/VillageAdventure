@@ -11,7 +11,6 @@ public class Memo
 
     메뉴작업
     Load - 데이터 로드
-        저장데이터 저장일자로 최신순 정렬, UI 선택화면에서 삭제기능 필요함 선택삭제, 전체삭제 UI작업
     option - 볼륨 해상도
     help - 조작법
     exit - 게임 종료
@@ -19,8 +18,7 @@ public class Memo
     DeadUI
     save - AWS에 Rank 저장
 
-    PauseUI
-        다시 게임으로 돌아가는 버튼 필요함
+    Save 관련 Save 하고 나서 InputText 값 비우기
 
     각 씬별 노래 재생
     데드씬 - 뜻대로 되지 않는
