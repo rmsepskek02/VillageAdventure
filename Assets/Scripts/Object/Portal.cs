@@ -15,7 +15,6 @@ namespace VillageAdventure.Object
         public SceneType bindStage;
 
         private TriggerController portalTrigger;
-        InGameManager inGameManager;
 
         public override void Init()
         {
@@ -42,11 +41,11 @@ namespace VillageAdventure.Object
                 void PortalProgress()
                 {
                     // 씬을 변경하였으므로 포탈들의 정보를 새로 불러옴
-                    inGameManager.InitPortals();
+                    InGameManager.Instance.InitPortals();
                     // 이전 스테이지 정보를 가져옴
                     var prevStage = GameManager.Instance.prevStage;
                     // 씬 변경 완료 후, 담아둔 이전 스테이지의 정보를 이용하여 이전 스테이지와 연결된 포탈 검사
-                    var bindPortal = inGameManager.portals.Where(_ => _.bindStage == prevStage).SingleOrDefault();
+                    var bindPortal = InGameManager.Instance.portals.Where(_ => _.bindStage == prevStage).SingleOrDefault();
                     // BuildTrigger 컴포넌트를 찾아 isCollision를 false로 설정
                     BuildTrigger buildTrigger = collision.transform.GetChild(1).gameObject.GetComponent<BuildTrigger>();
                     buildTrigger.isCollision = false;

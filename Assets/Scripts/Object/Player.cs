@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using VillageAdventure.DB;
@@ -14,6 +15,7 @@ namespace VillageAdventure.Object
         private FrictionJoint2D joint;
         private TriggerController trigger;
         private BuildTrigger buildTrigger;
+        private InGameManager igm;
         private float time = 0;
 
         public override void Initialize(BoActor boPlayer)
@@ -37,7 +39,7 @@ namespace VillageAdventure.Object
         {
             if (Input.GetKey(KeyCode.Space)){
                 Debug.Log("SPACE");
-                InGameManager.Instance.GetComponent<Grid>().CreateGrid();
+                igm.GetComponent<Grid>().CreateGrid();
             }
         }
         public override void Init()
@@ -46,6 +48,7 @@ namespace VillageAdventure.Object
             joint = GetComponent<FrictionJoint2D>();
             trigger = transform.GetComponentInChildren<TriggerController>();
             buildTrigger = transform.GetComponentInChildren<BuildTrigger>();
+            igm = InGameManager.Instance;
             ActiveByPlayer();
         }
         public override void OnMove()
@@ -88,14 +91,14 @@ namespace VillageAdventure.Object
                 else if (collision.CompareTag("UnFire"))
                 {
                     // 목재가 없으면 리턴
-                    if (InGameManager.Instance.tree <= 0)
+                    if (igm.tree <= 0)
                         return;
                     ActiveObj();
                 }
                 else if (collision.CompareTag("Fire"))
                 {
                     // fish가 없으면 리턴
-                    if (InGameManager.Instance.fish <= 0)
+                    if (igm.fish <= 0)
                         return;
                     ActiveObj();
                 }
@@ -142,15 +145,15 @@ namespace VillageAdventure.Object
                 Transform homeObj = buildObj.transform.Find("HomeObject").gameObject.transform;
                 Transform fieldObj= buildObj.transform.Find("FieldObject").gameObject.transform;
 
-                if (InGameManager.Instance.sdTypeIndex == 0)
+                if (igm.sdTypeIndex == 0)
                 {
-                    SDObject sdObject = GameManager.SD.sdHomeObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
+                    SDObject sdObject = GameManager.SD.sdHomeObjects.Where(_ => _.index == igm.sdIndex).SingleOrDefault();
 
-                    if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
-                        InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
-                        InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
-                        return; 
-                    //CheckResource(sdObject);
+                    //if (igm.tree < Mathf.Abs(sdObject.consumeTree) ||
+                    //    igm.mine < Mathf.Abs(sdObject.consumeMine) ||
+                    //    igm.food < Mathf.Abs(sdObject.consumeFood))
+                    //    return; 
+                    if (CheckResource(sdObject) == false) { return; }
                     // Index값에 해당하는 오브젝트를 생성
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath)).GetComponent<ScoreObject>();
                     sdObjectClone.Initialize(new BoScoreObject(sdObject));
@@ -158,37 +161,34 @@ namespace VillageAdventure.Object
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     sdObjectClone.transform.SetParent(homeObj);
-                    InGameManager.Instance.tree += sdObject.consumeTree;
-                    InGameManager.Instance.mine += sdObject.consumeMine;
-                    InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.score;
+                    igm.tree += sdObject.consumeTree;
+                    igm.mine += sdObject.consumeMine;
+                    igm.food += sdObject.consumeFood;
+                    igm.score += sdObject.score;
                 }
-                else if (InGameManager.Instance.sdTypeIndex == 1)
+                else if (igm.sdTypeIndex == 1)
                 {
-                    var sdObject = GameManager.SD.sdFieldObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
+                    SDObject sdObject = GameManager.SD.sdFieldObjects.Where(_ => _.index == igm.sdIndex).SingleOrDefault();
 
-                    if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
-                        InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
-                        InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
-                        return;
+                    if (CheckResource(sdObject) == false) { return; }
+
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath)).GetComponent<ScoreObject>();
                     sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     sdObjectClone.transform.SetParent(fieldObj);
 
-                    InGameManager.Instance.tree += sdObject.consumeTree;
-                    InGameManager.Instance.mine += sdObject.consumeMine;
-                    InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.score;
+                    igm.tree += sdObject.consumeTree;
+                    igm.mine += sdObject.consumeMine;
+                    igm.food += sdObject.consumeFood;
+                    igm.score += sdObject.score;
                 }
-                else if (InGameManager.Instance.sdTypeIndex == 2)
+                else if (igm.sdTypeIndex == 2)
                 {
-                    var sdObject = GameManager.SD.sdCommonObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
-                    if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
-                        InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
-                        InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
-                        return;
+                    SDObject sdObject = GameManager.SD.sdCommonObjects.Where(_ => _.index == igm.sdIndex).SingleOrDefault();
+
+                    if (CheckResource(sdObject) == false) { return; }
+
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
                     //sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
@@ -202,50 +202,54 @@ namespace VillageAdventure.Object
                         sdObjectClone.transform.SetParent(fieldObj);
                     }
 
-                    InGameManager.Instance.tree += sdObject.consumeTree;
-                    InGameManager.Instance.mine += sdObject.consumeMine;
-                    InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.score;
+                    igm.tree += sdObject.consumeTree;
+                    igm.mine += sdObject.consumeMine;
+                    igm.food += sdObject.consumeFood;
+                    igm.score += sdObject.score;
                 }
-                else if (InGameManager.Instance.sdTypeIndex == 3)
+                else if (igm.sdTypeIndex == 3)
                 {
-                    var sdObject = GameManager.SD.sdResourceObjects.Where(_ => _.index == InGameManager.Instance.sdIndex).SingleOrDefault();
-                    if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
-                        InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
-                        InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
-                        return;
+                    SDObject sdObject = GameManager.SD.sdResourceObjects.Where(_ => _.index == igm.sdIndex).SingleOrDefault();
+
+                    if (CheckResource(sdObject) == false) { return; }
                     var sdObjectClone = Instantiate(Resources.Load<GameObject>(sdObject.resourcePath));
                     //sdObjectClone.Initialize(new BoScoreObject(sdObject));
                     Transform sdObjectPosition = transform.GetChild(1).transform;
                     sdObjectClone.transform.position = sdObjectPosition.position;
                     sdObjectClone.transform.SetParent(fieldObj);
 
-                    InGameManager.Instance.tree += sdObject.consumeTree;
-                    InGameManager.Instance.mine += sdObject.consumeMine;
-                    InGameManager.Instance.food += sdObject.consumeFood;
-                    InGameManager.Instance.score += sdObject.score;
+                    igm.tree += sdObject.consumeTree;
+                    igm.mine += sdObject.consumeMine;
+                    igm.food += sdObject.consumeFood;
+                    igm.score += sdObject.score;
                 }
-
-                InGameManager.Instance.UIBuildActivated = false;
+                igm.UIBuildActivated = false;
                 // 청사진의 sprite는 다시 비우기
                 transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
             }
         }
-        void CheckResource(SDObject sdObject)
+
+        bool CheckResource(SDObject sdObject)
         {
-            Debug.Log("CHECK");
-            if (InGameManager.Instance.tree < Mathf.Abs(sdObject.consumeTree) ||
-                InGameManager.Instance.mine < Mathf.Abs(sdObject.consumeMine) ||
-                InGameManager.Instance.food < Mathf.Abs(sdObject.consumeFood))
+            if (igm.tree < Mathf.Abs(sdObject.consumeTree))
             {
-                Debug.Log($"test === 0");
-                buildTrigger.isEnoughResource = false;
-                return;
+                igm.SetGuideUI("Not enough Tree", true);
+                return false;
+            }
+            else if (igm.tree < Mathf.Abs(sdObject.consumeMine))
+            {
+                igm.SetGuideUI("Not enough Mine", true);
+                return false;
+            }
+            else if (igm.tree < Mathf.Abs(sdObject.consumeFood))
+            {
+                igm.SetGuideUI("Not enough Food", true);
+                return false;
             }
             else
             {
-                Debug.Log($"test === 1");
-                buildTrigger.isEnoughResource = true;
+                //igm.SetGuideUI("", false);
+                return true;
             }
         }
     }

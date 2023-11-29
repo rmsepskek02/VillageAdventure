@@ -7,7 +7,11 @@ public class Memo
     #region TODO
     /* 
     플레이어 V 키 입력시 재화부족한경우 적사진으로 나오도록 수정필요 
-    적사진말고 UI 띄우는거 고려
+    => UI 안내 문구
+
+    오브젝트 파괴 작업
+        트리거 안에서 A키입력으로 파괴 => 트리거 안에 있는 경우 오브젝트 sprite 색상 변경 적사진
+    오브젝트 건설시 트리거 관련 버그 있음 겹치는데 청사진임
 
     메뉴작업
     Load - 데이터 로드
@@ -17,8 +21,6 @@ public class Memo
 
     DeadUI
     save - AWS에 Rank 저장
-
-    Save 관련 Save 하고 나서 InputText 값 비우기
 
     각 씬별 노래 재생
     데드씬 - 뜻대로 되지 않는

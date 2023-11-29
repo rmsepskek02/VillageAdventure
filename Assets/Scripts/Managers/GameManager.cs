@@ -27,7 +27,7 @@ namespace VillageAdventure
             SceneManager.LoadScene((int)type);
             //SceneManager.LoadScene((int)type, LoadSceneMode.Additive);
             
-            // 씬 변경 시작 후 1초 후에 실행시킬 기능이 있다면 실행
+            // 씬 변경 시작 후 0.05초 후에 실행시킬 기능이 있다면 실행
             StartCoroutine(WaitForComplete());
         
             IEnumerator WaitForComplete()

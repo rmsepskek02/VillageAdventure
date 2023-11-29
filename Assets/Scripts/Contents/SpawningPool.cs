@@ -9,13 +9,12 @@ namespace VillageAdventure
 {
     public class SpawningPool : MonoBehaviour
     {
-
         public Vector2 monsterSpawnPos;
         public Vector2 warriorSpawnPos;
 
-        private InGameManager inGameManager;
+        private InGameManager igm;
         public float lastMonsterSpawnTime = 0f;
-        private float monsterSpawnInterval = 3f;
+        private float monsterSpawnInterval = 300f;
         public List<int> warriorIndexInLayer;
         GameObject nonePlayer;
         Transform warrior;
@@ -23,17 +22,16 @@ namespace VillageAdventure
 
         void Start()
         {
-            inGameManager = InGameManager.Instance;
+            igm = InGameManager.Instance;
             nonePlayer = GameObject.Find("NonePlayer");
             warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
         }
 
-        // Update is called once per frame
         void Update()
         {
-            //GeneratorMonster();
-            //IndexWarriorWithLayer(warrior, "Warrior");
-            //GeneratorWarrior(warriorIndexInLayer);
+            GeneratorMonster();
+            IndexWarriorWithLayer(warrior, "Warrior");
+            GeneratorWarrior(warriorIndexInLayer);
         }
 
         public void GeneratorMonster()
@@ -42,25 +40,26 @@ namespace VillageAdventure
             {
                 return;
             }
-            if (inGameManager.time - lastMonsterSpawnTime >= monsterSpawnInterval)
+            if (igm.time - lastMonsterSpawnTime >= monsterSpawnInterval)
             {
                 GameObject monster = GameObject.Find("Monster");
                 Transform normalSlime = monster.transform.Find("SlimeNormal").gameObject.transform;
                 var sdMonster = GameManager.SD.sdMonsters.Where(_ => _.index == 2001).SingleOrDefault();
                 var testMonster = Instantiate(Resources.Load<GameObject>(sdMonster.resourcePath)).GetComponent<Monster>();
                 testMonster.Initialize(new BoMonster(sdMonster));
-                inGameManager.monsters.Add(testMonster);
+                igm.monsters.Add(testMonster);
                 testMonster.transform.SetParent(normalSlime);
                 testMonster.gameObject.transform.position = monsterSpawnPos;
-                lastMonsterSpawnTime = inGameManager.time;
+                lastMonsterSpawnTime = igm.time;
                 i++;
+                igm.SetGuideUI("Warning!! Monster appears", true);
             }
         }
         private void GeneratorWarrior(List<int> warriorList)
         {
-            if (inGameManager.warriorCount <= 20)
+            if (igm.warriorCount <= 20)
             {
-                if (inGameManager.time - lastMonsterSpawnTime >= 3f)
+                if (igm.time - lastMonsterSpawnTime >= 300f)
                 {
                     var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
                     var _warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
@@ -69,9 +68,9 @@ namespace VillageAdventure
                     _warrior.transform.SetParent(warrior);
                     Destroy(warrior.GetChild(warriorList[0]).gameObject);
                     _warrior.transform.SetSiblingIndex(warriorList[0]);
-                    inGameManager.charactors.Add(_warrior);
-                    lastMonsterSpawnTime = inGameManager.time;
-                    inGameManager.warriorCount++;
+                    igm.charactors.Add(_warrior);
+                    lastMonsterSpawnTime = igm.time;
+                    igm.warriorCount++;
                 }
             }
         }

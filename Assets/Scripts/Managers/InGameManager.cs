@@ -5,6 +5,7 @@ using VillageAdventure.Object;
 using VillageAdventure.DB;
 using VillageAdventure.Util;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace VillageAdventure
 {
@@ -32,6 +33,7 @@ namespace VillageAdventure
         public GameObject normalSlime;
         public GameObject nonePlayer;
         public GameObject warrior;
+        public Text guideText;
         public int sdIndex;
         public int sdTypeIndex;
         public int warriorCountInLayer;
@@ -110,7 +112,6 @@ namespace VillageAdventure
         {
             portals.Clear();
             var portalHolder = GameObject.Find("Portal").transform;
-
             for (int i = 0; i < portalHolder.childCount; ++i)
                 portals.Add(portalHolder.GetChild(i).GetComponent<Portal>());
         }
@@ -302,6 +303,24 @@ namespace VillageAdventure
                 Destroy(childObject);
                 GameObject emptyObject = new GameObject($"EmptyObject{gameObject.transform.GetSiblingIndex()}");
                 emptyObject.transform.SetParent(warrior.transform);
+            }
+        }
+        private bool isCoroutineRunning = false;
+        public void SetGuideUI(string text, bool isActive)
+        {
+            guideText.text = text;
+            guideText.gameObject.SetActive(isActive);
+            if (isActive) 
+                StartCoroutine(DeActive());
+        }
+        public IEnumerator DeActive()
+        {
+            if (!isCoroutineRunning)
+            {
+                isCoroutineRunning = true;
+                yield return new WaitForSeconds(3.0f);
+                guideText.gameObject.SetActive(false);
+                isCoroutineRunning = false;
             }
         }
     }
