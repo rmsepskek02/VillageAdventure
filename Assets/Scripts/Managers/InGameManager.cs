@@ -79,7 +79,6 @@ namespace VillageAdventure
             DontDestroyOnLoad(spawn);
             DontDestroyOnLoad(monster);
             DontDestroyOnLoad(nonePlayer);
-            DontDestroyOnLoad(testAWS);
         }
 
         private void Update()

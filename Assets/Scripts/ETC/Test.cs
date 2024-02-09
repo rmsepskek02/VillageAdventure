@@ -15,7 +15,7 @@ public class Test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckSpriteName();
+        //CheckSpriteName();
     }
 
     private void CheckSpriteName()

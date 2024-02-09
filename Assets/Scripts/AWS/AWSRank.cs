@@ -17,7 +17,7 @@ public class AWSRank : MonoBehaviour
     {
         UnityInitializer.AttachToGameObject(this.gameObject);
         credentials = new CognitoAWSCredentials("ap-northeast-2:e187ee28-e179-4f6a-a4ca-426d2feb4c7b", RegionEndpoint.APNortheast2);
-        SetRank("RankLambda", "DELETE", "1testNAme", 11637);
+        //SetRank("RankLambda", "GET", "testNAme", 11639, null);
     }
     IAmazonLambda _lambda;
     IAmazonLambda LambdaClient
@@ -32,7 +32,7 @@ public class AWSRank : MonoBehaviour
         }
     }
 
-    public void SetRank(string func, string method, string name, int score)
+    public void SetRank(string func, string method, string name, int score, Action<string> onResponse)
     {
         LambdaClient.InvokeAsync(new Amazon.Lambda.Model.InvokeRequest()
         {
@@ -43,14 +43,17 @@ public class AWSRank : MonoBehaviour
         {
             if (response.Exception == null)
             {
-                Debug.Log(Encoding.ASCII.GetString(response.Response.Payload.ToArray()));
+                string responseBody = Encoding.ASCII.GetString(response.Response.Payload.ToArray());
+                Debug.Log(responseBody);
                 Debug.Log("Suc");
-            }
+                onResponse?.Invoke(responseBody); // 콜백 함수 호출하여 응답 전달
+        }
             else
             {
                 Debug.Log(response.Exception);
                 Debug.Log("Fail");
-            }
+                onResponse?.Invoke(null); // 실패 시에도 콜백 함수 호출 (null 전달)
+        }
         });
     }
 }
