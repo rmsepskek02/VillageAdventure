@@ -77,7 +77,10 @@ namespace VillageAdventure.Object
             if (boMonster.hp <= 0)
                 clip = audioClip[1];
 
-            AudioSource.PlayClipAtPoint(clip, transform.position);
+            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.volume = SoundManager.instance.GetVolume();
+            audioSource.PlayOneShot(clip);
+            Destroy(audioSource, clip.length);
         }
         private void SetState(Collider2D collision = null)
         {

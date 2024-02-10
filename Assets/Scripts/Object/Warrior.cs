@@ -106,7 +106,10 @@ public class Warrior : Actor
         if (boWarrior.hp <= 0)
             clip = audioClip[1];
 
-        AudioSource.PlayClipAtPoint(clip, transform.position);
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.volume = SoundManager.instance.GetVolume();
+        audioSource.PlayOneShot(clip);
+        Destroy(audioSource, clip.length);
     }
     // 이동방향 및 Object 감지 Trigger
     private void CheckTrigger()

@@ -44,7 +44,7 @@ public class AWSRank : MonoBehaviour
             if (response.Exception == null)
             {
                 string responseBody = Encoding.ASCII.GetString(response.Response.Payload.ToArray());
-                Debug.Log(responseBody);
+                //Debug.Log(responseBody);
                 Debug.Log("Suc");
                 onResponse?.Invoke(responseBody); // 콜백 함수 호출하여 응답 전달
         }

@@ -33,7 +33,6 @@ namespace VillageAdventure
         public GameObject normalSlime;
         public GameObject nonePlayer;
         public GameObject warrior;
-        public GameObject testAWS;
         public Text guideText;
         public int sdIndex;
         public int sdTypeIndex;
@@ -56,7 +55,6 @@ namespace VillageAdventure
 
         private void Start()
         {
-            testAWS = GameObject.Find("TestAWS");
             UI_inGame = GameObject.Find("UI_inGame");
             startPoint = GameObject.Find("StartPoint");
             GeneratorCharactor();

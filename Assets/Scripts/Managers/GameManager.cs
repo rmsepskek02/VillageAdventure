@@ -79,6 +79,7 @@ namespace VillageAdventure
                 InGameManager.Instance.spawningPool.SetActive(false);
                 InGameManager.Instance.normalSlime.SetActive(false);
                 InGameManager.Instance.warrior.SetActive(false);
+                SoundManager.instance.PlayBGM(4);
             }
             else if (currentScene == SceneType.Forest)
             {
@@ -89,6 +90,7 @@ namespace VillageAdventure
                 InGameManager.Instance.spawningPool.SetActive(false);
                 InGameManager.Instance.normalSlime.SetActive(false);
                 InGameManager.Instance.warrior.SetActive(false);
+               SoundManager.instance.PlayBGM(3);
             }
             else if (currentScene == SceneType.Field)
             {
@@ -99,6 +101,7 @@ namespace VillageAdventure
                 InGameManager.Instance.spawningPool.SetActive(true);
                 InGameManager.Instance.normalSlime.SetActive(true);
                 InGameManager.Instance.warrior.SetActive(true);
+                SoundManager.instance.PlayBGM(2);
             }
             else if (currentScene == SceneType.House)
             {
@@ -109,6 +112,7 @@ namespace VillageAdventure
                 InGameManager.Instance.spawningPool.SetActive(false);
                 InGameManager.Instance.normalSlime.SetActive(false);
                 InGameManager.Instance.warrior.SetActive(false);
+                SoundManager.instance.PlayBGM(1);
             }
             else if (currentScene == SceneType.FishingZone)
             {
@@ -119,6 +123,11 @@ namespace VillageAdventure
                 InGameManager.Instance.spawningPool.SetActive(false);
                 InGameManager.Instance.normalSlime.SetActive(false);
                 InGameManager.Instance.warrior.SetActive(false);
+                SoundManager.instance.PlayBGM(5);
+            }
+            else if (currentScene == SceneType.Title)
+            {
+                SoundManager.instance.PlayBGM(0);
             }
         }
     }

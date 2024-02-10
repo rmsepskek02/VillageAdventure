@@ -47,7 +47,12 @@ namespace VillageAdventure.UI
 
         public Image optionImage;
         public GameObject optionTextHolder;
+        public GameObject optionVolumeHolder;
         public Text optionVolumeText;
+        public GameObject optionToggleHolder;
+        public Toggle optionOnToggle;
+        public Toggle optionOffToggle;
+        public Slider optionSlider;
         public Text optionSizeText;
         public Button optionCancelButton;
         public Text optionX;
@@ -60,6 +65,7 @@ namespace VillageAdventure.UI
         string[] files;
         private string _buttonText;
         private string awsResponse;
+        private bool isMute;
 
         [System.Serializable]
         public class RankItem
@@ -89,6 +95,26 @@ namespace VillageAdventure.UI
             helpCancelButton.onClick.AddListener(OnClickHelpCancelButton);
             selectLoad.onClick.AddListener(OnClickLoadSelectLoad);
             selectDelete.onClick.AddListener(OnClickLoadSelectDelete);
+            optionSlider.value = PlayerPrefs.GetFloat("Volume", 1f); // 초기 볼륨 설정
+            optionSlider.onValueChanged.AddListener(OnVolumeChanged);
+            optionOnToggle.onValueChanged.AddListener(OnToggleValueChanged);
+            optionOffToggle.onValueChanged.AddListener(OffToggleValueChanged);
+
+            if (PlayerPrefs.GetInt("IsMute") == 1)
+            {
+                optionOnToggle.isOn = true;
+                optionOffToggle.isOn = false;
+                optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.green;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+            }
+            else if (PlayerPrefs.GetInt("IsMute") == 0)
+            {
+                optionOnToggle.isOn = false;
+                optionOffToggle.isOn = true;
+                optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.red;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+            }
+
 
             files = DataManager.Instance.GetSaveFiles();
             for (var i = 0; i < files.Length; i++)
@@ -104,7 +130,7 @@ namespace VillageAdventure.UI
                 {
                     // 응답이 성공적으로 받아졌을 때 처리하는 내용
                     awsResponse = responseBody;
-                    Debug.Log("Response received: " + responseBody);
+                    //Debug.Log("Response received: " + responseBody);
                     // JSON 문자열을 RankResponse 객체로 역직렬화합니다.
                     RankResponse response = JsonUtility.FromJson<RankResponse>(responseBody);
 
@@ -184,6 +210,9 @@ namespace VillageAdventure.UI
         private void OnClickStart()
         {
             GameManager.Instance.LoadScene(Enum.SceneType.House, null);
+            SoundManager.instance.PlayBGM(1);
+            // ??? 왜 Dontdistroy가 되는건지 모르겠네 ??????
+            Destroy(gameObject.transform.parent.gameObject);
         }
         private void OnClickLoad()
         {
@@ -244,6 +273,61 @@ namespace VillageAdventure.UI
         private void OnClickHelpCancelButton()
         {
             helpCancelButton.transform.parent.gameObject.SetActive(false);
+        }
+
+        // 볼륨 조절 이벤트 핸들러
+        public void OnVolumeChanged(float volume)
+        {
+            SoundManager.instance.SetVolume(volume);
+            PlayerPrefs.SetFloat("Volume", volume); // 사용자가 설정한 볼륨을 저장
+        }
+
+        // Toggle의 상태가 변경될 때 호출되는 메서드
+        void OnToggleValueChanged(bool isOn)
+        {
+            
+            if (isOn)
+            {
+                optionOffToggle.isOn = false;
+                optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.green;
+                optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+                isMute = false;
+                SoundManager.instance.SetVolume(optionSlider.value);
+            }
+            else
+            {
+                optionOffToggle.isOn = true;
+                optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
+                optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.red;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                isMute = true;
+                SoundManager.instance.SetVolume(0);
+            }
+            PlayerPrefs.SetInt("IsMute", isMute ? 0 : 1);
+        }
+        // Toggle의 상태가 변경될 때 호출되는 메서드
+        void OffToggleValueChanged(bool isOff)
+        {
+            if (isOff)
+            {
+                optionOnToggle.isOn = false;
+                optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
+                optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.red;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                isMute = true;
+                SoundManager.instance.SetVolume(0);
+            }
+            else
+            {
+                optionOnToggle.isOn = true;
+                optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.green;
+                optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+                isMute = false;
+                SoundManager.instance.SetVolume(optionSlider.value);
+            }
+            PlayerPrefs.SetInt("IsMute", isMute ? 0 : 1);
         }
     }
 }
