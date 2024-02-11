@@ -6,13 +6,7 @@ public class Memo
 {
     #region TODO
     /* 
-   
-    UITitle이 왜 싱긑톤으로 유지되는가??
-     => Start 에서는 디스트로이 하지만 load에서는 안하고 있어서 load로 실행하면 살아있음
-     => 애초에 디스트로이 안하고 정상적으로 됐었는데 왜?????? 
-
-    PauseUI
-    option - 볼륨 해상도 추가
+    특정텍스트 색상넣기
 
     - 오브젝트 파괴 작업
         트리거 안에서 A키입력으로 파괴 => 트리거 안에 있는 경우 오브젝트 sprite 색상 변경 적사진
@@ -21,8 +15,7 @@ public class Memo
     - 게임 난이도 설정
 
     메뉴작업
-    option - 볼륨 해상도
-    help - 조작법
+    option - 해상도
     exit - 게임 종료
 
     각 씬별 노래 재생

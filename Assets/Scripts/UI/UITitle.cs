@@ -211,8 +211,6 @@ namespace VillageAdventure.UI
         {
             GameManager.Instance.LoadScene(Enum.SceneType.House, null);
             SoundManager.instance.PlayBGM(1);
-            // ??? 왜 Dontdistroy가 되는건지 모르겠네 ??????
-            Destroy(gameObject.transform.parent.gameObject);
         }
         private void OnClickLoad()
         {
@@ -280,12 +278,18 @@ namespace VillageAdventure.UI
         {
             SoundManager.instance.SetVolume(volume);
             PlayerPrefs.SetFloat("Volume", volume); // 사용자가 설정한 볼륨을 저장
+            optionOnToggle.isOn = true;
+            optionOffToggle.isOn = false;
+            optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.green;
+            optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
+            optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+            isMute = false;
+            SoundManager.instance.SetVolume(optionSlider.value);
         }
 
         // Toggle의 상태가 변경될 때 호출되는 메서드
         void OnToggleValueChanged(bool isOn)
         {
-            
             if (isOn)
             {
                 optionOffToggle.isOn = false;

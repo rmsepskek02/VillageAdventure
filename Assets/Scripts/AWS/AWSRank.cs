@@ -9,13 +9,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using VillageAdventure;
 
 public class AWSRank : MonoBehaviour
 {
     CognitoAWSCredentials credentials;
     private void Awake()
     {
-        UnityInitializer.AttachToGameObject(this.gameObject);
+        UnityInitializer.AttachToGameObject(DataManager.Instance.gameObject);
         credentials = new CognitoAWSCredentials("ap-northeast-2:e187ee28-e179-4f6a-a4ca-426d2feb4c7b", RegionEndpoint.APNortheast2);
         //SetRank("RankLambda", "GET", "testNAme", 11639, null);
     }
