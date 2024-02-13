@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using VillageAdventure.DB;
@@ -17,6 +18,7 @@ namespace VillageAdventure.Object
         private BuildTrigger buildTrigger;
         private InGameManager igm;
         private float time = 0;
+        public bool destroy;
 
         public override void Initialize(BoActor boPlayer)
         {
@@ -29,11 +31,11 @@ namespace VillageAdventure.Object
             base.Execute();
             BuildObject();
             TestSpace();
-            //Pause();
         }
         public void Update()
         {
             Pause();
+            DestroyObject();
         }
         private void TestSpace()
         {
@@ -57,6 +59,16 @@ namespace VillageAdventure.Object
             SetBuildObjectPosition();
             //SetState(Mathf.Approximately(boPlayer.moveDirection.x, 0) ? State.Idle : State.Move);
             //SetState(Mathf.Approximately(boPlayer.moveDirection.y, 0) ? State.Idle : State.Move);
+        }
+        private void DestroyObject()
+        {
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                Debug.Log("DESTROY");
+                destroy = destroy ? false : true;
+                if(destroy == false)
+                    transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
+            }
         }
         private void ActiveByPlayer()
         {
@@ -137,8 +149,23 @@ namespace VillageAdventure.Object
                 || transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite == null)
                 return;
 
+            /// 오브젝트 파괴
             if (Input.GetKey(KeyCode.V))
             {
+                if (destroy == true)
+                {
+                    List<GameObject> collisionObj = transform.GetChild(1).gameObject.GetComponent<BuildTrigger>().collisionObject;
+                    for (int i = 0; i < collisionObj.Count; i++ )
+                    {
+                        if (collisionObj[i].GetComponent<ScoreObject>() != null)
+                            collisionObj[i].GetComponent<ScoreObject>().boScoreObject.hp = 0f;
+                        else
+                            Destroy(collisionObj[i]);
+                    }
+                    collisionObj.Clear();
+                    return;
+                }
+
                 /// 오브젝트 생성
                 // 오브젝트의 Index값을 받아옴 (Home, Field, ECT.H, ECT.F 중 어느 UI 버튼을 눌렀는가)
                 GameObject buildObj = GameObject.Find("BuildObject");
@@ -248,9 +275,10 @@ namespace VillageAdventure.Object
             }
             else
             {
-                //igm.SetGuideUI("", false);
                 return true;
             }
         }
+
+
     }
 }

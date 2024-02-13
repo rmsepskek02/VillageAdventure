@@ -39,6 +39,7 @@ namespace VillageAdventure
         public int warriorCountInLayer;
         public int warriorCount;
         public List<int> warriorIndexInLayer;
+        public bool destroy;
 
         #region UI_inGame
         public float playerHP { get; set; } = 100f;
@@ -87,6 +88,7 @@ namespace VillageAdventure
             CheckWarriorUI();
             IndexWarriorWithLayer(warrior.transform, "Warrior");
             warriorCountInLayer = CountWarriorWithLayer(warrior.transform, "Warrior");
+            destroy = player.GetComponent<Player>().destroy;
         }
 
         private void FixedUpdate()

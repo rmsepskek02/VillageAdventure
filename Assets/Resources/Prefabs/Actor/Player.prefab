@@ -259,12 +259,18 @@ MonoBehaviour:
   boActor:
     moveSpeed: 0
     moveDirection: {x: 0, y: 0}
+    hp: 0
+    power: 0
     sdActor: {fileID: 0}
+  audioClip: []
   boPlayer:
     moveSpeed: 0
     moveDirection: {x: 0, y: 0}
+    hp: 0
+    power: 0
     sdActor: {fileID: 0}
     sdPlayer: {fileID: 0}
+  destroy: 0
 --- !u!61 &4076201441838894848
 BoxCollider2D:
   m_ObjectHideFlags: 0

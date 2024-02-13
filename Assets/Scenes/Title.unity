@@ -14879,7 +14879,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Resource(<color=blue>T</color>)
+  m_Text: Resource(<color=blue>S</color>)
 --- !u!222 &1558122080
 CanvasRenderer:
   m_ObjectHideFlags: 0

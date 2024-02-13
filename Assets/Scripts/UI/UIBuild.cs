@@ -184,6 +184,10 @@ namespace VillageAdventure.UI
             {
                 return _selectedObjNum;
             }
+            if (InGameManager.Instance.destroy)
+            {
+                return 0;
+            }
             if (Input.GetKeyUp(KeyCode.Alpha1))
                 _selectedObjNum = 1;
             if (Input.GetKeyUp(KeyCode.Alpha2))
@@ -234,6 +238,10 @@ namespace VillageAdventure.UI
         {
             if (buildObj.GetComponent<Image>() != null)
             {
+                if (InGameManager.Instance.destroy)
+                {
+                    return;
+                }
                 InGameManager.Instance.sdIndex = index;
                 InGameManager.Instance.UIBuildActivated = true;
                 InGameManager.Instance.BuildObject.GetComponent<SpriteRenderer>().sprite = buildObj.GetComponent<Image>().sprite;
