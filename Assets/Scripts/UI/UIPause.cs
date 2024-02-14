@@ -27,6 +27,7 @@ namespace VillageAdventure.UI
         public Text leaveText;
 
         public GameObject optionHolder;
+        public Button optionCancelButton;
         public GameObject optionVolumeHolder;
         public Text optionVolumeText;
         public GameObject optionToggleHolder;
@@ -48,10 +49,25 @@ namespace VillageAdventure.UI
             leaveYes.onClick.AddListener(OnClickYes);
             leaveNo.onClick.AddListener(OnClickNo);
             cancelButton.onClick.AddListener(OnClickCancel);
+            optionCancelButton.onClick.AddListener(OnClickOptionCancelButton);
             optionSlider.value = PlayerPrefs.GetFloat("Volume", 1f); // 초기 볼륨 설정
             optionSlider.onValueChanged.AddListener(OnVolumeChanged);
             optionOnToggle.onValueChanged.AddListener(OnToggleValueChanged);
             optionOffToggle.onValueChanged.AddListener(OffToggleValueChanged);
+            if (PlayerPrefs.GetInt("IsMute") == 1)
+            {
+                optionOnToggle.isOn = true;
+                optionOffToggle.isOn = false;
+                optionOnToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.green;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+            }
+            else if (PlayerPrefs.GetInt("IsMute") == 0)
+            {
+                optionOnToggle.isOn = false;
+                optionOffToggle.isOn = true;
+                optionOffToggle.gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.red;
+                optionSlider.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+            }
         }
 
         private void OnClickSave()
@@ -175,6 +191,10 @@ namespace VillageAdventure.UI
                 SoundManager.instance.SetVolume(optionSlider.value);
             }
             PlayerPrefs.SetInt("IsMute", isMute ? 0 : 1);
+        }
+        private void OnClickOptionCancelButton()
+        {
+            optionCancelButton.transform.parent.gameObject.SetActive(false);
         }
         void Update()
         {

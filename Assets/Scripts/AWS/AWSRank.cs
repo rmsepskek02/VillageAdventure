@@ -33,6 +33,7 @@ public class AWSRank : MonoBehaviour
         }
     }
 
+    // Rank 등록하기
     public void SetRank(string func, string method, string name, int score, Action<string> onResponse)
     {
         LambdaClient.InvokeAsync(new Amazon.Lambda.Model.InvokeRequest()

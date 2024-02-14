@@ -6828,6 +6828,7 @@ MonoBehaviour:
   warriorCountInLayer: 0
   warriorCount: 0
   warriorIndexInLayer: 
+  destroy: 0
   isDead: 0
   hour: 0
   min: 0
@@ -10848,6 +10849,7 @@ MonoBehaviour:
   leaveImage: {fileID: 1260682629}
   leaveText: {fileID: 221200124}
   optionHolder: {fileID: 1332055943}
+  optionCancelButton: {fileID: 503849954}
   optionVolumeHolder: {fileID: 1027957397}
   optionVolumeText: {fileID: 1769228699}
   optionToggleHolder: {fileID: 677984399}
@@ -20335,9 +20337,9 @@ MonoBehaviour:
   m_Text: " - Gather Your Resources!\n - Decorate Your House and Town!\n - Try to
     achieve a high score!\n - Monsters may appear!\n\n - How to operate it\n Direction
     Key -  Move the character\r\n 'G' Key -  Interacting with other objects\r\n 'A'
-    Key -  Destroy objects at their current location\r\n 'V' Key -  Construct the
-    object in its current location\r\n 'ESC' -  Cancel the currently selected object
-    or display the menu"
+    Key -  Destroy objects at their current location\r\n 'V' Key -  Construct or
+    Destroy the object in its current location\r\n 'ESC' -  Cancel the currently
+    selected object or display the menu"
 --- !u!222 &2026070456
 CanvasRenderer:
   m_ObjectHideFlags: 0

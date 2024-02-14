@@ -15,6 +15,7 @@ namespace VillageAdventure.UI
         public Text inputText;
         public GameObject buttonHolder;
         public GameObject inputHolder;
+        private string awsResponse;
 
         void Start()
         {
@@ -30,7 +31,7 @@ namespace VillageAdventure.UI
                 text.text = "Enter Nickname !!";
                 return;
             }
-            DataManager.Instance.SaveGameData(inputText.text);
+            PutRank();
             InGameManager.Instance.ResetGame();
             GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
             inputText.text = "";
@@ -41,7 +42,24 @@ namespace VillageAdventure.UI
             InGameManager.Instance.ResetGame();
             GameManager.Instance.LoadScene(Enum.SceneType.Title, null);
         }
-
+        private void PutRank()
+        {
+            AWSRank awsRank = gameObject.transform.parent.gameObject.AddComponent<AWSRank>();
+            awsRank.SetRank("RankLambda", "PUT", inputText.text, InGameManager.Instance.score, (responseBody) =>
+            {
+                // 응답을 사용하는 코드를 여기에 작성합니다.
+                if (responseBody != null)
+                {
+                    // 응답이 성공적으로 받아졌을 때 처리하는 내용
+                    Debug.Log("Success Put Rank.");
+                }
+                else
+                {
+                    // 응답이 실패했을 때 처리하는 내용
+                    Debug.Log("Failed to receive response.");
+                }
+            });
+        }
         void Update()
         {
         
