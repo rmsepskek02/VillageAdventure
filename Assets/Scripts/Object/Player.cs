@@ -19,6 +19,7 @@ namespace VillageAdventure.Object
         private InGameManager igm;
         private float time = 0;
         public bool destroy;
+        public bool triggerMerchant;
 
         public override void Initialize(BoActor boPlayer)
         {
@@ -36,6 +37,7 @@ namespace VillageAdventure.Object
         {
             Pause();
             DestroyObject();
+            ActiveMerchant();
         }
         private void TestSpace()
         {
@@ -70,9 +72,35 @@ namespace VillageAdventure.Object
                     transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
             }
         }
+        private void ActiveMerchant()
+        {
+            if (triggerMerchant)
+            {
+                if (Input.GetKeyUp(KeyCode.G))
+                {
+                    InGameManager.Instance.isMerchant = !InGameManager.Instance.isMerchant;
+                    if(InGameManager.Instance.isMerchant == true)
+                    {
+                        GameManager.Instance.PauseGame();
+                    }
+                }
+            }
+        }
         private void ActiveByPlayer()
         {
-            trigger.Initialize(null, null, OnStayObj);
+            trigger.Initialize(IsEnterObj, IsExitobj, OnStayObj);
+
+            void IsEnterObj(Collider2D collision)
+            {
+                if (collision.CompareTag("Merchant"))
+                    triggerMerchant = true;
+            }
+
+            void IsExitobj(Collider2D collision)
+            {
+                if (collision.CompareTag("Merchant"))
+                    triggerMerchant = false;
+            }
 
             void OnStayObj(Collider2D collision)
             {

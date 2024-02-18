@@ -22,6 +22,7 @@ TagManager:
   - SilmeNormal
   - Warrior
   - Warehouse
+  - Merchant
   layers:
   - Default
   - TransparentFX

@@ -45,7 +45,7 @@ namespace VillageAdventure.Object
                 // 시간 딜레이 형성
                 time += Time.deltaTime;
                 // 시간 체크
-                if (time >= 1f)
+                if (time >= 2f)
                 {
                     // 랜덤수 추출
                     int currentNumber = Mathf.RoundToInt(Random.Range(min, max));
@@ -58,7 +58,7 @@ namespace VillageAdventure.Object
                         //gameObject.transform.GetChild(currentNumber).gameObject.SetActive(true);
                         // 랜덤수 리스트에 추가
                         resourceList.Add(currentNumber);
-                        Debug.Log(currentNumber);
+                        //Debug.Log(currentNumber);
 
                         ActiveObject();
                     }

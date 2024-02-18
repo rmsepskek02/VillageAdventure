@@ -294,13 +294,13 @@ MonoBehaviour:
   normalSlime: {fileID: 0}
   nonePlayer: {fileID: 0}
   warrior: {fileID: 0}
-  testAWS: {fileID: 0}
   guideText: {fileID: 0}
   sdIndex: 0
   sdTypeIndex: 0
   warriorCountInLayer: 0
   warriorCount: 0
   warriorIndexInLayer: 
+  destroy: 0
   isDead: 0
   hour: 0
   min: 0

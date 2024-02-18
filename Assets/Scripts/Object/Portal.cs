@@ -30,8 +30,6 @@ namespace VillageAdventure.Object
             {
                 if (!collision.CompareTag("Player"))
                     return;
-                //else
-                //collision.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
                 // 스테이지를 변경 전에 현재 스테이지에 대한 정보를 이전 스테이지 필드에 담음
                 GameManager.Instance.prevStage = GameManager.Instance.currentScene;

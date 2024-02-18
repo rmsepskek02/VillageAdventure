@@ -10,7 +10,6 @@ namespace VillageAdventure.Object
 {
     class ResouceAC : MonoBehaviour
     {
-
         Animator anim = null;
 
         private void Start()
@@ -26,15 +25,16 @@ namespace VillageAdventure.Object
             if (gameObject.transform.parent.transform.parent.CompareTag("Mine"))
             {
                 // 인벤토리에 랜덤으로 재화 획득
+                Debug.Log("TEST");
                 InGameManager.Instance.mine += (int)UnityEngine.Random.Range(1, 5);
-                ChildNumber();
+                ChildNumber(0);
             }
             // 이 오브젝트가 Tree 이라면
             else if (gameObject.transform.parent.transform.parent.CompareTag("Tree"))
             {
                 // 인벤토리에 랜덤으로 재화 획득
                 InGameManager.Instance.tree += (int)UnityEngine.Random.Range(1, 5);
-                ChildNumber();
+                ChildNumber(1);
             }
             // 이 오브젝트가 Food 라면
             else if (gameObject.transform.parent.transform.parent.CompareTag("Food"))
@@ -82,21 +82,21 @@ namespace VillageAdventure.Object
             }
         }
 
-
-
         // 이 오브젝트가 최상위 부모의 N번째 오브젝트인지 검사 후 리스트에서 N을 제거
-        void ChildNumber()
+        void ChildNumber(int i)
         {
-            var resourceList = gameObject.transform.root.GetChild(0).GetComponent<Resource>().resourceList;
-
+            var resourceList = gameObject.transform.root.GetChild(i).GetComponent<Resource>().resourceList;
+            
             // 이 오브젝트가 최상위 부모의 N번째 오브젝트인지 검사
             for (int childNumber = 0; childNumber < resourceList.Count; childNumber++)
             {
+                Debug.Log("TEST11");
                 // 이 오브젝트가 N번째 오브젝트인지 검사 
-                if (gameObject.transform.parent.transform.parent == gameObject.transform.root.GetChild(0).GetChild(childNumber))
+                if (gameObject.transform.parent.transform.parent == gameObject.transform.root.GetChild(i).GetChild(resourceList[childNumber]))
                 {
+                    Debug.Log("TEST22");
                     // 리스트에서 N을 제거 후 멈춤
-                    resourceList.Remove(childNumber);
+                    resourceList.Remove(resourceList[childNumber]);
                     break;
                 }
             }

@@ -19,6 +19,7 @@ namespace VillageAdventure
         public List<Portal> portals = new List<Portal>();
         public GameObject player;
         public GameObject UI_inGame;
+        public GameObject UIMerchant;
         public GameObject BuildObject;
         public GameObject startPoint;
         public GameObject holder;
@@ -40,6 +41,7 @@ namespace VillageAdventure
         public int warriorCount;
         public List<int> warriorIndexInLayer;
         public bool destroy;
+        public bool isMerchant;
 
         #region UI_inGame
         public float playerHP { get; set; } = 100f;
@@ -57,6 +59,7 @@ namespace VillageAdventure
         private void Start()
         {
             UI_inGame = GameObject.Find("UI_inGame");
+            UIMerchant = GameObject.Find("UIMerchant");
             startPoint = GameObject.Find("StartPoint");
             GeneratorCharactor();
             player = charactors[0].gameObject;
@@ -84,7 +87,7 @@ namespace VillageAdventure
         {
             ActiveUI();
             CalculateTime();
-            ChangePlayerHP(Time.deltaTime * 20f);
+            ChangePlayerHP(Time.deltaTime * 0.2f);
             CheckWarriorUI();
             IndexWarriorWithLayer(warrior.transform, "Warrior");
             warriorCountInLayer = CountWarriorWithLayer(warrior.transform, "Warrior");
@@ -157,8 +160,6 @@ namespace VillageAdventure
                 UI_inGame.gameObject.SetActive(true);
             if (isDead)
             {
-                // 현재신의 오디오를 찾아서 클립 바꾸기
-                // UI 띄우기
                 UI_inGame.transform.GetChild(4).gameObject.SetActive(true);
             }
             else
@@ -170,10 +171,18 @@ namespace VillageAdventure
                 GameManager.Instance.PauseGame();
                 UI_inGame.transform.GetChild(5).gameObject.SetActive(true);
             }
-            else
+            else if (isMerchant == false)
             {
                 GameManager.Instance.ReStartGame();
                 UI_inGame.transform.GetChild(5).gameObject.SetActive(false);
+            }
+            if (isMerchant)
+            {
+                UIMerchant.gameObject.SetActive(true);
+            }
+            else
+            {
+                UIMerchant.gameObject.SetActive(false);
             }
         }
 

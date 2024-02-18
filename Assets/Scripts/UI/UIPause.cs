@@ -100,11 +100,9 @@ namespace VillageAdventure.UI
         private void OnClickBack()
         {
             GameManager.Instance.TogglePause();
-            Debug.Log($"BACK = {gameObject.name}");
         }
         private void OnClickCancel()
         {
-            Debug.Log($"BACK = {gameObject.name}");
             GameManager.Instance.TogglePause();
         }
         private void OnClickYes()
