@@ -46,7 +46,7 @@ public class Merchant : MonoBehaviour
                 gameObject.transform.GetChild(2).gameObject.SetActive(true);
             }
         }
-        else if (GameManager.Instance.currentScene == SceneType.Field)
+        else if (GameManager.Instance.currentScene == SceneType.Field || GameManager.Instance.currentScene == SceneType.House)
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
             gameObject.transform.GetChild(1).gameObject.SetActive(false);
