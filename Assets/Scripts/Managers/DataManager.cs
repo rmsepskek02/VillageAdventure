@@ -46,6 +46,13 @@ namespace VillageAdventure
                 igManager.food = saveData.food;
                 igManager.score = saveData.score;
 
+                UIMerchant.warriorAttackLevel = saveData.warriorAttackLevel;
+                UIMerchant.playerMovespeedLevel = saveData.playerMovespeedLevel;
+                UIMerchant.miningLevel = saveData.miningLevel;
+                UIMerchant.loggingLevel = saveData.loggingLevel;
+                UIMerchant.fishingLevel = saveData.fishingLevel;
+                SetSkillData();
+
                 // Resource 활성화 Num
                 _mineNum = saveData.mineNum;
                 igManager.mineHolder.GetComponent<Resource>().resourceList = new List<int>(_mineNum);
@@ -133,6 +140,12 @@ namespace VillageAdventure
             saveData.food = igManager.food;
             saveData.score = igManager.score;
 
+            saveData.warriorAttackLevel = UIMerchant.warriorAttackLevel;
+            saveData.playerMovespeedLevel = UIMerchant.playerMovespeedLevel;
+            saveData.miningLevel = UIMerchant.miningLevel;
+            saveData.loggingLevel = UIMerchant.loggingLevel;
+            saveData.fishingLevel = UIMerchant.fishingLevel;
+
             // Resource 활성화 Num
             _mineNum = igManager.mineHolder.GetComponent<Resource>().resourceList;
             saveData.mineNum = new List<int>(_mineNum);
@@ -194,6 +207,7 @@ namespace VillageAdventure
             // 클래스를 Json 형식으로 전환 (true : 가독성 좋게 작성)
             string ToJsonData = JsonUtility.ToJson(saveData, true);
             string filePath = Application.persistentDataPath + "/" + $"{fileName}.json";
+            Debug.Log(filePath);
             // 이미 저장된 파일이 있다면 덮어쓰고, 없다면 새로 만들어서 저장
             File.WriteAllText(filePath, ToJsonData);
         }
@@ -229,6 +243,18 @@ namespace VillageAdventure
                 Debug.Log("파일을 찾을 수 없음: " + _fileName);
             }
             File.Delete(path);
+        }
+
+        // MD를 통한 Data Set
+        private void SetSkillData()
+        {
+            Warrior[] warriors = Resources.FindObjectsOfTypeAll<Warrior>();
+            foreach (Warrior warrior in warriors)
+            {
+                warrior.boWarrior.power += 20 * (UIMerchant.warriorAttackLevel - 1);
+            }
+            Player player = FindObjectOfType<Player>();
+            player.boPlayer.moveSpeed += 3 * (UIMerchant.playerMovespeedLevel - 1);
         }
     }
 }

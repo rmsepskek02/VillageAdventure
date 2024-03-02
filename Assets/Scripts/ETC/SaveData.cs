@@ -41,6 +41,13 @@ public class SaveData
     public List<WarriorList> warriorList = new List<WarriorList>();
 
     public float lastMonsterSpawnTime;
+
+    // MD ฐüทร
+    public int warriorAttackLevel = 1;
+    public int playerMovespeedLevel = 1;
+    public int miningLevel = 1;
+    public int loggingLevel = 1;
+    public int fishingLevel = 1;
 }
 
 [System.Serializable]

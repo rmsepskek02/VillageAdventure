@@ -10,33 +10,25 @@ namespace VillageAdventure
     public class SpawningPool : MonoBehaviour
     {
         public Vector2 monsterSpawnPos;
-        public Vector2 warriorSpawnPos;
 
         private InGameManager igm;
         public float lastMonsterSpawnTime = 0f;
         private float monsterSpawnInterval = 10f;
-        public List<int> warriorIndexInLayer;
-        GameObject nonePlayer;
-        Transform warrior;
         int i = 0;
 
         void Start()
         {
             igm = InGameManager.Instance;
-            nonePlayer = GameObject.Find("NonePlayer");
-            warrior = nonePlayer.transform.Find("Warrior").gameObject.transform;
         }
 
         void Update()
         {
             GeneratorMonster();
-            IndexWarriorWithLayer(warrior, "Warrior");
-            GeneratorWarrior(warriorIndexInLayer);
         }
 
         public void GeneratorMonster()
         {
-            if (i >= 1)
+            if (i >= 5)
             {
                 return;
             }
@@ -55,43 +47,5 @@ namespace VillageAdventure
                 igm.SetGuideUI("Warning!! Monster appears", true);
             }
         }
-        private void GeneratorWarrior(List<int> warriorList)
-        {
-            if (igm.warriorCount <= 1)
-            {
-                if (igm.time - lastMonsterSpawnTime >= 10f)
-                {
-                    var sdWarrior = GameManager.SD.sdNonePlayer.Where(_ => _.index == 7000).SingleOrDefault();
-                    var _warrior = Instantiate(Resources.Load<GameObject>(sdWarrior.resourcePath)).GetComponent<Warrior>();
-                    _warrior.Initialize(new BoWarrior(sdWarrior));
-                    _warrior.transform.position = Vector2.zero;
-                    _warrior.transform.SetParent(warrior);
-                    Destroy(warrior.GetChild(warriorList[0]).gameObject);
-                    _warrior.transform.SetSiblingIndex(warriorList[0]);
-                    igm.charactors.Add(_warrior);
-                    lastMonsterSpawnTime = igm.time;
-                    igm.warriorCount++;
-                }
-            }
-        }
-        void IndexWarriorWithLayer(Transform tr, string layerName)
-        {
-            for (int i = 0; i < tr.childCount; i++)
-            {
-                Transform child = tr.GetChild(i);
-                if (child.gameObject.layer != LayerMask.NameToLayer(layerName))
-                {
-                    if (!warriorIndexInLayer.Contains(child.GetSiblingIndex()))
-                        warriorIndexInLayer.Add(child.GetSiblingIndex());
-                }
-                else
-                {
-                    if (warriorIndexInLayer.Contains(child.GetSiblingIndex()))
-                        warriorIndexInLayer.Remove(child.GetSiblingIndex());
-                }
-            }
-            warriorIndexInLayer.Sort();
-        }
     }
-
 }

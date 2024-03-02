@@ -23,9 +23,9 @@ public class Merchandise : MonoBehaviour
         // 아이템 데이터 초기화
         itemData = new ItemData[]
         {
-            new ItemData("Health Potion", null, new int[] {1, 2, 3}, null, "체력을 회복합니다. 레벨에 따라 회복량이 증가합니다.", 1001, 5, "포션"),
-            new ItemData("Strength Potion", null, new int[] {2, 3, 4}, null, "공격력을 일시적으로 강화합니다. 레벨에 따라 강화량이 증가합니다.", 1002, 5, "포션"),
-            new ItemData("Iron Sword", null, new int[] {3, 4, 5}, null, "철제 검으로 적을 공격합니다. 레벨에 따라 공격력이 증가합니다.", 2001, 5, "무기")
+            new ItemData("Health Potion", null, new int[] {1, 2, 3}, null, "체력을 회복합니다. 레벨에 따라 회복량이 증가합니다.", 1001, 1, 5, "포션"),
+            new ItemData("Strength Potion", null, new int[] {2, 3, 4}, null, "공격력을 일시적으로 강화합니다. 레벨에 따라 강화량이 증가합니다.", 1002, 1, 5, "포션"),
+            new ItemData("Iron Sword", null, new int[] {3, 4, 5}, null, "철제 검으로 적을 공격합니다. 레벨에 따라 공격력이 증가합니다.", 2001, 1, 5, "무기")
         };
     }
 
@@ -59,10 +59,11 @@ public class ItemData
     public Sprite[] currencyImages;
     public string description;
     public int code;
+    public int currentLv;
     public int max;
     public string category;
 
-    public ItemData(string name, Sprite image, int[] amounts, Sprite[] images, string desc, int cd, int maxLv, string cat)
+    public ItemData(string name, Sprite image, int[] amounts, Sprite[] images, string desc, int cd, int currnetLv, int maxLv, string cat)
     {
         itemName = name;
         itemImage = image;
@@ -70,6 +71,7 @@ public class ItemData
         currencyImages = images;
         description = desc;
         code = cd;
+        currentLv = currnetLv;
         max = maxLv;
         category = cat;
     }

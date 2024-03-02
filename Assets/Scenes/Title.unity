@@ -10365,7 +10365,7 @@ RectTransform:
   - {fileID: 736706217}
   - {fileID: 414873063}
   m_Father: {fileID: 1838815206}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10387,6 +10387,7 @@ MonoBehaviour:
   cancelButton: {fileID: 414873064}
   merchandisePrefab: {fileID: 2369680610873987753, guid: c7244ffb948905a44abaa8dd6eca210d, type: 3}
   mdVertical: {fileID: 989662871}
+  warriorIndexInLayer: 
 --- !u!1 &1069045644
 GameObject:
   m_ObjectHideFlags: 0
@@ -16087,7 +16088,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1838815206}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16505,9 +16506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterSpawnPos: {x: 10, y: -8}
-  warriorSpawnPos: {x: 0, y: 0}
   lastMonsterSpawnTime: 0
-  warriorIndexInLayer: 
 --- !u!4 &1624498535
 Transform:
   m_ObjectHideFlags: 0
@@ -18946,8 +18945,8 @@ RectTransform:
   - {fileID: 1352219001}
   - {fileID: 1541423742}
   - {fileID: 1187069653}
-  - {fileID: 1585239525}
   - {fileID: 1045643854}
+  - {fileID: 1585239525}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
