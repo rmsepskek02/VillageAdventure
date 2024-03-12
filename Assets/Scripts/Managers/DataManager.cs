@@ -51,6 +51,8 @@ namespace VillageAdventure
                 UIMerchant.miningLevel = saveData.miningLevel;
                 UIMerchant.loggingLevel = saveData.loggingLevel;
                 UIMerchant.fishingLevel = saveData.fishingLevel;
+                UIMerchant[] uiMerchant = Resources.FindObjectsOfTypeAll<UIMerchant>();
+                uiMerchant[0].InitializeItemData();
                 SetSkillData();
 
                 // Resource 활성화 Num
@@ -246,7 +248,7 @@ namespace VillageAdventure
         }
 
         // MD를 통한 Data Set
-        private void SetSkillData()
+        public void SetSkillData()
         {
             Warrior[] warriors = Resources.FindObjectsOfTypeAll<Warrior>();
             foreach (Warrior warrior in warriors)
@@ -255,6 +257,31 @@ namespace VillageAdventure
             }
             Player player = FindObjectOfType<Player>();
             player.boPlayer.moveSpeed += 3 * (UIMerchant.playerMovespeedLevel - 1);
+        }
+        // MD를 통한 Data Init
+        public void InitSkillData()
+        {
+            Warrior[] warriors = Resources.FindObjectsOfTypeAll<Warrior>();
+            foreach (Warrior warrior in warriors)
+            {
+                warrior.boWarrior.power -= 20 * (UIMerchant.warriorAttackLevel - 1);
+            }
+            Player player = FindObjectOfType<Player>();
+            player.boPlayer.moveSpeed -= 3 * (UIMerchant.playerMovespeedLevel - 1);
+        }
+        // MD data 초기화
+        public void InitData()
+        {
+            InitSkillData();
+            UIMerchant.warriorAttackLevel = 1;
+            UIMerchant.playerMovespeedLevel = 1;
+            UIMerchant.miningLevel = 1;
+            UIMerchant.loggingLevel = 1;
+            UIMerchant.fishingLevel = 1;
+            UIMerchant[] uiMerchant = Resources.FindObjectsOfTypeAll<UIMerchant>();
+            uiMerchant[0].InitializeItemData();
+            Player player = FindObjectOfType<Player>();
+            SetSkillData();
         }
     }
 }

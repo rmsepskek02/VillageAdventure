@@ -44,7 +44,7 @@ public class UIMerchant : MonoBehaviour
         InitializeItemData();
     }
 
-    void InitializeItemData()
+    public void InitializeItemData()
     {
         foreach (Transform child in mdVertical.transform)
         {
@@ -92,6 +92,7 @@ public class UIMerchant : MonoBehaviour
             // 여기에 추가 아이템을 추가할 수 있습니다.
         };
 
+        Debug.Log("CREATE MD");
         // 아이템 데이터를 프리팹에 표시합니다.
         for (int i = 0; i < itemData.Length; i += 2) // 2씩 증가하면서 두 개씩 묶어서 처리
         {
@@ -110,9 +111,6 @@ public class UIMerchant : MonoBehaviour
         GameManager.Instance.ReStartGame();
     }
     // image에 sprite 크기가 작음?????
-    // 해당 변화는 SAVE 할때도 같이 저장해야함
-    // 불러왔을때 lv 값이 UI에 표시 안되는 현상
-    // 불러오기 후 새 게임을 시작했을때 관련 데이터 리셋이 안되는 현상
     private void CreateMD(ItemData item1, ItemData item2)
     {
         // 프리팹 생성

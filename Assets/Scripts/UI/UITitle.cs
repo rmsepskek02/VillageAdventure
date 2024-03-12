@@ -211,6 +211,8 @@ namespace VillageAdventure.UI
         {
             GameManager.Instance.LoadScene(Enum.SceneType.House, null);
             SoundManager.instance.PlayBGM(1);
+            DataManager.Instance.InitData();
+            //InGameManager.Instance.ResetGame();
         }
         private void OnClickLoad()
         {

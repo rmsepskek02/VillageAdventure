@@ -6,9 +6,20 @@ using VillageAdventure.Enum;
 
 public class Merchant : MonoBehaviour
 {
-    void Start()
+    private static Merchant instance;
+
+    // 인스턴스가 이미 있는지 확인하고, 있다면 새로 생성된 인스턴스를 파괴합니다.
+    private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()
@@ -21,7 +32,7 @@ public class Merchant : MonoBehaviour
     {
         if (GameManager.Instance.currentScene == SceneType.Forest)
         {
-            if (InGameManager.Instance.min > 5*60 && InGameManager.Instance.min < 15 * 60)
+            if (InGameManager.Instance.min > 5 * 60 && InGameManager.Instance.min < 15 * 60)
             {
                 gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 gameObject.transform.GetChild(1).gameObject.SetActive(false);

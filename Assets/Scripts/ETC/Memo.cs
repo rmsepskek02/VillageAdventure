@@ -6,6 +6,10 @@ public class Memo
 {
     #region TODO
     /* 
+    Load 했을때 상인관련 data UI에 저장된 data 값 표출하기
+    새 게임 시작하는 경우 상인관련 data 초기화
+    Load 하는 경우 해당 data에 맞게 상인관련 data 저장 값에 맞게 Load
+    
     - 상인 작업
     해당위치는 접근불가능하게 타일 조정??
     관련 UI 작업 및 컨텐츠 필요
