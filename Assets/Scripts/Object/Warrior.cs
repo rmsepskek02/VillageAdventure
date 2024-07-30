@@ -301,7 +301,7 @@ public class Warrior : Actor
         {
             yield return null;
         }
-        Vector2 currentWaypoint = path[0];
+        //Vector2 currentWaypoint = path[0];
         while (hasMonster)
         {
             if (isArrive)
